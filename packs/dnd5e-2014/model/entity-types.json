@@ -169,7 +169,13 @@
   {
     "id": "feat",
     "label": "Feat",
-    "plural": "Feats"
+    "plural": "Feats",
+    "fields": [
+      {
+        "key": "prereq",
+        "type": "formula"
+      }
+    ]
   },
   {
     "id": "option",
@@ -184,6 +190,10 @@
       {
         "key": "min_level",
         "type": "number"
+      },
+      {
+        "key": "prereq",
+        "type": "formula"
       }
     ]
   },

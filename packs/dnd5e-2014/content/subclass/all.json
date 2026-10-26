@@ -187,11 +187,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'circle_of_the_land') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'circle_of_the_land') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Circle of the Land"
+            "title": "Circle of the Land",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
@@ -279,11 +293,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'additional_fighting_style') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'additional_fighting_style') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Additional Fighting Style"
+            "title": "Additional Fighting Style",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
@@ -406,11 +434,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'hunters_prey') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'hunters_prey') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Hunter's Prey"
+            "title": "Hunter's Prey",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "7": [
@@ -418,11 +460,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'defensive_tactics') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'defensive_tactics') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Defensive Tactics"
+            "title": "Defensive Tactics",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "11": [
@@ -430,11 +486,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'multiattack') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'multiattack') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Multiattack"
+            "title": "Multiattack",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "15": [
@@ -442,11 +512,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'superior_hunters_defense') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'superior_hunters_defense') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Superior Hunter's Defense"
+            "title": "Superior Hunter's Defense",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
@@ -554,11 +638,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'dragon_ancestor') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'dragon_ancestor') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Dragon Ancestor"
+            "title": "Dragon Ancestor",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }

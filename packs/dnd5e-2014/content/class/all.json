@@ -1585,11 +1585,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'fighter_fighting_style') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'fighter_fighting_style') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Fighting Style"
+            "title": "Fighting Style",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "2": [],
@@ -2207,11 +2221,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'paladin_fighting_style') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'paladin_fighting_style') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Fighting Style"
+            "title": "Fighting Style",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "3": [
@@ -2443,11 +2471,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'ranger_fighting_style') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'ranger_fighting_style') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Fighting Style"
+            "title": "Fighting Style",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           },
           {
             "op": "choose",
@@ -3056,11 +3098,37 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'metamagic_1') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'metamagic_1') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 2,
             "into": "options",
-            "title": "Metamagic"
+            "title": "Metamagic",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              },
+              {
+                "op": "if",
+                "when": "len($choice) > 1",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[1]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           },
           {
             "op": "choose",
@@ -3076,11 +3144,37 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'metamagic') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'metamagic') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 2,
             "into": "options",
-            "title": "Choose 2 × metamagic option"
+            "title": "Choose 2 × metamagic option",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              },
+              {
+                "op": "if",
+                "when": "len($choice) > 1",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[1]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "4": [
@@ -3178,11 +3272,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'metamagic_2') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'metamagic_2') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Metamagic"
+            "title": "Metamagic",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           },
           {
             "op": "choose",
@@ -3208,11 +3316,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'metamagic') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'metamagic') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Choose an metamagic option"
+            "title": "Choose an metamagic option",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "11": [
@@ -3267,11 +3389,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'metamagic') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'metamagic') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Choose an metamagic option"
+            "title": "Choose an metamagic option",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "17": [
@@ -3279,11 +3415,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'metamagic_3') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'metamagic_3') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Metamagic"
+            "title": "Metamagic",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           },
           {
             "op": "choose",
@@ -3492,11 +3642,37 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 2,
             "into": "options",
-            "title": "Choose 2 × eldritch invocation"
+            "title": "Choose 2 × eldritch invocation",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              },
+              {
+                "op": "if",
+                "when": "len($choice) > 1",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[1]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "3": [
@@ -3504,11 +3680,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'pact_boon') && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'pact_boon') && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Pact Boon"
+            "title": "Pact Boon",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           },
           {
             "op": "choose",
@@ -3550,11 +3740,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Choose an eldritch invocation"
+            "title": "Choose an eldritch invocation",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "5": [
@@ -3584,11 +3788,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Choose an eldritch invocation"
+            "title": "Choose an eldritch invocation",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "7": [
@@ -3634,11 +3852,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Choose an eldritch invocation"
+            "title": "Choose an eldritch invocation",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "10": [
@@ -3674,11 +3906,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Choose an eldritch invocation"
+            "title": "Choose an eldritch invocation",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "13": [
@@ -3709,11 +3955,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Choose an eldritch invocation"
+            "title": "Choose an eldritch invocation",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "16": [
@@ -3739,11 +3999,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Choose an eldritch invocation"
+            "title": "Choose an eldritch invocation",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "19": [

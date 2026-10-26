@@ -38,3 +38,7 @@ Status: **fixed** (changed in the app), **open** (workaround in place), **decide
 | 30 | Each wizard number field is its own group, so six scores take six cards | manual ability entry | — | consecutive simple inputs share one group | open |
 | 31 | Rarely-changed detail (14 condition toggles) crowds the main tab | D&D conditions | — | pages: unlisted tabs a stat opens with `open`, summarised by `join(...)` | fixed |
 | 32 | The character list shows the system name, not the sheet's subtitle (race · class level) | character list | — | list rows use `sheet.header.subtitle` | open |
+| 33 | Feat and option prerequisites can't be checked | XGE racial feats, invocations | text only | `prereq` formula field on `feat`/`option`; every chooser filters on `($v.data.prereq ?? true)` | fixed (pack) |
+| 34 | Taking a feat or option can't grant anything further (spells, choices, +1) | XGE/TCE feats, Blessed Warrior | per-expansion patch of the ASI modal | the base runs the picked entity's `gain` hook after every feat/option choice | fixed (pack) |
+| 35 | The creation abilities step `set`s the whole abilities object, wiping a +1 stored by an earlier step (a feat from the race step) | Custom Lineage, Variant Human | +1s as modifiers instead of stored adds | ability increases as modifiers everywhere, or the abilities step merging instead of replacing | open |
+| 36 | Effects can't loop over a choice result | option `gain` hooks after multi-picks | one guarded `run_hook` per possible pick | a `for_each` effect (`{list, do}`) binding `$v` | open |

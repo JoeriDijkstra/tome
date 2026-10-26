@@ -147,10 +147,12 @@ async function main() {
       out.push({ op: 'choose', from: { entity_type: 'spell', filter: `has([${ids}], $v.id) && !has(@spells, $v.id)` }, count: spells.choose, into: 'spells', title: t.name });
     }
     if (traitOptionParents.size && [...traitOptionParents.values()].some((ps) => ps.includes(id(ref.index)))) {
-      out.push({ op: 'choose', from: { entity_type: 'option', filter: `has($v.data.groups, '${id(ref.index)}')` }, count: 1, into: 'options', title: t.name });
+      out.push({ op: 'choose', from: { entity_type: 'option', filter: `has($v.data.groups, '${id(ref.index)}') && ($v.data.prereq ?? true)` }, count: 1, into: 'options', title: t.name, then: gainHooks(1) });
     }
     return out;
   });
+  // a picked option (or feat) may grant more through its `gain` hook; effects can't loop, so one guarded call per pick
+  const gainHooks = (n: number): Json[] => Array.from({ length: n }, (_, i) => ({ op: 'if', when: `len($choice) > ${i}`, then: [{ op: 'run_hook', entity: `$choice[${i}]`, hook: 'gain', key: "'any'" }] }));
   // `+2 CON, +1 WIS`: what a chooser needs to compare races at a glance
   const bonusText = (bs: { ability_score: Ref; bonus: number }[] = []) => bs.map((b) => `+${b.bonus} ${b.ability_score.name}`).join(', ');
   write('content/race/all.json', applyOverrides('race', races.map((r) => {
@@ -320,7 +322,7 @@ async function main() {
       const fs = (f.feature_specific ?? {}) as Json;
       if (fs.subfeature_options) {
         const n = (fs.subfeature_options as { choose: number }).choose;
-        return [{ op: 'choose', from: { entity_type: 'option', filter: `has($v.data.groups, '${id(f.index)}') && !has(@options, $v.id)` }, count: n, into, title: f.name }];
+        return [{ op: 'choose', from: { entity_type: 'option', filter: `has($v.data.groups, '${id(f.index)}') && !has(@options, $v.id) && ($v.data.prereq ?? true)` }, count: n, into, title: f.name, then: gainHooks(n) }];
       }
       if (fs.expertise_options) {
         const n = (fs.expertise_options as { choose: number }).choose;
@@ -353,7 +355,7 @@ async function main() {
       for (const picked of PICKED.filter((x) => x.class === c.index)) {
         const now = (table[i][picked.column] as number | undefined) ?? 0;
         const before = i ? ((table[i - 1][picked.column] as number | undefined) ?? 0) : 0;
-        if (now > before) at(lvl).push({ op: 'choose', from: { entity_type: 'option', filter: `has($v.data.groups, '${picked.group}') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)` }, count: now - before, into: 'options', title: now - before === 1 ? `Choose an ${picked.label}` : `Choose ${now - before} × ${picked.label}` });
+        if (now > before) at(lvl).push({ op: 'choose', from: { entity_type: 'option', filter: `has($v.data.groups, '${picked.group}') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)` }, count: now - before, into: 'options', title: now - before === 1 ? `Choose an ${picked.label}` : `Choose ${now - before} × ${picked.label}`, then: gainHooks(now - before) });
       }
     }
     const profs = (c.proficiencies as Ref[]).map((p) => p.index);

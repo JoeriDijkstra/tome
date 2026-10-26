@@ -54,7 +54,7 @@
         "type": "choice",
         "label": "Feat",
         "entity_type": "feat",
-        "filter": "!has(@feats, $v.id)",
+        "filter": "!has(@feats, $v.id) && ($v.data.prereq ?? true)",
         "min": 1,
         "max": 1,
         "required": true,
@@ -108,6 +108,12 @@
               "op": "push",
               "path": "feats",
               "value": "$input.feat[0]"
+            },
+            {
+              "op": "run_hook",
+              "entity": "$input.feat[0]",
+              "hook": "gain",
+              "key": "'any'"
             }
           ]
         }

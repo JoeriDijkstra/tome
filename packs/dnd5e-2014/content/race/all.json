@@ -242,11 +242,25 @@
             "op": "choose",
             "from": {
               "entity_type": "option",
-              "filter": "has($v.data.groups, 'draconic_ancestry')"
+              "filter": "has($v.data.groups, 'draconic_ancestry') && ($v.data.prereq ?? true)"
             },
             "count": 1,
             "into": "options",
-            "title": "Draconic Ancestry"
+            "title": "Draconic Ancestry",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
