@@ -785,7 +785,7 @@ available for weapons, or D&D attunement:
 ### Actions (buttons) — `ui/actions/*.json`
 
 ```json
-[ { "id": "take_damage", "label": "Damage", "icon": "heart.slash", "style": "danger",
+[ { "id": "take_damage", "label": "Damage", "icon": "heart", "style": "danger",
     "visible_when": "true", "enabled_when": "@res.hp.current > 0",
     "modal": "damage" } ]
 ```
