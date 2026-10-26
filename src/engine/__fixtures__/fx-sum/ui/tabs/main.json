@@ -69,6 +69,13 @@
         ]
       },
       {
+        "widget": "toggles",
+        "title": "Conditions",
+        "path": "conditions",
+        "options": "entities('condition')",
+        "label": "{$v.name}"
+      },
+      {
         "widget": "field",
         "label": "Epithet",
         "path": "epithet",

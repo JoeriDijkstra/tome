@@ -26,7 +26,7 @@ Status: draft.
 | D&D | Two separate major packs, `dnd5e-2014` (SRD 5.1) and `dnd5e-2024` (SRD 5.2.1). v1 is a vertical slice of each and is single-class only. |
 | Multiclass | The engine supports it (`classes` is a map keyed by class id). The v1 D&D slices don't offer it. A pack update can add it later without app changes. |
 | Undo | Undo the last effect batch, kept in memory up to 20 deep for each open character. The history is lost on restart. |
-| Notes | Simple rich text using `react-native-enriched-html`, stored as HTML. Pack prose (descriptions, `text` widget) is markdown, rendered with `react-native-enriched-markdown`. |
+| Notes | Simple rich text, stored as markdown. Written with `EnrichedMarkdownTextInput` and shown with `EnrichedMarkdownText`, both from `react-native-enriched-markdown`, which also renders pack prose (descriptions, `text` widget). One library for both: `react-native-enriched-html` doesn't support React Native 0.88 in a stable release. |
 
 ### v1 features
 
@@ -158,11 +158,9 @@ docs/pack-format.md      author reference + generated JSON Schema (later)
 M0 (installed): `expo-sqlite`, `expo-document-picker`, `expo-file-system`,
 `expo-sharing` (via `npx expo install`); `fflate` (pure-JS unzip), `zod`
 (manifest validation and JSON Schema export), `semver` (range matching); dev:
-`jest-expo`. Added in M5, after checking they work
-with SDK 58: `react-native-enriched-html` (notes editor and viewer) and
-`react-native-enriched-markdown` (pack prose). Both are native, New
-Architecture only, so the app runs in a **development build**
-(`npx expo run:ios|android`), not Expo Go.
+`jest-expo`. Added in M5: `react-native-enriched-markdown` (notes editor, pack
+prose). It is native and New Architecture only, so the app runs in a
+**development build** (`npx expo run:ios|android`), not Expo Go.
 
 ## Content packs
 
@@ -928,11 +926,11 @@ Every widget takes an optional `visible_when`. Text fields are marked *(text)*.
 | `stat_grid` | `title?` *(text)*, `columns?`, `items` (stats without `widget`) | |
 | `resource` | `resource`, `label?` *(text)*, `style?` (`bar` `pips` `counter` `slots`), `thresholds?` (`[{label (text), at}]`), `actions?` | `bar` and `counter` get −/+ buttons; tapping a pip or slot sets it directly. Actions: one shows inline, several go in the resource's ••• menu. |
 | `list` | `source`, `title?` *(text)*, `style?` (`rows` `cards`), `row` (`title`, `subtitle?`, `body?`, all text; `actions?`), `group_by?`, `empty?` *(text)*, `add?` (action) | Rows come from `source` (a list or object) with `$v`/`$k` set. Row actions run with the row's `$v`/`$k`: one shows inline as tinted text, several go in a ••• menu. `add` is the list's last row. Tapping a row that is an entity shows its description. |
-| `toggles` | `title?` *(text)*, and either `items` (`[{label (text), path}]`: boolean fields) or `path` + `options` + `label` *(text)* (an id list toggled per option, `$v` = option) | Tapping toggles through the `toggle` effect. |
+| `toggles` | `title?` *(text)*, and either `items` (`[{label (text), path}]`: boolean fields) or `path` + `options` + `label` *(text)* (an id list toggled per option, `$v` = option) | Tapping toggles through the `toggle` effect. An entity option (a condition, say) shows its `summary` under the label, and tapping the row shows its `description`. |
 | `field` | `label` *(text)*, `path`, `input?` (`string` `text` `number`) | Inline editor. One undo entry per focus. |
-| `text` | `text` *(text)* | Static pack prose. |
+| `text` | `text` *(text)* | Static pack prose, rendered as markdown (after the `{…}` templates are filled in). |
 | `actions` | `actions` | A row of buttons. |
-| `notes` | — | The character's journal (M5). |
+| `notes` | — | The character's journal: a searchable list of notes (newest first) and a markdown editor. Notes live on the document beside `state`, so they never go through effects or undo, and they travel with exports. Search matches every word of the query in the title or body, ignoring case and accents. |
 
 Actions: `label` *(text)*, `icon?`, `style?` (`primary` `secondary` `danger`
 `plain`), `visible_when?`, `enabled_when?`, `confirm?` (`{title, message?}`,
@@ -1061,7 +1059,7 @@ interface DataAdapter {
   "created_at": "…", "updated_at": "…",
   "packs": { "major": { "id": "dnd5e-2024", "range": "^1.0.0" }, "expansions": [] },
   "state": { "abilities": { "str": 15 }, "classes": { "fighter": { "level": 3 } }, "res": { "hp": { "current": 24, "temp": 0 } } },
-  "notes": [ { "id": "uuid", "title": "Session 1", "body": "<p>rich text <b>HTML</b></p>", "updated_at": "…" } ]
+  "notes": [ { "id": "uuid", "title": "Session 1", "body": "Met the **mayor**.\n\n- owes us 20 gold", "updated_at": "…" } ]
 }
 ```
 
@@ -1073,7 +1071,10 @@ Export writes `<name>.tome.json` through `expo-sharing`:
 
 On import the file gets a new `id` and `rev: 0`. If a pinned pack is missing,
 the import still goes through and the character opens read-only, as described
-in Resolution.
+in Resolution. The file is untrusted input: it is checked against a schema
+(format, version, name, valid version ranges, note shape) and anything else
+is rejected with the reason, before anything is stored. Import lives in the
+Characters "+" menu; export in Character settings.
 
 ## Screens (expo-router)
 
@@ -1084,8 +1085,9 @@ src/app/(tabs)/(characters)/index.tsx  character list (+ New, Import character)
 src/app/(tabs)/packs/index.tsx         installed packs + Import pack
 src/app/(tabs)/packs/[id].tsx          details, versions, license, uninstall
 src/app/new.tsx                        pick major + expansions, then the creation wizard
-src/app/c/[id]/index.tsx               sheet (tabs from pack)
-src/app/c/[id]/settings.tsx            expansions, export, delete
+src/app/c/[id].tsx                     sheet (tabs from pack); Character settings (name, expansions,
+                                       export, delete) opens over it from the ••• menu, so every write
+                                       to the open character goes through its one session
 ```
 
 App-owned UI (list, pack manager, settings) is ordinary app code. Everything
@@ -1147,14 +1149,17 @@ SRD documents before release.
    pack manager, uninstall guard, compiled pack sets cached by resolution key.
 4. **M3, sheet** (done): text templates, full `ui/` schemas, widget catalog,
    PackButton, PackModal, chooser, modifier breakdown, undo, serialized
-   writes. Deferred to the milestone that needs them: `allocation`/`assign`
-   inputs (M4), the `notes` widget and markdown in `text` (M5), action
-   `icon`s.
+   writes. `allocation`/`assign` inputs came with M4; the `notes` widget,
+   markdown and action `icon`s with M5.
 5. **M4, wizard + level up** (done): New character, pack picker, wizard with
    dry-run Next, in-step prompts, Back, review preview, `allocation`/`assign`
    inputs. Level up is an ordinary pack action and modal (M3).
-6. **M5**: inventory, resources/rests, conditions, notes, character
-   export/import.
+6. **M5** (done): markdown pack prose, notes (searchable, markdown editor),
+   Character settings (rename, expansions, export, delete), character
+   import, conditions with summaries and descriptions. Inventory, resources
+   and rests need no new app code: lists with row actions, `field` inputs,
+   resources with `reset` tags and temp HP already cover them; the M6 packs
+   use those.
 7. **M6, packs**: the `dnd5e-2014` and `dnd5e-2024` folders, written
    alongside M3–M5. (`tome-pack` shipped with M1.)
 8. **M7, Daggerheart**: a `daggerheart` major pack in its own folder. This is
@@ -1174,8 +1179,6 @@ These can be solved within the pack format and don't need engine changes.
 - Exhaustion has levels: a numeric field rather than a condition ref.
 - Level-up HP without dice: the modal offers the average or a manual value.
 - Check the CC-BY-4.0 attribution text word for word against both SRD documents.
-- Check that `react-native-enriched-html` and `-markdown` work with Expo SDK 58
-  before M5.
 
 ## Open items (engine, decide before the milestone named)
 

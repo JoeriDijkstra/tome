@@ -1,0 +1,28 @@
+[
+  {
+    "id": "poisoned",
+    "name": "Poisoned",
+    "summary": "−2 Might.",
+    "modifiers": [
+      {
+        "target": "stats.might",
+        "op": "add",
+        "value": -2
+      }
+    ],
+    "description": "Something you ate disagrees with you.\n\n- **−2 Might** until it passes\n- Ends after a *long rest*"
+  },
+  {
+    "id": "hasted",
+    "name": "Hasted",
+    "summary": "+1 Defense.",
+    "modifiers": [
+      {
+        "target": "defense",
+        "op": "add",
+        "value": 1
+      }
+    ],
+    "description": "You move a step ahead of everyone else: **+1 Defense**."
+  }
+]

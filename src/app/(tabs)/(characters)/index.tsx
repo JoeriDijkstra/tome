@@ -1,9 +1,22 @@
+import { MenuView } from '@expo/ui/community/menu';
+import * as DocumentPicker from 'expo-document-picker';
+import { File } from 'expo-file-system';
 import { router, Stack, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { Alert, View } from 'react-native';
 
-import { type CharacterSummary, data, type InstalledPack } from '@/data';
-import { Button, Empty, Group, IconButton, Row, Screen, Txt } from '@/ui/kit';
+import { type CharacterSummary, data, importCharacterFile, type InstalledPack } from '@/data';
+import { Button, Empty, Group, Icon, Row, Screen, TextButton, Txt } from '@/ui/kit';
 import { usePackImport } from '@/ui/pack-import';
+
+/** Pick a `.tome.json` file and store it as a new character, then open it. */
+async function importCharacter() {
+  const picked = await DocumentPicker.getDocumentAsync({ type: ['application/json', 'public.json'], copyToCacheDirectory: true });
+  if (picked.canceled) return;
+  const r = await importCharacterFile(data, await new File(picked.assets[0].uri).text());
+  if (!r.ok) return Alert.alert('Can’t import this file', r.error);
+  router.push({ pathname: '/c/[id]', params: { id: r.doc.id } });
+}
 
 export default function CharactersScreen() {
   const [packs, setPacks] = useState<InstalledPack[] | null>(null);
@@ -22,7 +35,18 @@ export default function CharactersScreen() {
   return (
     <Screen>
       <Stack.Screen
-        options={{ headerRight: () => (canCreate ? <IconButton name="plus" android="add" label="New character" onPress={() => router.push('/new')} /> : null) }}
+        options={{
+          headerRight: () => (
+            <MenuView
+              actions={[
+                { id: 'new', title: 'New character', image: 'person.badge.plus', attributes: { disabled: !canCreate } },
+                { id: 'import', title: 'Import character', image: 'square.and.arrow.down' },
+              ]}
+              onPressAction={({ nativeEvent }) => (nativeEvent.event === 'new' ? router.push('/new') : void importCharacter())}>
+              <View accessibilityRole="button" accessibilityLabel="Add character"><Icon name="plus" android="add" size={22} /></View>
+            </MenuView>
+          ),
+        }}
       />
       {packs === null ? null : packs.length === 0 ? (
         <Empty title="No content packs installed">
@@ -33,6 +57,7 @@ export default function CharactersScreen() {
         <Empty title="No characters yet">
           <Txt muted>{`${packs.length} content pack${packs.length === 1 ? '' : 's'} installed.`}</Txt>
           {canCreate ? <Button title="New character" onPress={() => router.push('/new')} /> : null}
+          <TextButton title="Import character" onPress={() => void importCharacter()} />
         </Empty>
       ) : (
         <Group>

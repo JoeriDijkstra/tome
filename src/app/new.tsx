@@ -5,7 +5,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { Alert, Modal, TextInput } from 'react-native';
 import semver from 'semver';
 
-import { type Character, data, type InstalledPack, loadPackSet } from '@/data';
+import { type Character, data, type InstalledPack, loadPackSet, newestVersions, newId } from '@/data';
 import { type Answer, type CharacterPins, type Compiled, createView, type PromptRequest, runCreation, type State } from '@/engine';
 import { Group, Icon, IconButton, Row, Screen, TextButton, Txt, usePalette } from '@/ui/kit';
 import { SheetContext, type SheetCtx } from '@/ui/sheet/context';
@@ -19,13 +19,6 @@ export default function NewCharacterScreen() {
   return setup ? <Wizard {...setup} onExit={() => setSetup(null)} /> : <PickPacks onPicked={setSetup} />;
 }
 
-/** The newest installed version of each pack. */
-function newest(packs: InstalledPack[]): InstalledPack[] {
-  const out = new Map<string, InstalledPack>();
-  for (const p of packs) if (!out.has(p.id) || semver.gt(p.version, out.get(p.id)!.version)) out.set(p.id, p);
-  return [...out.values()];
-}
-
 function PickPacks({ onPicked }: { onPicked: (s: Setup) => void }) {
   const [packs, setPacks] = useState<InstalledPack[]>([]);
   const [major, setMajor] = useState<string | null>(null);
@@ -33,7 +26,7 @@ function PickPacks({ onPicked }: { onPicked: (s: Setup) => void }) {
   const [busy, setBusy] = useState(false);
   useFocusEffect(useCallback(() => {
     data.packs.list().then((list) => {
-      const latest = newest(list);
+      const latest = newestVersions(list);
       setPacks(latest);
       setMajor((m) => m ?? latest.find((p) => p.kind === 'major')?.id ?? null);
     });
@@ -143,15 +136,14 @@ function Wizard({ pins, compiled, onExit }: Setup & { onExit: () => void }) {
     const r = await runCreation(compiled, allInputs(), { name: name.trim(), answers: recorded(index), prompt });
     if (!r.ok) { setBusy(false); return fail(r); }
     const now = new Date().toISOString();
-    // ponytail: time + random id; switch to UUIDs when characters sync to a server
-    const id = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+    const id = newId();
     const doc: Character = { id, rev: 0, name: name.trim(), created_at: now, updated_at: now, packs: pins, state: r.state, notes: [] };
     await data.characters.put(doc, null);
     router.replace({ pathname: '/c/[id]', params: { id } });
   };
 
   // the review page previews the first sheet tab, read-only
-  const preview: SheetCtx = { compiled, view, readonly: true, action: async () => {}, effects: async () => {}, explain: () => {}, detail: () => {} };
+  const preview: SheetCtx = { compiled, view, readonly: true, action: async () => {}, effects: async () => {}, explain: () => {}, detail: () => {}, notes: [], editNotes: async () => {} };
   const header = compiled.sheet.header;
 
   return (

@@ -57,5 +57,9 @@
   {
     "id": "perk",
     "label": "Perk"
+  },
+  {
+    "id": "condition",
+    "label": "Condition"
   }
 ]

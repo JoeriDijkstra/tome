@@ -18,7 +18,14 @@ import {
   unzip,
 } from '@/engine';
 
-import type { CharacterSummary, DataAdapter } from './adapter';
+import type { CharacterSummary, DataAdapter, InstalledPack } from './adapter';
+
+/** The newest installed version of each pack. */
+export function newestVersions(packs: InstalledPack[]): InstalledPack[] {
+  const out = new Map<string, InstalledPack>();
+  for (const p of packs) if (!out.has(p.id) || semver.gt(p.version, out.get(p.id)!.version)) out.set(p.id, p);
+  return [...out.values()];
+}
 
 export type InstallStatus =
   | { kind: 'new' }

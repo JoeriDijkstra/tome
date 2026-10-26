@@ -6,9 +6,10 @@ import { Tabs } from 'react-native-screens';
 import { type Character, data, loadPackSet, type PackSetResult } from '@/data';
 import { type Answer, type Breakdown, createView, type PromptRequest, runAction, runBatch } from '@/engine';
 import type { Effect, Tab } from '@/engine/schema';
-import { Button, Group, IconButton, ModalBar, PACK_ICONS, Row, Screen, styles, Txt, usePalette } from '@/ui/kit';
+import { Button, Group, IconButton, ModalBar, PACK_ICONS, Prose, Row, Screen, styles, TextButton, Txt, usePalette } from '@/ui/kit';
 import { SheetContext, type SheetCtx } from '@/ui/sheet/context';
 import { PromptView } from '@/ui/sheet/prompts';
+import { CharacterSettings } from '@/ui/sheet/settings';
 import { SheetSession } from '@/ui/sheet/session';
 import { ActionMenu, SectionView } from '@/ui/sheet/widgets';
 
@@ -24,6 +25,7 @@ export default function SheetScreen() {
   const [nav, setNav] = useState<{ key: string | null; provenance: number }>({ key: null, provenance: 0 });
   const [pending, setPending] = useState<{ request: PromptRequest; resolve: (a: Answer | null) => void } | null>(null);
   const [overlay, setOverlay] = useState<{ title: string; body?: string; breakdown?: Breakdown } | null>(null);
+  const [settings, setSettings] = useState(false);
   const [undoCount, setUndoCount] = useState(0);
   const [session] = useState(() => new SheetSession((d, depth) => { setDoc(d); setUndoCount(depth); }));
 
@@ -49,10 +51,21 @@ export default function SheetScreen() {
       effects: (effects: Effect[], vars) => session.write((d) => runBatch(compiled, d.state, effects, { name: d.name, vars, prompt })),
       explain: (path, label) => setOverlay({ title: label, breakdown: view.explain(path) }),
       detail: (title, body) => setOverlay({ title, body }),
+      notes: doc.notes ?? [],
+      editNotes: (change) => session.edit((d) => ({ ...d, notes: change(d.notes ?? []) })),
     };
   }, [compiled, view, doc, session, prompt]);
 
   if (!doc) return null;
+  const settingsModal = (
+    <Modal visible={settings} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setSettings(false)}>
+      {settings ? (
+        <CharacterSettings doc={doc} edit={(change) => session.edit(change)} onClose={() => setSettings(false)}
+          onPinsChanged={(pins) => void loadPackSet(data, pins).then(setPacks)}
+          onDelete={() => { setSettings(false); void data.characters.delete(doc.id).then(() => router.back()); }} />
+      ) : null}
+    </Modal>
+  );
   if (packs && !packs.ok) {
     return (
       <Screen>
@@ -62,6 +75,10 @@ export default function SheetScreen() {
           {packs.issues.filter((i) => i.level === 'error').map((i, n) => <Row key={n} title={<Txt size={15} color={p.danger}>{i.message}</Txt>} subtitle={i.at} />)}
         </Group>
         <Button title="Content packs" onPress={() => router.navigate('/packs')} />
+        <Group>
+          <Row title={<TextButton title="Character settings" onPress={() => setSettings(true)} />} />
+        </Group>
+        {settingsModal}
       </Screen>
     );
   }
@@ -89,7 +106,7 @@ export default function SheetScreen() {
             <SheetContext.Provider value={ctx}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
                 <IconButton name="arrow.uturn.backward" android="undo" label="Undo" disabled={undoCount === 0} onPress={() => void session.undo()} />
-                {header?.actions?.length ? <ActionMenu ids={header.actions} /> : null}
+                <ActionMenu ids={header?.actions ?? []} app={[{ id: 'settings', title: 'Character settings', image: 'gearshape', run: () => setSettings(true) }]} />
               </View>
             </SheetContext.Provider>
           ),
@@ -116,6 +133,7 @@ export default function SheetScreen() {
       <Modal visible={overlay !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setOverlay(null)}>
         {overlay ? <Overlay {...overlay} names={(source) => String(compiled.entities.get(source)?.envelope.name ?? source)} onClose={() => setOverlay(null)} /> : null}
       </Modal>
+      {settingsModal}
     </SheetContext.Provider>
   );
 }
@@ -128,7 +146,7 @@ function Overlay({ title, body, breakdown, names, onClose }: { title: string; bo
     <View style={{ flex: 1, backgroundColor: p.background }}>
       <ModalBar title={title} onCancel={onClose} cancelLabel="Close" />
       <ScrollView contentContainerStyle={styles.screen}>
-        {body ? <Group><Row><Txt>{body}</Txt></Row></Group> : null}
+        {body ? <Group><Row><Prose markdown={body} /></Row></Group> : null}
         {breakdown ? (
           <Group>
             <Row title="Base" trailing={<Txt muted>{fmt(breakdown.base)}</Txt>} />

@@ -1,13 +1,15 @@
 // The widget catalog. Packs compose these; how they look and behave is app code. See SPEC → Widget catalog.
 import { MenuView } from '@expo/ui/community/menu';
+import type { SFSymbol } from 'expo-symbols';
 import { useRef, useState } from 'react';
 import { Alert, Pressable, Switch, TextInput, View } from 'react-native';
 
 import { analyze, parse, truthy } from '@/engine';
 import type { Section, StatItem } from '@/engine/schema';
-import { Group, Icon, IconButton, Row, TextButton, Txt, usePalette } from '@/ui/kit';
+import { Group, Icon, IconButton, Prose, Row, TextButton, Txt, usePalette } from '@/ui/kit';
 
 import { type SheetCtx, useSheet } from './context';
+import { Notes } from './notes';
 
 type Vars = Record<string, unknown>;
 const isObj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v);
@@ -43,16 +45,20 @@ export function actionInfo(ctx: SheetCtx, id: string, vars?: Vars): ActionInfo |
   };
 }
 
-/** Native menu of pack actions behind a trigger (an ••• icon by default). */
-export function ActionMenu({ ids, vars, title, children }: { ids: string[]; vars?: Vars; title?: string; children?: React.ReactNode }) {
+export type AppMenuItem = { id: string; title: string; image: SFSymbol; run: () => void };
+
+/** Native menu of pack actions behind a trigger (an ••• icon by default); `app` items follow in their own section. */
+export function ActionMenu({ ids, vars, title, app = [], children }: { ids: string[]; vars?: Vars; title?: string; app?: AppMenuItem[]; children?: React.ReactNode }) {
   const ctx = useSheet();
   const actions = ids.map((id) => actionInfo(ctx, id, vars)).filter((a) => a !== null);
-  if (actions.length === 0) return null;
+  if (actions.length === 0 && app.length === 0) return null;
+  // `app:` can't collide with pack ids, which are snake_case
+  const appSection = app.length ? [{ id: 'app', title: '', displayInline: true, subactions: app.map((a) => ({ id: `app:${a.id}`, title: a.title, image: a.image })) }] : [];
   return (
     <MenuView
       title={title}
-      actions={actions.map((a) => ({ id: a.id, title: a.label, attributes: { destructive: a.danger, disabled: !a.enabled } }))}
-      onPressAction={({ nativeEvent }) => actions.find((a) => a.id === nativeEvent.event)?.run()}>
+      actions={[...actions.map((a) => ({ id: a.id, title: a.label, attributes: { destructive: a.danger, disabled: !a.enabled } })), ...appSection]}
+      onPressAction={({ nativeEvent }) => (actions.find((a) => a.id === nativeEvent.event) ?? app.find((a) => `app:${a.id}` === nativeEvent.event))?.run()}>
       {children ?? <View accessibilityRole="button" accessibilityLabel={title ?? 'Actions'}><Icon name="ellipsis.circle" android="more_horiz" size={22} /></View>}
     </MenuView>
   );
@@ -81,13 +87,12 @@ export function SectionView({ section }: { section: Section }) {
     case 'list': return <List section={section} />;
     case 'toggles': return <Toggles section={section} />;
     case 'field': return <FieldEditor section={section} />;
-    case 'text': return <Txt muted size={15} style={{ paddingHorizontal: 16 }}>{view.text(section.text)}</Txt>;
+    case 'text': return <View style={{ paddingHorizontal: 16 }}><Prose markdown={view.text(section.text)} muted size={15} /></View>;
     case 'actions': {
       const infos = section.actions.map((id) => actionInfo(ctx, id)).filter((a) => a !== null);
       return <Group>{infos.map((a) => <Row key={a.id} title={<TextButton title={a.label} danger={a.danger} disabled={!a.enabled} onPress={a.run} />} />)}</Group>;
     }
-    // the journal arrives with M5
-    case 'notes': return null;
+    case 'notes': return <Notes />;
   }
 }
 
@@ -294,26 +299,31 @@ function List({ section }: { section: Extract<Section, { widget: 'list' }> }) {
 }
 
 function Toggles({ section }: { section: Extract<Section, { widget: 'toggles' }> }) {
-  const { view, effects, readonly } = useSheet();
-  const items: { label: string; on: boolean; toggle: () => void }[] = section.items
+  const { view, effects, readonly, detail } = useSheet();
+  type Item = { label: string; on: boolean; toggle: () => void; summary?: string; body?: string };
+  const items: Item[] = section.items
     ? section.items.map((it) => ({ label: view.text(it.label), on: truthy(view.eval(`@${it.path}`)), toggle: () => void effects([{ op: 'toggle', path: it.path }]) }))
     : (() => {
         const options = view.eval(section.options!);
         const current = view.eval(`@${section.path!}`);
         return (Array.isArray(options) ? options : []).map((v) => {
-          // an option toggles its id (entities) or itself (plain values)
-          const value = isObj(v) && typeof v.id === 'string' ? v.id : v;
+          // an option toggles its id (entities) or itself (plain values); entities also say what they do
+          const entity = isObj(v) && typeof v.id === 'string';
+          const value = entity ? v.id : v;
           return {
             label: view.text(section.label!, { v }),
             on: Array.isArray(current) && current.includes(value),
             toggle: () => void effects([{ op: 'toggle', path: section.path!, value: '$input.value' }], { input: { value } }),
+            summary: entity && typeof v.summary === 'string' ? view.text(v.summary, { self: v }) : undefined,
+            body: entity && typeof v.description === 'string' ? view.text(v.description, { self: v }) : undefined,
           };
         });
       })();
   return (
     <Group header={section.title ? view.text(section.title) : undefined}>
       {items.map((it, i) => (
-        <Row key={i} title={it.label} trailing={<Switch accessibilityLabel={it.label} value={it.on} disabled={readonly} onValueChange={it.toggle} />} />
+        <Row key={i} title={it.label} subtitle={it.summary} onPress={it.body ? () => detail(it.label, it.body!) : undefined}
+          trailing={<Switch accessibilityLabel={it.label} value={it.on} disabled={readonly} onValueChange={it.toggle} />} />
       ))}
     </Group>
   );

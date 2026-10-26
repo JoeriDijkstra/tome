@@ -89,6 +89,12 @@
       ]
     },
     {
+      "key": "conditions",
+      "type": "list",
+      "of": "ref",
+      "entity_type": "condition"
+    },
+    {
       "key": "inspired",
       "type": "boolean",
       "default": false

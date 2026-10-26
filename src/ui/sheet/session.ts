@@ -21,18 +21,31 @@ export class SheetSession {
   }
 
   write(job: (current: Character) => Promise<RunResult>, recordUndo = true): Promise<void> {
+    return this.enqueue(async (prev) => {
+      const result = await job(prev);
+      if (!result.ok) {
+        if ('rejected' in result) Alert.alert('That didn’t work', result.rejected);
+        return null;
+      }
+      return { doc: { ...prev, state: result.state }, undo: recordUndo ? prev.state : null };
+    });
+  }
+
+  /** Doc-level changes outside the rules (notes): same queue, no undo entry. */
+  edit(change: (current: Character) => Character): Promise<void> {
+    return this.enqueue(async (prev) => ({ doc: change(prev), undo: null }));
+  }
+
+  private enqueue(job: (current: Character) => Promise<{ doc: Character; undo: State | null } | null>): Promise<void> {
     this.queue = this.queue
       .then(async () => {
         const prev = this.latest;
         if (!prev) return;
-        const result = await job(prev);
-        if (!result.ok) {
-          if ('rejected' in result) Alert.alert('That didn’t work', result.rejected);
-          return;
-        }
+        const next = await job(prev);
+        if (!next) return;
         try {
-          const saved = await data.characters.put({ ...prev, state: result.state }, prev.rev);
-          if (recordUndo) this.undoStack = [...this.undoStack, prev.state].slice(-UNDO_DEPTH);
+          const saved = await data.characters.put(next.doc, prev.rev);
+          if (next.undo) this.undoStack = [...this.undoStack, next.undo].slice(-UNDO_DEPTH);
           this.loaded(saved);
         } catch (e) {
           if (!(e instanceof ConflictError)) throw e;

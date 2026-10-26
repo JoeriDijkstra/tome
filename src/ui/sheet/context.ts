@@ -1,6 +1,7 @@
 // What every sheet widget needs: the evaluated character and a way to change it.
 import { createContext, useContext } from 'react';
 
+import type { Note } from '@/data';
 import type { Compiled, View } from '@/engine';
 import type { Effect } from '@/engine/schema';
 
@@ -17,6 +18,9 @@ export interface SheetCtx {
   explain(path: string, label: string): void;
   /** show an entity's or feature's prose */
   detail(title: string, body: string): void;
+  /** the character's journal; lives on the document, outside the rules and undo */
+  notes: Note[];
+  editNotes(change: (notes: Note[]) => Note[]): Promise<void>;
 }
 
 export const SheetContext = createContext<SheetCtx | null>(null);

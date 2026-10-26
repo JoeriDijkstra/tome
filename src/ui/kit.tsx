@@ -1,10 +1,12 @@
 // App-owned building blocks in the platform's own idiom: inset grouped lists, tinted text buttons, SF Symbols.
 // Packs never style these; they only compose them (see SPEC → Sheet UI).
 import { type Theme, useTheme } from 'expo-router';
-import type { IconName } from '@/engine/schema';
 import { type SFSymbol, SymbolView } from 'expo-symbols';
 import { Children, isValidElement, type ReactNode } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, type TextStyle, View, type ViewStyle } from 'react-native';
+import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, Text, type TextStyle, View, type ViewStyle } from 'react-native';
+import { EnrichedMarkdownText, type MarkdownStyle } from 'react-native-enriched-markdown';
+
+import type { IconName } from '@/engine/schema';
 
 // iOS system colors (grouped backgrounds, separators, labels), used on both platforms for one consistent look
 const LIGHT = { background: '#F2F2F7', cell: '#FFFFFF', separator: '#C6C6C8', text: '#000000', secondary: '#3C3C4399', tint: '#007AFF', danger: '#FF3B30', warning: '#B7791F', fill: '#7676801F' };
@@ -53,6 +55,27 @@ export function usePalette(): Palette {
 export function Txt({ children, muted, size = 17, weight, color, style, lines }: { children: ReactNode; muted?: boolean; size?: number; weight?: TextStyle['fontWeight']; color?: string; style?: TextStyle; lines?: number }) {
   const p = usePalette();
   return <Text numberOfLines={lines} style={[{ color: color ?? (muted ? p.secondary : p.text), fontSize: size, fontWeight: weight }, style]}>{children}</Text>;
+}
+
+/** Markdown in the app's text colors: shared by pack prose and the notes editor. */
+export function markdownStyle(p: Palette, size = 17): MarkdownStyle {
+  const text = { color: p.text, fontSize: size };
+  return {
+    paragraph: { ...text, lineHeight: size * 1.35, marginBottom: 8 },
+    h1: { color: p.text, fontSize: size + 8, fontWeight: '700' },
+    h2: { color: p.text, fontSize: size + 4, fontWeight: '700' },
+    h3: { color: p.text, fontSize: size + 1, fontWeight: '600' },
+    list: { ...text, bulletColor: p.secondary, markerColor: p.secondary },
+    blockquote: { ...text, color: p.secondary, borderColor: p.separator },
+    link: { color: p.tint },
+  };
+}
+
+/** Pack prose (descriptions, `text` widgets) is markdown; links open in the browser. */
+export function Prose({ markdown, muted, size = 17 }: { markdown: string; muted?: boolean; size?: number }) {
+  const p = usePalette();
+  const style = markdownStyle(muted ? { ...p, text: p.secondary } : p, size);
+  return <EnrichedMarkdownText markdown={markdown} markdownStyle={style} allowTrailingMargin={false} onLinkPress={({ url }) => void Linking.openURL(url)} />;
 }
 
 export function Icon({ name, android, size = 20, color }: { name: SFSymbol; android: string; size?: number; color?: string }) {
