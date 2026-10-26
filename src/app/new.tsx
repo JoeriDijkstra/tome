@@ -59,7 +59,14 @@ function PickPacks({ onPicked }: { onPicked: (s: Setup) => void }) {
 
   return (
     <Screen>
-      <Stack.Screen options={{ title: 'New character', headerRight: () => <TextButton title="Next" bold busy={busy} disabled={!chosen} onPress={() => void next()} /> }} />
+      <Stack.Screen
+        options={{
+          title: 'New character',
+          // explicit: the wizard's headerLeft would otherwise outlive it on this same screen
+          headerLeft: () => <IconButton name="chevron.backward" android="arrow_back" label="Back" onPress={() => router.back()} />,
+          headerRight: () => <TextButton title="Next" bold busy={busy} disabled={!chosen} onPress={() => void next()} />,
+        }}
+      />
       <Group header="Game system">
         {majors.map((p) => (
           <Row key={p.id} title={p.manifest.name} subtitle={p.version} label={p.manifest.name} onPress={() => { setMajor(p.id); setExpansions([]); }}
