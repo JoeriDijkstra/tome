@@ -1,9 +1,8 @@
-import { Link, router, Stack, useFocusEffect } from 'expo-router';
+import { router, Stack, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Pressable, View } from 'react-native';
 
 import { type CharacterSummary, data, type InstalledPack } from '@/data';
-import { Button, Empty, Group, Icon, IconButton, Row, Screen, Txt } from '@/ui/kit';
+import { Button, Empty, Group, IconButton, Row, Screen, Txt } from '@/ui/kit';
 import { usePackImport } from '@/ui/pack-import';
 
 export default function CharactersScreen() {
@@ -23,18 +22,7 @@ export default function CharactersScreen() {
   return (
     <Screen>
       <Stack.Screen
-        options={{
-          headerRight: () => (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-              <Link href="/packs" asChild>
-                <Pressable accessibilityRole="link" accessibilityLabel="Content packs" hitSlop={8}>
-                  <Icon name="shippingbox" android="inventory_2" size={22} />
-                </Pressable>
-              </Link>
-              {canCreate ? <IconButton name="plus" android="add" label="New character" onPress={() => router.push('/new')} /> : null}
-            </View>
-          ),
-        }}
+        options={{ headerRight: () => (canCreate ? <IconButton name="plus" android="add" label="New character" onPress={() => router.push('/new')} /> : null) }}
       />
       {packs === null ? null : packs.length === 0 ? (
         <Empty title="No content packs installed">

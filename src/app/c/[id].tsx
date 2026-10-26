@@ -60,7 +60,7 @@ export default function SheetScreen() {
           {packs.missing.map((m) => <Row key={m.id} title={`Missing ${m.id}`} trailing={<Txt muted>{m.range}</Txt>} />)}
           {packs.issues.filter((i) => i.level === 'error').map((i, n) => <Row key={n} title={<Txt size={15} color={p.danger}>{i.message}</Txt>} subtitle={i.at} />)}
         </Group>
-        <Button title="Content packs" onPress={() => router.push('/packs')} />
+        <Button title="Content packs" onPress={() => router.navigate('/packs')} />
       </Screen>
     );
   }

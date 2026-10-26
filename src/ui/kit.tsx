@@ -16,6 +16,9 @@ export function navigationTheme(base: Theme, dark: boolean): Theme {
   return { ...base, dark, colors: { ...base.colors, background: p.background, card: p.background, text: p.text, border: p.separator, primary: p.tint, notification: p.danger } };
 }
 
+/** every stack: chevron-only back buttons, no hairline under the header */
+export const stackOptions = { headerBackButtonDisplayMode: 'minimal', headerShadowVisible: false } as const;
+
 export function usePalette(): Palette {
   return useTheme().dark ? DARK : LIGHT;
 }

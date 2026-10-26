@@ -1070,13 +1070,14 @@ in Resolution.
 ## Screens (expo-router)
 
 ```
-src/app/_layout.tsx            stack
-src/app/index.tsx              character list (+ New, Import character)
-src/app/new.tsx                pick major + expansions, then the creation wizard
-src/app/c/[id]/index.tsx       sheet (tabs from pack)
-src/app/c/[id]/settings.tsx    expansions, export, delete
-src/app/packs/index.tsx        installed packs + Import pack
-src/app/packs/[id].tsx         details, versions, license, uninstall
+src/app/_layout.tsx                    root stack: the tabs, then screens that cover them
+src/app/(tabs)/_layout.tsx             native bottom tabs: Characters, Packs
+src/app/(tabs)/(characters)/index.tsx  character list (+ New, Import character)
+src/app/(tabs)/packs/index.tsx         installed packs + Import pack
+src/app/(tabs)/packs/[id].tsx          details, versions, license, uninstall
+src/app/new.tsx                        pick major + expansions, then the creation wizard
+src/app/c/[id]/index.tsx               sheet (tabs from pack)
+src/app/c/[id]/settings.tsx            expansions, export, delete
 ```
 
 App-owned UI (list, pack manager, settings) is ordinary app code. Everything

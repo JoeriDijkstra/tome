@@ -1,16 +1,15 @@
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import { useColorScheme } from 'react-native';
 
-import { navigationTheme } from '@/ui/kit';
+import { navigationTheme, stackOptions } from '@/ui/kit';
 
+/** Tabs at the root; a character sheet and the creation wizard cover them. */
 export default function RootLayout() {
   const dark = useColorScheme() === 'dark';
   return (
     <ThemeProvider value={navigationTheme(dark ? DarkTheme : DefaultTheme, dark)}>
-      <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal', headerShadowVisible: false }}>
-        <Stack.Screen name="index" options={{ title: 'Characters', headerLargeTitle: true }} />
-        <Stack.Screen name="packs/index" options={{ title: 'Content packs' }} />
-        <Stack.Screen name="packs/[id]" options={{ title: 'Pack' }} />
+      <Stack screenOptions={stackOptions}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="c/[id]" options={{ title: '' }} />
         <Stack.Screen name="new" options={{ title: 'New character' }} />
       </Stack>
