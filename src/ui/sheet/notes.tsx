@@ -1,11 +1,11 @@
 // The `notes` widget: the character's journal. Notes are the player's, not the rules', so they live
 // on the document beside `state` and never go through the engine or undo. Bodies are markdown.
 import { useRef, useState } from 'react';
-import { Alert, Modal, ScrollView, TextInput, View } from 'react-native';
+import { Alert, ScrollView, TextInput, View } from 'react-native';
 import { EnrichedMarkdownTextInput } from 'react-native-enriched-markdown';
 
 import { newId, type Note } from '@/data';
-import { Group, Icon, markdownStyle, matchesQuery, ModalBar, Row, SearchField, styles, TextButton, Txt, usePalette } from '@/ui/kit';
+import { Group, Icon, markdownStyle, matchesQuery, ModalBar, Row, SearchField, Sheet, styles, TextButton, Txt, usePalette } from '@/ui/kit';
 
 import { useSheet } from './context';
 
@@ -53,9 +53,9 @@ export function Notes() {
           } />
         )}
       </Group>
-      <Modal visible={open !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => { if (open) save(open); }}>
+      <Sheet visible={open !== null} onClose={() => { if (open) save(open); }}>
         {open ? <NoteEditor note={open} readonly={readonly} onDone={save} onDelete={notes.some((n) => n.id === open.id) ? remove : undefined} /> : null}
-      </Modal>
+      </Sheet>
     </>
   );
 }

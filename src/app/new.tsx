@@ -2,16 +2,18 @@
 // See docs/SPEC.md → Creation wizard.
 import { router, Stack, useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { Alert, Modal, TextInput } from 'react-native';
+import { Alert, TextInput, View } from 'react-native';
 import semver from 'semver';
 
 import { type Character, data, type InstalledPack, loadPackSet, newestVersions, newId } from '@/data';
 import { type Answer, type CharacterPins, type Compiled, createView, type PromptRequest, runCreation, type State } from '@/engine';
-import { Group, Icon, IconButton, Row, Screen, TextButton, Txt, usePalette } from '@/ui/kit';
+import { Group, Icon, IconButton, Row, Screen, Sheet, TextButton, Txt, usePalette } from '@/ui/kit';
 import { SheetContext, type SheetCtx } from '@/ui/sheet/context';
 import { Field, initialValues, PromptView, type Values, visibleFields } from '@/ui/sheet/prompts';
 import { CharacterCard, SectionView } from '@/ui/sheet/widgets';
 
+/** iOS 26 wraps a header item in a glass shape sized to it; padding makes a text button a capsule, not a cramped circle. */
+const HeaderText = (props: Parameters<typeof TextButton>[0]) => <View style={{ paddingHorizontal: 6 }}><TextButton {...props} /></View>;
 type Setup = { pins: CharacterPins; compiled: Compiled };
 
 export default function NewCharacterScreen() {
@@ -57,7 +59,7 @@ function PickPacks({ onPicked }: { onPicked: (s: Setup) => void }) {
           title: 'New character',
           // explicit: the wizard's headerLeft would otherwise outlive it on this same screen
           headerLeft: () => <IconButton name="chevron.backward" android="arrow_back" label="Back" onPress={() => router.back()} />,
-          headerRight: () => <TextButton title="Next" bold busy={busy} disabled={!chosen} onPress={() => void next()} />,
+          headerRight: () => <HeaderText title="Next" bold busy={busy} disabled={!chosen} onPress={() => void next()} />,
         }}
       />
       <Group header="Game system">
@@ -153,8 +155,8 @@ function Wizard({ pins, compiled, onExit }: Setup & { onExit: () => void }) {
           title: step?.title ? view.text(step.title, vars) : 'New character',
           headerLeft: () => <IconButton name="chevron.backward" android="arrow_back" label="Back" onPress={back} />,
           headerRight: () => last
-            ? <TextButton title="Create" bold busy={busy} disabled={missing || name.trim() === ''} onPress={() => void create()} />
-            : <TextButton title="Next" bold busy={busy} disabled={missing} onPress={() => void next()} />,
+            ? <HeaderText title="Create" bold busy={busy} disabled={missing || name.trim() === ''} onPress={() => void create()} />
+            : <HeaderText title="Next" bold busy={busy} disabled={missing} onPress={() => void next()} />,
         }}
       />
       {steps.length > 1 ? <Txt muted size={13} style={{ textAlign: 'center' }}>{`Step ${index + 1} of ${steps.length}`}</Txt> : null}
@@ -176,9 +178,9 @@ function Wizard({ pins, compiled, onExit }: Setup & { onExit: () => void }) {
           {compiled.tabs[0]?.sections.map((s, i) => <SectionView key={i} section={s} />)}
         </SheetContext.Provider>
       ) : null}
-      <Modal visible={pending !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => { pending?.resolve(null); setPending(null); }}>
+      <Sheet visible={pending !== null} onClose={() => { pending?.resolve(null); setPending(null); }}>
         {pending ? <PromptView request={pending.request} compiled={compiled} view={view} onAnswer={(a) => { pending.resolve(a); setPending(null); }} /> : null}
-      </Modal>
+      </Sheet>
     </Screen>
   );
 }

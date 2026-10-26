@@ -3,7 +3,7 @@
 import { type Theme, useTheme } from 'expo-router';
 import { type SFSymbol, SymbolView } from 'expo-symbols';
 import { Children, isValidElement, type ReactNode } from 'react';
-import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, Text, TextInput, type TextStyle, View, type ViewStyle } from 'react-native';
+import { ActivityIndicator, Linking, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, type TextStyle, View, type ViewStyle } from 'react-native';
 import { EnrichedMarkdownText, type MarkdownStyle } from 'react-native-enriched-markdown';
 
 import type { IconName } from '@/engine/schema';
@@ -114,6 +114,16 @@ export function Button({ title, onPress, disabled, busy }: { title: string; onPr
       style={({ pressed }) => [styles.button, { backgroundColor: p.tint, opacity: disabled ? 0.4 : pressed ? 0.75 : 1 }]}>
       {busy ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>{title}</Text>}
     </Pressable>
+  );
+}
+
+/** A page sheet. Its container keeps the theme background, so it doesn't flash white when content unmounts as it closes. */
+export function Sheet({ visible, onClose, children }: { visible: boolean; onClose: () => void; children: ReactNode }) {
+  const p = usePalette();
+  return (
+    <Modal visible={visible} animationType="slide" presentationStyle="pageSheet" onRequestClose={onClose}>
+      <View style={{ flex: 1, backgroundColor: p.background }}>{children}</View>
+    </Modal>
   );
 }
 

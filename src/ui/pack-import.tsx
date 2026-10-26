@@ -3,12 +3,12 @@
 import * as DocumentPicker from 'expo-document-picker';
 import { File } from 'expo-file-system';
 import { useState } from 'react';
-import { Modal, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { data, type ImportResult, installPack, type InstallStatus, previewPackZip } from '@/data';
 import type { Issue } from '@/engine';
 
-import { Group, ModalBar, Row, styles, Txt, usePalette } from './kit';
+import { Group, ModalBar, Row, Sheet, styles, Txt, usePalette } from './kit';
 
 function statusText(s: InstallStatus): string {
   switch (s.kind) {
@@ -53,9 +53,9 @@ export function usePackImport(onInstalled: () => void) {
   }
 
   const dialog = (
-    <Modal visible={result !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setResult(null)}>
+    <Sheet visible={result !== null} onClose={() => setResult(null)}>
       {result && <Preview result={result} installing={installing} onInstall={install} onCancel={() => setResult(null)} />}
-    </Modal>
+    </Sheet>
   );
   return { start, busy, dialog };
 }

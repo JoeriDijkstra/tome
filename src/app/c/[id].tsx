@@ -1,12 +1,12 @@
 import { router, Stack, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { Modal, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { Tabs } from 'react-native-screens';
 
 import { type Character, data, loadPackSet, type PackSetResult } from '@/data';
 import { type Answer, type Breakdown, createView, type PromptRequest, runAction, runBatch, truthy } from '@/engine';
 import type { Effect, Tab } from '@/engine/schema';
-import { Button, Group, IconButton, ModalBar, PACK_ICONS, Prose, Row, Screen, styles, TextButton, Txt, usePalette } from '@/ui/kit';
+import { Button, Group, IconButton, ModalBar, PACK_ICONS, Prose, Row, Screen, Sheet, styles, TextButton, Txt, usePalette } from '@/ui/kit';
 import { SheetContext, type SheetCtx } from '@/ui/sheet/context';
 import { PromptView } from '@/ui/sheet/prompts';
 import { CharacterSettings } from '@/ui/sheet/settings';
@@ -60,13 +60,13 @@ export default function SheetScreen() {
 
   if (!doc) return null;
   const settingsModal = (
-    <Modal visible={settings} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setSettings(false)}>
+    <Sheet visible={settings} onClose={() => setSettings(false)}>
       {settings ? (
         <CharacterSettings doc={doc} edit={(change) => session.edit(change)} onClose={() => setSettings(false)}
           onPinsChanged={(pins) => void loadPackSet(data, pins).then(setPacks)}
           onDelete={() => { setSettings(false); void data.characters.delete(doc.id).then(() => router.back()); }} />
       ) : null}
-    </Modal>
+    </Sheet>
   );
   if (packs && !packs.ok) {
     return (
@@ -107,12 +107,12 @@ export default function SheetScreen() {
   const pageView = pageId ? compiled.pages.get(pageId) : undefined;
   const dialogs = (
     <>
-      <Modal visible={pending !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => { pending?.resolve(null); setPending(null); }}>
+      <Sheet visible={pending !== null} onClose={() => { pending?.resolve(null); setPending(null); }}>
         {pending ? <PromptView request={pending.request} compiled={compiled} view={view} onAnswer={(a) => { pending.resolve(a); setPending(null); }} /> : null}
-      </Modal>
-      <Modal visible={overlay !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setOverlay(null)}>
+      </Sheet>
+      <Sheet visible={overlay !== null} onClose={() => setOverlay(null)}>
         {overlay ? <Overlay {...overlay} names={(source) => String(compiled.entities.get(source)?.envelope.name ?? source)} onClose={() => setOverlay(null)} /> : null}
-      </Modal>
+      </Sheet>
     </>
   );
   return (
@@ -148,18 +148,18 @@ export default function SheetScreen() {
       ) : page(current)}
       {pageView ? null : dialogs}
       {/* a pack page over the sheet; its widgets write through the same session, so it stays live */}
-      <Modal visible={pageView !== undefined} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setPageId(null)}>
+      <Sheet visible={pageView !== undefined} onClose={() => setPageId(null)}>
         {pageView ? (
-          <View style={{ flex: 1, backgroundColor: p.background }}>
+          <>
             <ModalBar title={view.text(pageView.label)} onCancel={() => setPageId(null)} cancelLabel="Done" />
             <ScrollView contentContainerStyle={styles.screen}>
               {pageView.sections.map((s, i) => <SectionView key={`${pageView.id}-${i}`} section={s} />)}
             </ScrollView>
             {/* iOS presents a modal only from the topmost one, so a page hosts the dialogs its widgets open */}
             {dialogs}
-          </View>
+          </>
         ) : null}
-      </Modal>
+      </Sheet>
       {settingsModal}
     </SheetContext.Provider>
   );
