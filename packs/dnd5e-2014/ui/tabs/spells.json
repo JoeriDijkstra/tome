@@ -102,7 +102,7 @@
       {
         "widget": "list",
         "title": "Cantrips",
-        "source": "map(filter(@spells, entity($v).data.level == 0), entity($v))",
+        "source": "map(filter(flat([@spells, @always_prepared]), entity($v).data.level == 0), entity($v))",
         "row": {
           "title": "{$v.name}",
           "subtitle": "{$v.data.casting_time} · {$v.data.range}{$v.data.damage ? concat(' · ', $v.data.damage) : ''}"
@@ -111,14 +111,14 @@
       {
         "widget": "list",
         "visible_when": "entity(@main_class).data.learns",
-        "source": "map(filter(@spells, entity($v).data.level > 0), entity($v))",
+        "source": "map(filter(flat([@spells, filter(@always_prepared, !has(@spells, $v))]), entity($v).data.level > 0), entity($v))",
         "group_by": "concat('Level ', $v.data.level)",
         "empty": "No spells yet.",
         "add": "learn_spell",
         "row": {
           "title": "{$v.name}",
           "subtitle": "{$v.data.casting_time} · {$v.data.range}{$v.data.concentration ? ' · Concentration' : ''}",
-          "trailing": "{has(@prepared, $v.id) ? 'Prepared' : ''}",
+          "trailing": "{has(@always_prepared, $v.id) ? 'Always prepared' : has(@prepared, $v.id) ? 'Prepared' : ''}",
           "actions": [
             "toggle_prepared"
           ]
@@ -127,12 +127,12 @@
       {
         "widget": "list",
         "visible_when": "!entity(@main_class).data.learns && @max_spell_level > 0",
-        "source": "entities('spell', has($v.data.classes, @main_class) && $v.data.level >= 1 && $v.data.level <= @max_spell_level)",
+        "source": "entities('spell', (has($v.data.classes, @main_class) || has(@expanded_spells, $v.id) || has(@always_prepared, $v.id)) && $v.data.level >= 1 && $v.data.level <= @max_spell_level)",
         "group_by": "concat('Level ', $v.data.level)",
         "row": {
           "title": "{$v.name}",
           "subtitle": "{$v.data.casting_time} · {$v.data.range}{$v.data.concentration ? ' · Concentration' : ''}",
-          "trailing": "{has(@prepared, $v.id) ? 'Prepared' : ''}",
+          "trailing": "{has(@always_prepared, $v.id) ? 'Always prepared' : has(@prepared, $v.id) ? 'Prepared' : ''}",
           "actions": [
             "toggle_prepared"
           ]

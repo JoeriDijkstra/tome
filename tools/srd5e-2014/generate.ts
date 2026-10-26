@@ -348,10 +348,10 @@ async function main() {
       const lvl = i + 1;
       const prev = i ? table[i - 1] : { cantrips_known: 0, spells_known: 0 };
       const newCantrips = (table[i].cantrips_known as number) - (prev.cantrips_known as number);
-      if (newCantrips > 0) at(lvl).push({ op: 'choose', from: { entity_type: 'spell', filter: '$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)' }, count: newCantrips, into: 'spells', title: `Learn ${newCantrips === 1 ? 'a cantrip' : `${newCantrips} cantrips`}` });
+      if (newCantrips > 0) at(lvl).push({ op: 'choose', from: { entity_type: 'spell', filter: '$v.data.level == 0 && (has($v.data.classes, $self.id) || has(@expanded_spells, $v.id)) && !has(@spells, $v.id)' }, count: newCantrips, into: 'spells', title: `Learn ${newCantrips === 1 ? 'a cantrip' : `${newCantrips} cantrips`}` });
       const known = table[i].spells_known as number | undefined;
       const newSpells = known === undefined ? 0 : known - ((prev.spells_known as number | undefined) ?? 0);
-      if (LEARNS.has(c.index) && newSpells > 0) at(lvl).push({ op: 'choose', from: { entity_type: 'spell', filter: '$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)' }, count: newSpells, into: 'spells', title: `Learn ${newSpells === 1 ? 'a spell' : `${newSpells} spells`}` });
+      if (LEARNS.has(c.index) && newSpells > 0) at(lvl).push({ op: 'choose', from: { entity_type: 'spell', filter: '$v.data.level >= 1 && $v.data.level <= @max_spell_level && (has($v.data.classes, $self.id) || has(@expanded_spells, $v.id)) && !has(@spells, $v.id)' }, count: newSpells, into: 'spells', title: `Learn ${newSpells === 1 ? 'a spell' : `${newSpells} spells`}` });
       for (const picked of PICKED.filter((x) => x.class === c.index)) {
         const now = (table[i][picked.column] as number | undefined) ?? 0;
         const before = i ? ((table[i - 1][picked.column] as number | undefined) ?? 0) : 0;

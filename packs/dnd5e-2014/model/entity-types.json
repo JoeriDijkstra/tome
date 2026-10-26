@@ -111,6 +111,12 @@
         "key": "class",
         "type": "ref",
         "entity_type": "class"
+      },
+      {
+        "key": "expanded_spells",
+        "type": "list",
+        "of": "ref",
+        "entity_type": "spell"
       }
     ]
   },

@@ -200,7 +200,7 @@ function Resource({ section }: { section: Extract<Section, { widget: 'resource' 
   );
 }
 
-/** Every resource the character's entities provide, drawn as each one asks, with its feature's actions and summary. */
+/** Every resource the character's entities provide, drawn as each one asks; its actions come from every feature that names it. */
 function Resources({ section }: { section: Extract<Section, { widget: 'resources' }> }) {
   const { view } = useSheet();
   // a pool with nothing in it (not yet, or unlimited) has nothing to track
@@ -211,10 +211,12 @@ function Resources({ section }: { section: Extract<Section, { widget: 'resources
     <View style={{ gap: 12 }}>
       {section.title ? <Txt muted size={13} style={{ paddingHorizontal: 16 }}>{view.text(section.title).toUpperCase()}</Txt> : null}
       {provided.map((r) => {
-        const feature = features.find((f) => f.resource === r.id);
+        // a subclass or feat can add a way to spend a class pool (Wild Shape, ki) by naming the same resource
+        const naming = features.filter((f) => f.resource === r.id);
+        const actions = [...new Set(naming.flatMap((f) => f.actions))];
         // without a style, a few uses read best as pips and a large pool as a counter
         const style = r.style ?? ((r.max ?? 0) <= 6 ? 'pips' : 'counter');
-        return <ResourceRow key={r.id} r={r} label={r.label} style={style} actions={feature?.actions} footer={feature?.summary ?? undefined} />;
+        return <ResourceRow key={r.id} r={r} label={r.label} style={style} actions={actions} footer={naming[0]?.summary ?? undefined} />;
       })}
     </View>
   );

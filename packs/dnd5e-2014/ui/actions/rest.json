@@ -47,6 +47,18 @@
             "key": "'any'"
           }
         ]
+      },
+      {
+        "op": "if",
+        "when": "len(@subclasses) > 0",
+        "then": [
+          {
+            "op": "run_hook",
+            "entity": "@subclasses[0]",
+            "hook": "long_rest",
+            "key": "'any'"
+          }
+        ]
       }
     ]
   },

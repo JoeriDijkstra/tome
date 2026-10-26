@@ -35,7 +35,7 @@
     "id": "toggle_attune",
     "label": "{$v.attuned ? 'End attunement' : 'Attune'}",
     "visible_when": "entity($v.item).data.attunement",
-    "enabled_when": "$v.attuned || @attuned < 3",
+    "enabled_when": "$v.attuned || @attuned < @attune_max",
     "effects": [
       {
         "op": "toggle",

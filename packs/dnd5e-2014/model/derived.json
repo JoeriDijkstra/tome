@@ -12,6 +12,14 @@
     "formula": "@classes[@main_class].level ?? 0"
   },
   {
+    "id": "expanded_spells",
+    "formula": "flat(map(@subclasses, entity($v).data.expanded_spells ?? []))"
+  },
+  {
+    "id": "attune_max",
+    "formula": "3"
+  },
+  {
     "id": "prof_bonus",
     "formula": "floor((max(@level, 1) - 1) / 4) + 2"
   },

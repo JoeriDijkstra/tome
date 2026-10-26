@@ -78,6 +78,7 @@ describe('formula language', () => {
     expect(ev("join(['a', @missing, 'b'])")).toBe('a, b');
     expect(ev("join([1, 2], '/')")).toBe('1/2');
     expect(ev('join(@n)')).toBeNull();
+    expect(ev("flat([['a', 'b'], @missing, 'c', [['d']]])")).toEqual(['a', 'b', 'c', ['d']]);
     expect(ev('clamp(@n, 0, 3)')).toBe(3);
     expect(ev('min(@n, @missing)')).toBeNull();
     expect(ev("has(@classes, 'fighter')")).toBe(true);

@@ -148,6 +148,13 @@
       "owns": false
     },
     {
+      "key": "always_prepared",
+      "type": "list",
+      "of": "ref",
+      "entity_type": "spell",
+      "owns": false
+    },
+    {
       "key": "inventory",
       "type": "list",
       "of": "object",

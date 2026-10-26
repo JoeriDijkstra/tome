@@ -65,7 +65,7 @@
           },
           {
             "label": "Attuned",
-            "value": "concat(@attuned, ' / 3')"
+            "value": "concat(@attuned, ' / ', @attune_max)"
           }
         ]
       }
