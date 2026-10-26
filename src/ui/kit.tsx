@@ -183,13 +183,15 @@ export function Row({ title, subtitle, trailing, onPress, onLongPress, chevron, 
   );
 }
 
-/** Modal title bar: Cancel on the left, the confirming action on the right. */
+/** Modal title bar: Cancel on the left, the confirming action on the right. A long title truncates; the buttons keep their room. */
 export function ModalBar({ title, onCancel, cancelLabel = 'Cancel', confirm }: { title: string; onCancel: () => void; cancelLabel?: string; confirm?: { label: string; onPress: () => void; disabled?: boolean; busy?: boolean } }) {
+  // equal side cells keep the title centred; minWidth stops a long title squeezing them to nothing
+  const side = { flexGrow: 1, flexShrink: 0, flexBasis: 0, minWidth: 80 } as const;
   return (
     <View style={styles.modalBar}>
-      <View style={{ flex: 1, alignItems: 'flex-start' }}><TextButton title={cancelLabel} onPress={onCancel} /></View>
+      <View style={[side, { alignItems: 'flex-start' }]}><TextButton title={cancelLabel} onPress={onCancel} /></View>
       <Txt weight="600" lines={1} style={{ flexShrink: 1, textAlign: 'center' }}>{title}</Txt>
-      <View style={{ flex: 1, alignItems: 'flex-end' }}>{confirm ? <TextButton title={confirm.label} bold onPress={confirm.onPress} disabled={confirm.disabled} busy={confirm.busy} /> : null}</View>
+      <View style={[side, { alignItems: 'flex-end' }]}>{confirm ? <TextButton title={confirm.label} bold onPress={confirm.onPress} disabled={confirm.disabled} busy={confirm.busy} /> : null}</View>
     </View>
   );
 }
