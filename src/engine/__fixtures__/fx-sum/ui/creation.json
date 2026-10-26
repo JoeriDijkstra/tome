@@ -2,13 +2,16 @@
   "steps": [
     {
       "id": "lineage",
+      "title": "Lineage",
       "fields": [
         {
           "key": "lineage",
           "type": "choice",
+          "label": "Lineage",
           "entity_type": "lineage",
           "min": 1,
-          "max": 1
+          "max": 1,
+          "required": true
         }
       ],
       "effects": [
@@ -21,13 +24,25 @@
     },
     {
       "id": "calling",
+      "title": "Calling",
       "fields": [
         {
           "key": "calling",
           "type": "choice",
+          "label": "Calling",
           "entity_type": "calling",
           "min": 1,
-          "max": 1
+          "max": 1,
+          "required": true
+        },
+        {
+          "key": "skills",
+          "type": "choice",
+          "label": "Trained skill",
+          "entity_type": "skill",
+          "min": 1,
+          "max": 1,
+          "required": true
         }
       ],
       "effects": [
@@ -45,25 +60,71 @@
         {
           "op": "set",
           "path": "trained.skills",
-          "value": "$input.skills ?? []"
+          "value": "$input.skills"
         }
       ]
     },
     {
       "id": "stats",
+      "title": "Stats",
       "fields": [
         {
-          "key": "stats",
-          "type": "assign"
+          "key": "method",
+          "type": "select",
+          "label": "Method",
+          "options": [
+            "standard_array",
+            "point_buy"
+          ],
+          "default": "'standard_array'",
+          "required": true
+        },
+        {
+          "key": "array",
+          "type": "assign",
+          "label": "Standard array",
+          "keys": [
+            "might",
+            "grace",
+            "vigor"
+          ],
+          "values": [
+            15,
+            14,
+            13
+          ],
+          "required": true,
+          "visible_when": "$input.method == 'standard_array'"
+        },
+        {
+          "key": "points",
+          "type": "allocation",
+          "label": "Point buy",
+          "keys": [
+            "might",
+            "grace",
+            "vigor"
+          ],
+          "cost_table": "point_cost",
+          "budget": 15,
+          "min": 8,
+          "max": 15,
+          "required": true,
+          "visible_when": "$input.method == 'point_buy'"
         }
       ],
       "effects": [
         {
           "op": "set",
           "path": "stats",
-          "value": "$input.stats"
+          "value": "$input.method == 'point_buy' ? $input.points : $input.array"
         }
       ]
+    },
+    {
+      "id": "review",
+      "title": "Review",
+      "review": true
     }
   ]
 }

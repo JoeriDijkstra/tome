@@ -22,8 +22,22 @@ describe('fx-sum (summed modifiers, resources, hooks)', () => {
     hero = ok(await runCreation(c, {
       lineage: { lineage: ['stout'] },
       calling: { calling: ['warrior'], skills: ['athletics'] },
-      stats: { stats: { might: 15, grace: 13, vigor: 14 } },
-    }));
+      stats: { method: 'standard_array', array: { might: 15, grace: 13, vigor: 14 } },
+    }, { answers: [['keen_eye']] }));
+  });
+
+  test('creation inputs: assign hands out each value once, point buy keeps to budget, hidden inputs are ignored', async () => {
+    const base = { lineage: { lineage: ['stout'] }, calling: { calling: ['warrior'], skills: ['athletics'] } };
+    const create = (stats: Record<string, unknown>) => runCreation(c, { ...base, stats }, { answers: [['keen_eye']] });
+    expect(await create({ method: 'standard_array', array: { might: 15, grace: 15, vigor: 13 } }))
+      .toEqual({ ok: false, rejected: "step stats: 'array' must use each of 15, 14, 13 once" });
+    // 15 + 10 + 8 costs 9 + 2 + 0 = 11 of 15; the stale array answer is hidden and ignored
+    const bought = await create({ method: 'point_buy', points: { might: 15, grace: 10, vigor: 8 }, array: { might: 1 } });
+    expect(bought.ok && bought.state.stats).toEqual({ might: 15, grace: 10, vigor: 8 });
+    expect(await create({ method: 'point_buy', points: { might: 15, grace: 14, vigor: 8 } }))
+      .toEqual({ ok: false, rejected: "step stats: 'points' spends 16 of 15 points" });
+    expect(await create({ method: 'point_buy', points: { might: 16, grace: 8, vigor: 8 } }))
+      .toEqual({ ok: false, rejected: "step stats: 'points' must be at most 15" });
   });
 
   test('creation + derived values, field modifiers and grants', () => {
@@ -34,7 +48,7 @@ describe('fx-sum (summed modifiers, resources, hooks)', () => {
     expect(v.root('skills')).toEqual({ athletics: 4, stealth: 1 });
     expect(v.root('vigor_max')).toBe(13);
     expect(v.eval('@res.hp.current')).toBe(13);
-    expect(v.owned().map((o) => o.entity.id).sort()).toEqual(['darksight', 'stout', 'warrior']);
+    expect(v.owned().map((o) => o.entity.id).sort()).toEqual(['darksight', 'keen_eye', 'stout', 'warrior']);
     expect(v.features().map((f) => f.id)).toEqual(['second_breath']);
     expect(v.explain('stats.vigor')).toMatchObject({ base: 14, value: 16, contributions: [{ source: 'stout', op: 'add', value: 2, applied: true }] });
     expect(v.warnings.size).toBe(0);

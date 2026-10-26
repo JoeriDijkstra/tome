@@ -87,7 +87,9 @@ test('a choice with nothing to offer asks nothing', async () => {
 });
 
 test('creation must satisfy every constraint', async () => {
-  const c = compiled(fixture('fx-sum', { 'model/constraints.json': (l: JsonList) => [...l, { id: 'pick_lineage', violated_when: '@lineage == null', message: 'Pick a lineage.' }] }));
-  expect(await runCreation(c, { calling: { calling: ['warrior'] }, stats: { stats: { might: 10, grace: 10, vigor: 10 } } }))
-    .toEqual({ ok: false, rejected: 'Pick a lineage.' });
+  const c = compiled(fixture('fx-sum', { 'model/constraints.json': (l: JsonList) => [...l, { id: 'strong', violated_when: '@stats.might < 14', message: 'Too weak.' }] }));
+  const inputs = { lineage: { lineage: ['stout'] }, calling: { calling: ['warrior'], skills: ['athletics'] }, stats: { method: 'standard_array', array: { might: 13, grace: 15, vigor: 14 } } };
+  // a dry-run (the wizard's Next) leaves constraints to Finish
+  expect(await runCreation(c, inputs, { answers: [['keen_eye']], through: 'stats' })).toMatchObject({ ok: true });
+  expect(await runCreation(c, inputs, { answers: [['keen_eye']] })).toEqual({ ok: false, rejected: 'Too weak.' });
 });

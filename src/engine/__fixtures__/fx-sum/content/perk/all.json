@@ -2,5 +2,15 @@
   {
     "id": "darksight",
     "name": "Darksight"
+  },
+  {
+    "id": "iron_will",
+    "name": "Iron Will",
+    "summary": "Hard to rattle."
+  },
+  {
+    "id": "keen_eye",
+    "name": "Keen Eye",
+    "summary": "Spots what others miss."
   }
 ]

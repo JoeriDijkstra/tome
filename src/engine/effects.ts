@@ -51,11 +51,14 @@ export function runAction(compiled: Compiled, stored: State, actionId: string, o
 /**
  * The wizard's Finish: default state, then every step's effects with its inputs, as one transaction.
  * A new character has no "existing" violations, so every constraint must hold.
+ * `through` is the wizard's Next: run the steps up to and including that one, without checking constraints
+ * (later steps may still fix them).
  */
-export async function runCreation(compiled: Compiled, inputs: Record<string, Record<string, unknown>>, opts: RunOptions = {}): Promise<RunResult> {
-  const steps = compiled.creation?.steps ?? [];
+export async function runCreation(compiled: Compiled, inputs: Record<string, Record<string, unknown>>, opts: RunOptions & { through?: string } = {}): Promise<RunResult> {
+  const all = compiled.creation?.steps ?? [];
+  const steps = opts.through === undefined ? all : all.slice(0, all.findIndex((s) => s.id === opts.through) + 1);
   const run = new Run(compiled, clone(createView(compiled, {}, opts.name).state), opts);
-  return run.finish(new Set(), async () => {
+  return run.finish(opts.through === undefined ? new Set() : null, async () => {
     for (const step of steps) {
       const input = inputs[step.id] ?? {};
       run.checkInputs(step.fields, input, `step ${step.id}`, { steps: inputs });
@@ -72,7 +75,8 @@ class Run {
 
   constructor(private compiled: Compiled, private draft: State, private opts: RunOptions) {}
 
-  async finish(existing: Set<string>, body: () => Promise<void>): Promise<RunResult> {
+  /** `existing` violations stay warnings; `null` skips the constraint check (a creation dry-run). */
+  async finish(existing: Set<string> | null, body: () => Promise<void>): Promise<RunResult> {
     try {
       await body();
     } catch (e) {
@@ -81,7 +85,7 @@ class Run {
       throw e;
     }
     // only violations this batch introduced reject it; existing ones stay warnings
-    const added = this.current().violations().filter((v) => !existing.has(v.id));
+    const added = existing === null ? [] : this.current().violations().filter((v) => !existing.has(v.id));
     if (added.length) return { ok: false, rejected: added[0].message };
     return { ok: true, state: this.draft, answers: this.answers };
   }
@@ -181,6 +185,7 @@ class Run {
   /** Answers are data from the UI or a recording: hold them to what the inputs declare. */
   checkInputs(inputs: S.Input[], values: Record<string, unknown>, where: string, vars: Record<string, unknown>) {
     for (const input of inputs) {
+      if (input.visible_when !== undefined && !truthy(this.val(input.visible_when, { ...vars, input: values }))) continue;
       const v = values[input.key];
       const fail = (what: string): never => { throw new Reject(`${where}: '${input.key}' ${what}`); };
       if (v === undefined || v === null || v === '') {
@@ -203,6 +208,27 @@ class Run {
         if (ids.some((id) => !allowed.includes(id)) || new Set(ids).size !== ids.length) fail('contains an option that was not offered');
         if (typeof input.min === 'number' && ids.length < input.min) fail(`needs at least ${input.min}`);
         if (typeof input.max === 'number' && ids.length > input.max) fail(`allows at most ${input.max}`);
+      } else if (input.type === 'allocation' || input.type === 'assign') {
+        const keys = input.keys ?? [];
+        const o = v as Record<string, unknown>;
+        if (typeof v !== 'object' || Array.isArray(v) || Object.keys(o).length !== keys.length || keys.some((k) => typeof o[k] !== 'number'))
+          fail(`must give a number to each of ${keys.join(', ')}`);
+        const nums = keys.map((k) => o[k] as number);
+        if (input.type === 'assign') {
+          const want = [...(input.values ?? [])].sort((a, b) => a - b);
+          if (nums.sort((a, b) => a - b).some((n, i) => n !== want[i])) fail(`must use each of ${(input.values ?? []).join(', ')} once`);
+        } else {
+          const table = this.compiled.tables.get(input.cost_table ?? '');
+          let spent = 0;
+          for (const n of nums) {
+            if (typeof input.min === 'number' && n < input.min) fail(`must be at least ${input.min}`);
+            if (typeof input.max === 'number' && n > input.max) fail(`must be at most ${input.max}`);
+            const cost = table?.rows.find((r) => r[table.key] === n)?.cost;
+            if (typeof cost !== 'number') fail(`has no cost for ${n}`);
+            spent += cost as number;
+          }
+          if (spent > (input.budget ?? 0)) fail(`spends ${spent} of ${input.budget} points`);
+        }
       }
     }
   }

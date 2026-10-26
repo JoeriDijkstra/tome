@@ -1,4 +1,5 @@
 // The engine asks for input through `prompt`; these render those requests as native-style forms.
+import { MenuView } from '@expo/ui/community/menu';
 import { useState } from 'react';
 import { ScrollView, Switch, TextInput, View } from 'react-native';
 
@@ -6,7 +7,33 @@ import { type Answer, type Compiled, type PromptRequest, truthy, type View as Sh
 import type { Input } from '@/engine/schema';
 import { Group, Icon, IconButton, ModalBar, Row, styles, Txt, usePalette } from '@/ui/kit';
 
-type Values = Record<string, unknown>;
+export type Values = Record<string, unknown>;
+
+/** `standard_array` → `Standard array`: select options and assign keys are ids, not prose. */
+const humanize = (id: string) => (id.charAt(0).toUpperCase() + id.slice(1)).replaceAll('_', ' ');
+
+/** Starting values: given ones, then each field's `default`; a point buy starts every key at its minimum. */
+export function initialValues(fields: Input[], given: Values, view: SheetView): Values {
+  const out: Values = { ...given };
+  for (const f of fields) {
+    if (out[f.key] !== undefined) continue;
+    if (f.default !== undefined) out[f.key] = view.eval(f.default, { input: out });
+    else if (f.type === 'allocation') out[f.key] = Object.fromEntries((f.keys ?? []).map((k) => [k, f.min ?? 0]));
+  }
+  return out;
+}
+
+/** The visible fields, and whether a required one is still empty. The engine re-checks everything. */
+export function visibleFields(fields: Input[], values: Values, view: SheetView) {
+  const visible = fields.filter((f) => f.visible_when === undefined || truthy(view.eval(f.visible_when, { input: values })));
+  const missing = visible.some((f) => {
+    const v = values[f.key];
+    if (!f.required) return false;
+    if (f.type === 'assign') return (f.keys ?? []).some((k) => typeof (v as Values | undefined)?.[k] !== 'number');
+    return v === undefined || v === null || v === '' || (f.type === 'choice' && Array.isArray(v) && v.length < (f.min ?? 1));
+  });
+  return { visible, missing };
+}
 
 export function PromptView({ request, compiled, view, onAnswer }: { request: PromptRequest; compiled: Compiled; view: SheetView; onAnswer: (a: Answer | null) => void }) {
   const p = usePalette();
@@ -33,14 +60,9 @@ export function PromptView({ request, compiled, view, onAnswer }: { request: Pro
 function PackModal({ modalId, initial, compiled, view, onAnswer }: { modalId: string; initial: Values; compiled: Compiled; view: SheetView; onAnswer: (a: Answer | null) => void }) {
   const p = usePalette();
   const modal = compiled.modals.get(modalId)!;
-  const [values, setValues] = useState<Values>(() => {
-    const out: Values = { ...initial };
-    for (const f of modal.fields) if (out[f.key] === undefined && f.default !== undefined) out[f.key] = view.eval(f.default, { input: out });
-    return out;
-  });
+  const [values, setValues] = useState<Values>(() => initialValues(modal.fields, initial, view));
   const vars = { input: values };
-  const visible = modal.fields.filter((f) => f.visible_when === undefined || truthy(view.eval(f.visible_when, vars)));
-  const missing = visible.some((f) => f.required && (values[f.key] === undefined || values[f.key] === null || values[f.key] === ''));
+  const { visible, missing } = visibleFields(modal.fields, values, view);
   const broken = modal.validate.find((r) => truthy(view.eval(r.when, vars)));
   const set = (key: string) => (v: unknown) => setValues((s) => ({ ...s, [key]: v }));
   return (
@@ -61,7 +83,7 @@ function PackModal({ modalId, initial, compiled, view, onAnswer }: { modalId: st
   );
 }
 
-function Field({ input, value, onChange, compiled, view, vars }: { input: Input; value: unknown; onChange: (v: unknown) => void; compiled: Compiled; view: SheetView; vars: Values }) {
+export function Field({ input, value, onChange, compiled, view, vars }: { input: Input; value: unknown; onChange: (v: unknown) => void; compiled: Compiled; view: SheetView; vars: Values }) {
   const p = usePalette();
   const label = input.label ? view.text(input.label, vars) : input.key;
   const footer = input.description ? view.text(input.description, vars) : undefined;
@@ -114,7 +136,7 @@ function Field({ input, value, onChange, compiled, view, vars }: { input: Input;
       return (
         <Group header={label} footer={footer}>
           {(Array.isArray(options) ? options : []).map((o) => (
-            <Row key={String(o)} title={String(o)} label={String(o)} onPress={() => onChange(o)} trailing={value === o ? <Icon name="checkmark" android="check" size={17} /> : undefined} />
+            <Row key={String(o)} title={humanize(String(o))} label={humanize(String(o))} onPress={() => onChange(o)} trailing={value === o ? <Icon name="checkmark" android="check" size={17} /> : undefined} />
           ))}
         </Group>
       );
@@ -129,9 +151,60 @@ function Field({ input, value, onChange, compiled, view, vars }: { input: Input;
         </Group>
       );
     }
-    // allocation and assign are wizard inputs (M4)
-    default:
-      return null;
+    case 'assign': {
+      const given = (value ?? {}) as Record<string, number | undefined>;
+      const pool = input.values ?? [];
+      // picking a value another key holds swaps the two, so every value stays used at most once
+      const pick = (key: string, n: number) => {
+        const next = { ...given, [key]: n };
+        const used = (x: number) => Object.values(next).filter((y) => y === x).length;
+        const holder = Object.keys(given).find((k) => k !== key && given[k] === n);
+        if (holder && used(n) > pool.filter((x) => x === n).length) next[holder] = given[key];
+        onChange(Object.fromEntries(Object.entries(next).filter(([, x]) => x !== undefined)));
+      };
+      return (
+        <Group header={label} footer={footer ?? `Use each of ${pool.join(', ')} once.`}>
+          {(input.keys ?? []).map((k) => (
+            <Row key={k} title={humanize(k)} trailing={
+              <MenuView title={humanize(k)} actions={[...new Set(pool)].map((n) => ({ id: String(n), title: String(n), state: given[k] === n ? 'on' as const : undefined }))}
+                onPressAction={({ nativeEvent }) => pick(k, Number(nativeEvent.event))}>
+                <View accessibilityRole="button" accessibilityLabel={`${humanize(k)} value`} style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <Txt weight="600" color={given[k] === undefined ? p.secondary : p.tint} style={{ fontVariant: ['tabular-nums'] }}>{given[k] === undefined ? 'Choose' : String(given[k])}</Txt>
+                  <Icon name="chevron.up.chevron.down" android="unfold_more" size={13} color={p.secondary} />
+                </View>
+              </MenuView>
+            } />
+          ))}
+        </Group>
+      );
+    }
+    case 'allocation': {
+      const scores = (value ?? {}) as Record<string, number>;
+      const rows = compiled.tables.get(input.cost_table ?? '');
+      const cost = (n: number) => rows?.rows.find((r) => r[rows.key] === n)?.cost;
+      const spent = (input.keys ?? []).reduce((sum, k) => sum + (Number(cost(scores[k])) || 0), 0);
+      const budget = input.budget ?? 0;
+      const affordable = (k: string, n: number) => {
+        const c = cost(n);
+        return typeof c === 'number' && spent - (Number(cost(scores[k])) || 0) + c <= budget;
+      };
+      return (
+        <Group header={label} footer={<Txt size={13} color={spent > budget ? p.danger : p.secondary}>{`${spent} of ${budget} points spent`}</Txt>}>
+          {(input.keys ?? []).map((k) => {
+            const n = scores[k] ?? input.min ?? 0;
+            return (
+              <Row key={k} title={humanize(k)} trailing={
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+                  <IconButton name="minus.circle" android="remove_circle_outline" label={`${humanize(k)} minus`} disabled={(input.min !== undefined && n - 1 < input.min) || !affordable(k, n - 1)} onPress={() => onChange({ ...scores, [k]: n - 1 })} />
+                  <Txt weight="600" style={{ minWidth: 28, textAlign: 'center', fontVariant: ['tabular-nums'] }}>{String(n)}</Txt>
+                  <IconButton name="plus.circle" android="add_circle_outline" label={`${humanize(k)} plus`} disabled={(input.max !== undefined && n + 1 > input.max) || !affordable(k, n + 1)} onPress={() => onChange({ ...scores, [k]: n + 1 })} />
+                </View>
+              } />
+            );
+          })}
+        </Group>
+      );
+    }
   }
 }
 

@@ -52,6 +52,12 @@
       "entity_type": "path"
     },
     {
+      "key": "perks",
+      "type": "list",
+      "of": "ref",
+      "entity_type": "perk"
+    },
+    {
       "key": "trained",
       "type": "object",
       "owns": false,

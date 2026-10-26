@@ -50,6 +50,18 @@
     ],
     "hooks": {
       "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "perk",
+              "filter": "$v.id != 'darksight'"
+            },
+            "count": 1,
+            "into": "perks",
+            "title": "Warrior perk"
+          }
+        ],
         "3": [
           {
             "op": "choose",

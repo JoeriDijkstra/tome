@@ -5,7 +5,18 @@
       "fields": [
         {
           "key": "traits",
-          "type": "assign"
+          "type": "assign",
+          "keys": [
+            "agility",
+            "strength",
+            "finesse"
+          ],
+          "values": [
+            2,
+            1,
+            0
+          ],
+          "required": true
         }
       ],
       "effects": [

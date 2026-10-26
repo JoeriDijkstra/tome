@@ -1,9 +1,9 @@
 import { Link, router, Stack, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { type CharacterSummary, data, type InstalledPack } from '@/data';
-import { Button, Empty, Group, Icon, Row, Screen, Txt } from '@/ui/kit';
+import { Button, Empty, Group, Icon, IconButton, Row, Screen, Txt } from '@/ui/kit';
 import { usePackImport } from '@/ui/pack-import';
 
 export default function CharactersScreen() {
@@ -18,17 +18,21 @@ export default function CharactersScreen() {
   useFocusEffect(load);
   const importer = usePackImport(load);
   const packName = (id: string) => packs?.find((p) => p.id === id)?.manifest.name ?? id;
+  const canCreate = packs?.some((p) => p.kind === 'major') ?? false;
 
   return (
     <Screen>
       <Stack.Screen
         options={{
           headerRight: () => (
-            <Link href="/packs" asChild>
-              <Pressable accessibilityRole="link" accessibilityLabel="Content packs" hitSlop={8}>
-                <Icon name="shippingbox" android="inventory_2" size={22} />
-              </Pressable>
-            </Link>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+              <Link href="/packs" asChild>
+                <Pressable accessibilityRole="link" accessibilityLabel="Content packs" hitSlop={8}>
+                  <Icon name="shippingbox" android="inventory_2" size={22} />
+                </Pressable>
+              </Link>
+              {canCreate ? <IconButton name="plus" android="add" label="New character" onPress={() => router.push('/new')} /> : null}
+            </View>
           ),
         }}
       />
@@ -40,6 +44,7 @@ export default function CharactersScreen() {
       ) : characters.length === 0 ? (
         <Empty title="No characters yet">
           <Txt muted>{`${packs.length} content pack${packs.length === 1 ? '' : 's'} installed.`}</Txt>
+          {canCreate ? <Button title="New character" onPress={() => router.push('/new')} /> : null}
         </Empty>
       ) : (
         <Group>

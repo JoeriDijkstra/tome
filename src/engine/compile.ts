@@ -449,6 +449,7 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
       else if (FORMULA_KEYS.has(k) || (k === 'options' && typeof v === 'string')) f(v as S.FormulaSrc, kat);
       else if (k === 'actions' && Array.isArray(v)) v.forEach((a, i) => ref(actionIds, 'action', a, `${kat}/${i}`));
       else if ((k === 'action' || k === 'add') && typeof v === 'string') ref(actionIds, 'action', v, kat);
+      else if (k === 'cost_table' && typeof v === 'string') ref(tableIds, 'table', v, kat);
       else if (k === 'modal' && typeof v === 'string') ref(modalIds, 'modal', v, kat);
       else if (k === 'resource' && typeof v === 'string') ref(resourceIds, 'resource', v, kat);
       else if (k === 'entity_type' && typeof v === 'string') ref(new Set(entityTypes.keys()), 'entity type', v, kat);
@@ -457,6 +458,8 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
       else checkUi(v, kat);
     }
     if ('type' in node && node.type === 'choice' && !('entity_type' in node)) err(at, 'a choice input needs entity_type');
+    if ('type' in node && node.type === 'allocation' && !('keys' in node && 'cost_table' in node && 'budget' in node)) err(at, 'an allocation input needs keys, cost_table and budget');
+    if ('type' in node && node.type === 'assign' && !('keys' in node && 'values' in node)) err(at, 'an assign input needs keys and values');
   }
 
   // ----- constraints, ui -----

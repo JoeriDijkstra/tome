@@ -749,8 +749,11 @@ runBatch(state, effects, { prompt }): Promise<{ state, answers } | { cancelled }
 
 - Every answer is recorded in order, in `answers`.
 - `runBatch(state, effects, { answers })` replays a batch without a UI, using
-  those recorded answers. The wizard's Finish and the engine fixtures use this.
-  An unanswered prompt during replay is an error.
+  those recorded answers. An unanswered prompt during replay is an error.
+- `runCreation(inputs, { answers, prompt, through })` runs the wizard's steps
+  from the default state. With `through: <step id>` it stops after that step and
+  skips the constraint check (the wizard's Next); without it, it runs every
+  step and every constraint must hold (Finish).
 
 **Undo**: the sheet keeps the 20 most recent pre-batch states in memory. Undo
 restores the previous state and saves it as a new `rev`. A `field` widget
@@ -810,14 +813,21 @@ allocation assign`.
 
 - `choice`: pick entities, `{entity_type, filter, min, max}`. The filter can reference
   earlier inputs.
-- `allocation`: point-buy style, `{keys, cost_table, budget, min, max}`.
-- `assign`: hand out a fixed list of values to keys (standard array).
+- `allocation`: point buy, `{keys, cost_table, budget, min, max}`. The value is
+  an object with a number for every key. Each number must be within `min`/`max`
+  and have a row in the cost table (`rows: [{<table key>: score, cost}]`), and
+  the costs must add up to at most `budget`.
+- `assign`: hand out a fixed list of values to keys (standard array),
+  `{keys, values}`. The value is an object with a number for every key, using
+  each of `values` exactly once.
 
-Input fields: `key`, `type`, `label` (text), `required`, `min`, `max`,
-`step`, `default` (formula), `options` (a list of strings, or a formula that
-gives one), `visible_when` (formula), and for `choice` `entity_type` and
-`filter` (formula). Rendered only by `<PackModal>`. `allocation` and `assign`
-arrive with the wizard (M4).
+Input fields: `key`, `type`, `label` (text), `description` (text), `required`,
+`min`, `max`, `step`, `default` (formula), `options` (a list of strings, or a
+formula that gives one), `visible_when` (formula), for `choice` `entity_type`
+and `filter` (formula), and the `allocation`/`assign` keys above. Inputs hidden
+by `visible_when` are neither required nor checked, so a stale answer for a
+hidden input is ignored. Select options and `assign`/`allocation` keys are ids;
+the app shows them humanized (`point_buy` → "Point buy").
 
 ### Creation wizard — `ui/creation.json`
 
@@ -834,13 +844,19 @@ arrive with the wizard (M4).
 Steps are pages that look like modals. When you press **Next**, the step's
 effects dry-run on a draft. Any `choose` or `open_modal` they trigger is
 answered inside that step, for example the fighting style picked at level 1.
-Those answers are stored with the step's inputs. Going **Back** throws away the
-answers of every later step. On **Finish**, the engine starts from the default
-state and replays every step's effects, with the recorded answers, as one
-transaction. It then checks constraints and stores the character. A new
-character has no existing violations, so **every** constraint must hold at
-Finish. A step can
-reference earlier steps through `$steps.<id>.<key>`.
+Those answers are stored with the step's inputs. Cancelling one of those
+prompts keeps you on the step. Going **Back** throws away the answers of the
+step you return to and every later one; Next asks again. On **Finish**, the
+engine starts from the default state and replays every step's effects, with the
+recorded answers, as one transaction. It then checks constraints and stores the
+character. A new character has no existing violations, so **every** constraint
+must hold at Finish. A step can reference earlier steps through
+`$steps.<id>.<key>`.
+
+The app adds two things around the pack's steps. **New character** first asks
+for the game system and its compatible expansions. The last page asks for the
+character's name, and its **Create** button is Finish. A `review: true` step
+shows the sheet's first tab, read-only, for the draft so far.
 
 ### Level up
 
@@ -963,7 +979,8 @@ compatible major is installed, the expansion still installs, with the warning
 
 **No built-in packs.** On first launch the character list is empty and shows
 "No content packs installed" with an **Import pack** button. **New character**
-stays disabled until a major pack is installed. This means the import dialog is
+(the header's + and the empty list's button) only appears once a major pack is
+installed. This means the import dialog is
 the only way content gets into the app, including in development.
 
 **Uninstall** is blocked when a character would have no remaining version that
@@ -988,7 +1005,8 @@ character.packs = { major: { id, range }, expansions: [{ id, range }] }
 If a pin is missing, the character opens **read-only** with a banner, for
 example "Missing pack dnd5e-2024 ^1", and an Import button.
 
-New characters pin `^<installed major>.0.0`. Changing major is not supported;
+New characters pin `^<installed version>` of each pack, so they need at least
+the versions they were made with. Changing major is not supported;
 changing expansions is allowed from character settings.
 
 ## Data adapter
@@ -1054,8 +1072,7 @@ in Resolution.
 ```
 src/app/_layout.tsx            stack
 src/app/index.tsx              character list (+ New, Import character)
-src/app/new.tsx                pick major + expansions → wizard
-src/app/wizard/[step].tsx      creation wizard
+src/app/new.tsx                pick major + expansions, then the creation wizard
 src/app/c/[id]/index.tsx       sheet (tabs from pack)
 src/app/c/[id]/settings.tsx    expansions, export, delete
 src/app/packs/index.tsx        installed packs + Import pack
@@ -1124,7 +1141,9 @@ SRD documents before release.
    writes. Deferred to the milestone that needs them: `allocation`/`assign`
    inputs (M4), the `notes` widget and markdown in `text` (M5), action
    `icon`s.
-5. **M4, wizard + level up.**
+5. **M4, wizard + level up** (done): New character, pack picker, wizard with
+   dry-run Next, in-step prompts, Back, review preview, `allocation`/`assign`
+   inputs. Level up is an ordinary pack action and modal (M3).
 6. **M5**: inventory, resources/rests, conditions, notes, character
    export/import.
 7. **M6, packs**: the `dnd5e-2014` and `dnd5e-2024` folders, written
