@@ -882,6 +882,13 @@ subclass, spell and feat choosers through `choose`.
 }
 ```
 
+The app shows the header as a **character card** at the top of the first tab:
+an avatar with the name's initials, `title` (default: the character's name)
+and `subtitle`. Tapping the card opens Character settings. The navigation bar
+shows the title only on the other tabs, where the card isn't visible.
+`actions` go in the header's ••• menu. The wizard's review step shows the
+same card.
+
 `ui/tabs/*.json` holds the tabs. Each tab lists its sections:
 
 ```json

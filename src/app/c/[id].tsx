@@ -11,7 +11,7 @@ import { SheetContext, type SheetCtx } from '@/ui/sheet/context';
 import { PromptView } from '@/ui/sheet/prompts';
 import { CharacterSettings } from '@/ui/sheet/settings';
 import { SheetSession } from '@/ui/sheet/session';
-import { ActionMenu, SectionView } from '@/ui/sheet/widgets';
+import { ActionMenu, CharacterCard, SectionView } from '@/ui/sheet/widgets';
 
 /** the order the engine applies modifiers in, so the breakdown reads top to bottom */
 const OP_ORDER = { set: 0, max: 1, min: 2, add: 3 } as const;
@@ -86,9 +86,12 @@ export default function SheetScreen() {
 
   const header = compiled.sheet.header;
   const current = compiled.tabs.find((t) => t.id === nav.key) ?? compiled.tabs[0];
+  const name = header?.title ? view.text(header.title) : doc.name;
+  const first = current === compiled.tabs[0];
   const page = (tab: Tab | undefined) => (
     <Screen>
-      {header?.subtitle ? <Txt muted style={{ textAlign: 'center' }}>{view.text(header.subtitle)}</Txt> : null}
+      {/* the card is the character's identity, so it heads the first tab; tapping it opens settings */}
+      {tab === compiled.tabs[0] ? <CharacterCard title={name} subtitle={header?.subtitle ? view.text(header.subtitle) : undefined} onPress={() => setSettings(true)} /> : null}
       {tab?.sections.map((s, i) => <SectionView key={`${tab.id}-${i}`} section={s} />)}
       {view.warnings.size ? (
         <Group header={`${view.warnings.size} pack warning${view.warnings.size === 1 ? '' : 's'}`}>
@@ -101,7 +104,8 @@ export default function SheetScreen() {
     <SheetContext.Provider value={ctx}>
       <Stack.Screen
         options={{
-          title: header?.title ? view.text(header.title) : doc.name,
+          // the first tab's card already shows the name
+          title: first ? '' : name,
           headerRight: () => (
             <SheetContext.Provider value={ctx}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>

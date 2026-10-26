@@ -93,7 +93,7 @@ export function CharacterSettings({ doc, edit, onClose, onPinsChanged, onDelete 
             })}
           </Group>
         ) : null}
-        <Group footer="Saves the character as a file you can share or import on another device.">
+        <Group footer="Saves the character, notes included, as a file you can share or import on another device.">
           <Row title={<TextButton title="Export character" onPress={() => void exportFile()} />} />
         </Group>
         <Group>

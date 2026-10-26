@@ -10,7 +10,7 @@ import { type Answer, type CharacterPins, type Compiled, createView, type Prompt
 import { Group, Icon, IconButton, Row, Screen, TextButton, Txt, usePalette } from '@/ui/kit';
 import { SheetContext, type SheetCtx } from '@/ui/sheet/context';
 import { Field, initialValues, PromptView, type Values, visibleFields } from '@/ui/sheet/prompts';
-import { SectionView } from '@/ui/sheet/widgets';
+import { CharacterCard, SectionView } from '@/ui/sheet/widgets';
 
 type Setup = { pins: CharacterPins; compiled: Compiled };
 
@@ -172,7 +172,7 @@ function Wizard({ pins, compiled, onExit }: Setup & { onExit: () => void }) {
       ))}
       {step?.review ? (
         <SheetContext.Provider value={preview}>
-          {header?.subtitle ? <Txt muted style={{ textAlign: 'center' }}>{view.text(header.subtitle)}</Txt> : null}
+          <CharacterCard title={header?.title ? view.text(header.title) : name.trim() || 'New character'} subtitle={header?.subtitle ? view.text(header.subtitle) : undefined} />
           {compiled.tabs[0]?.sections.map((s, i) => <SectionView key={i} section={s} />)}
         </SheetContext.Provider>
       ) : null}

@@ -76,6 +76,25 @@ function Actions({ ids, vars }: { ids: string[]; vars?: Vars }) {
   return <ActionMenu ids={ids} vars={vars} />;
 }
 
+/** The character's identity at the top of the sheet: avatar, name, and the pack's header subtitle (lineage, class, level…). */
+export function CharacterCard({ title, subtitle, onPress }: { title: string; subtitle?: string; onPress?: () => void }) {
+  const p = usePalette();
+  const initials = title.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => [...w][0]?.toUpperCase()).join('') || '?';
+  return (
+    <Pressable accessibilityRole={onPress ? 'button' : undefined} accessibilityLabel={[title, subtitle].filter(Boolean).join(', ')} disabled={!onPress} onPress={onPress}
+      style={({ pressed }) => ({ flexDirection: 'row', alignItems: 'center', gap: 14, padding: 16, borderRadius: 12, backgroundColor: pressed ? p.fill : p.cell })}>
+      <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: p.tint, alignItems: 'center', justifyContent: 'center' }}>
+        <Txt size={22} weight="700" color="#fff">{initials}</Txt>
+      </View>
+      <View style={{ flex: 1, gap: 2 }}>
+        <Txt size={22} weight="700" lines={1}>{title}</Txt>
+        {subtitle ? <Txt muted size={15} lines={2}>{subtitle}</Txt> : null}
+      </View>
+      {onPress ? <Icon name="chevron.right" android="chevron_right" size={14} color={p.secondary} /> : null}
+    </Pressable>
+  );
+}
+
 export function SectionView({ section }: { section: Section }) {
   const ctx = useSheet();
   const { view } = ctx;

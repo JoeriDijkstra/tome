@@ -26,7 +26,7 @@ export function Notes() {
   const [query, setQuery] = useState('');
   const sorted = [...notes].sort((a, b) => b.updated_at.localeCompare(a.updated_at));
   const shown = query.trim() ? sorted.filter((n) => matches(n, query)) : sorted;
-  const footer = query.trim() && shown.length === 0 ? `No notes match “${query.trim()}”.` : 'Kept with this character and included when you export it.';
+  const footer = query.trim() && shown.length === 0 ? `No notes match “${query.trim()}”.` : undefined;
 
   const save = (note: Note) => {
     setOpen(null);
@@ -50,7 +50,7 @@ export function Notes() {
             returnKeyType="search" autoCorrect={false} autoCapitalize="none" clearButtonMode="while-editing" style={{ flex: 1, color: p.text, fontSize: 17 }} />
         </View>
       ) : null}
-      <Group header="Notes" footer={footer}>
+      <Group footer={footer}>
         {shown.map((n) => (
           <Row key={n.id} label={n.title || 'Untitled'} title={n.title || 'Untitled'} chevron onPress={() => setOpen(n)}
             subtitle={<Txt muted size={15} lines={2}>{[new Date(n.updated_at).toLocaleDateString(), preview(n.body)].filter(Boolean).join('  ·  ')}</Txt>} />
