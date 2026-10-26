@@ -1,0 +1,358 @@
+[
+  {
+    "id": "skill",
+    "label": "Skill",
+    "plural": "Skills",
+    "fields": [
+      {
+        "key": "ability",
+        "type": "select",
+        "options": [
+          "str",
+          "dex",
+          "con",
+          "int",
+          "wis",
+          "cha"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "class",
+    "label": "Class",
+    "plural": "Classes",
+    "fields": [
+      {
+        "key": "hit_die",
+        "type": "number"
+      },
+      {
+        "key": "saves",
+        "type": "list",
+        "of": "select",
+        "options": [
+          "str",
+          "dex",
+          "con",
+          "int",
+          "wis",
+          "cha"
+        ]
+      },
+      {
+        "key": "skill_choices",
+        "type": "list",
+        "of": "ref",
+        "entity_type": "skill"
+      },
+      {
+        "key": "skill_count",
+        "type": "number"
+      },
+      {
+        "key": "armor",
+        "type": "string"
+      },
+      {
+        "key": "weapons",
+        "type": "string"
+      },
+      {
+        "key": "tools",
+        "type": "string"
+      },
+      {
+        "key": "caster",
+        "type": "select",
+        "options": [
+          "none",
+          "full",
+          "half",
+          "pact"
+        ]
+      },
+      {
+        "key": "cast_ability",
+        "type": "select",
+        "options": [
+          "str",
+          "dex",
+          "con",
+          "int",
+          "wis",
+          "cha"
+        ]
+      },
+      {
+        "key": "prepares",
+        "type": "boolean"
+      },
+      {
+        "key": "learns",
+        "type": "boolean"
+      },
+      {
+        "key": "subclass_level",
+        "type": "number"
+      },
+      {
+        "key": "subclass_label",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "id": "subclass",
+    "label": "Subclass",
+    "plural": "Subclasses",
+    "fields": [
+      {
+        "key": "class",
+        "type": "ref",
+        "entity_type": "class"
+      }
+    ]
+  },
+  {
+    "id": "race",
+    "label": "Race",
+    "plural": "Races",
+    "fields": [
+      {
+        "key": "speed",
+        "type": "number"
+      },
+      {
+        "key": "size",
+        "type": "string"
+      },
+      {
+        "key": "languages",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "id": "subrace",
+    "label": "Subrace",
+    "plural": "Subraces",
+    "fields": [
+      {
+        "key": "race",
+        "type": "ref",
+        "entity_type": "race"
+      }
+    ]
+  },
+  {
+    "id": "background",
+    "label": "Background",
+    "plural": "Backgrounds",
+    "fields": [
+      {
+        "key": "skills",
+        "type": "list",
+        "of": "ref",
+        "entity_type": "skill"
+      },
+      {
+        "key": "tools",
+        "type": "string"
+      },
+      {
+        "key": "languages",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "id": "feat",
+    "label": "Feat",
+    "plural": "Feats"
+  },
+  {
+    "id": "option",
+    "label": "Option",
+    "plural": "Options",
+    "fields": [
+      {
+        "key": "groups",
+        "type": "list",
+        "of": "string"
+      },
+      {
+        "key": "min_level",
+        "type": "number"
+      }
+    ]
+  },
+  {
+    "id": "spell",
+    "label": "Spell",
+    "plural": "Spells",
+    "fields": [
+      {
+        "key": "level",
+        "type": "number"
+      },
+      {
+        "key": "school",
+        "type": "select",
+        "options": [
+          "abjuration",
+          "conjuration",
+          "divination",
+          "enchantment",
+          "evocation",
+          "illusion",
+          "necromancy",
+          "transmutation"
+        ]
+      },
+      {
+        "key": "classes",
+        "type": "list",
+        "of": "ref",
+        "entity_type": "class"
+      },
+      {
+        "key": "casting_time",
+        "type": "string"
+      },
+      {
+        "key": "range",
+        "type": "string"
+      },
+      {
+        "key": "components",
+        "type": "string"
+      },
+      {
+        "key": "duration",
+        "type": "string"
+      },
+      {
+        "key": "concentration",
+        "type": "boolean"
+      },
+      {
+        "key": "ritual",
+        "type": "boolean"
+      },
+      {
+        "key": "damage",
+        "type": "string"
+      },
+      {
+        "key": "save",
+        "type": "string"
+      },
+      {
+        "key": "attack",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "id": "item",
+    "label": "Item",
+    "plural": "Items",
+    "fields": [
+      {
+        "key": "kind",
+        "type": "select",
+        "options": [
+          "weapon",
+          "armor",
+          "shield",
+          "gear",
+          "tool",
+          "pack",
+          "ammunition",
+          "mount",
+          "vehicle",
+          "magic"
+        ]
+      },
+      {
+        "key": "category",
+        "type": "string"
+      },
+      {
+        "key": "cost",
+        "type": "string"
+      },
+      {
+        "key": "weight",
+        "type": "number"
+      },
+      {
+        "key": "damage",
+        "type": "string"
+      },
+      {
+        "key": "damage_type",
+        "type": "string"
+      },
+      {
+        "key": "versatile",
+        "type": "string"
+      },
+      {
+        "key": "properties",
+        "type": "list",
+        "of": "string"
+      },
+      {
+        "key": "range",
+        "type": "string"
+      },
+      {
+        "key": "finesse",
+        "type": "boolean"
+      },
+      {
+        "key": "ranged",
+        "type": "boolean"
+      },
+      {
+        "key": "ac_base",
+        "type": "number"
+      },
+      {
+        "key": "dex_cap",
+        "type": "number"
+      },
+      {
+        "key": "str_min",
+        "type": "number"
+      },
+      {
+        "key": "stealth_disadv",
+        "type": "boolean"
+      },
+      {
+        "key": "rarity",
+        "type": "string"
+      },
+      {
+        "key": "attunement",
+        "type": "boolean"
+      },
+      {
+        "key": "attack_bonus",
+        "type": "number"
+      },
+      {
+        "key": "damage_bonus",
+        "type": "number"
+      }
+    ]
+  },
+  {
+    "id": "condition",
+    "label": "Condition",
+    "plural": "Conditions"
+  }
+]

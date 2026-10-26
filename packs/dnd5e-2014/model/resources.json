@@ -1,0 +1,88 @@
+[
+  {
+    "id": "hp",
+    "label": "Hit Points",
+    "max": "@hp_max",
+    "reset": [
+      "long_rest"
+    ],
+    "temp": true
+  },
+  {
+    "id": "hit_dice",
+    "label": "Hit Dice",
+    "max": "@level"
+  },
+  {
+    "id": "slot_1",
+    "label": "Level 1 slots",
+    "max": "lookup(@main_class, @class_level, 'slot_1') ?? 0",
+    "reset": [
+      "long_rest"
+    ]
+  },
+  {
+    "id": "slot_2",
+    "label": "Level 2 slots",
+    "max": "lookup(@main_class, @class_level, 'slot_2') ?? 0",
+    "reset": [
+      "long_rest"
+    ]
+  },
+  {
+    "id": "slot_3",
+    "label": "Level 3 slots",
+    "max": "lookup(@main_class, @class_level, 'slot_3') ?? 0",
+    "reset": [
+      "long_rest"
+    ]
+  },
+  {
+    "id": "slot_4",
+    "label": "Level 4 slots",
+    "max": "lookup(@main_class, @class_level, 'slot_4') ?? 0",
+    "reset": [
+      "long_rest"
+    ]
+  },
+  {
+    "id": "slot_5",
+    "label": "Level 5 slots",
+    "max": "lookup(@main_class, @class_level, 'slot_5') ?? 0",
+    "reset": [
+      "long_rest"
+    ]
+  },
+  {
+    "id": "slot_6",
+    "label": "Level 6 slots",
+    "max": "lookup(@main_class, @class_level, 'slot_6') ?? 0",
+    "reset": [
+      "long_rest"
+    ]
+  },
+  {
+    "id": "slot_7",
+    "label": "Level 7 slots",
+    "max": "lookup(@main_class, @class_level, 'slot_7') ?? 0",
+    "reset": [
+      "long_rest"
+    ]
+  },
+  {
+    "id": "slot_8",
+    "label": "Level 8 slots",
+    "max": "lookup(@main_class, @class_level, 'slot_8') ?? 0",
+    "reset": [
+      "long_rest"
+    ]
+  },
+  {
+    "id": "slot_9",
+    "label": "Level 9 slots",
+    "max": "lookup(@main_class, @class_level, 'slot_9') ?? 0",
+    "reset": [
+      "long_rest"
+    ]
+  }
+]

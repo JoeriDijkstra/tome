@@ -110,6 +110,18 @@ describe('compile checks', () => {
     expect(errors(toggles)).toEqual([expect.stringMatching(/toggles need either "items", or "path" \+ "options" \+ "label"/)]);
   });
 
+  test('a stat can open an unlisted tab as a page; an unknown page is an error', () => {
+    const page = (open: string) => fixture('fx-sum', { 'ui/tabs/main.json': (l: JsonList) => [
+      { ...l[0], sections: [...(l[0].sections as JsonList), { widget: 'stat', label: 'More', value: '1', open }] },
+      { id: 'more', label: 'More', sections: [] },
+    ] });
+    const ok = buildPackSet(page('more'));
+    expect(ok.issues).toEqual([]);
+    expect(ok.compiled?.tabs.map((t) => t.id)).not.toContain('more');
+    expect(ok.compiled?.pages.get('more')?.label).toBe('More');
+    expect(errors(page('gone'))).toEqual([expect.stringMatching(/unknown tab 'gone'/)]);
+  });
+
   test('effects may only write stored fields and res', () => {
     const files = fixture('fx-sum', { 'ui/actions/all.json': (l: JsonList) => [...l, { id: 'cheat', label: 'x', effects: [{ op: 'set', path: 'defense', value: 30 }] }] });
     expect(errors(files)).toEqual([expect.stringMatching(/cannot write to 'defense'/)]);

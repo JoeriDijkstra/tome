@@ -3,7 +3,7 @@
 import { type Theme, useTheme } from 'expo-router';
 import { type SFSymbol, SymbolView } from 'expo-symbols';
 import { Children, isValidElement, type ReactNode } from 'react';
-import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, Text, type TextStyle, View, type ViewStyle } from 'react-native';
+import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, Text, TextInput, type TextStyle, View, type ViewStyle } from 'react-native';
 import { EnrichedMarkdownText, type MarkdownStyle } from 'react-native-enriched-markdown';
 
 import type { IconName } from '@/engine/schema';
@@ -69,6 +69,24 @@ export function markdownStyle(p: Palette, size = 17): MarkdownStyle {
     blockquote: { ...text, color: p.secondary, borderColor: p.separator },
     link: { color: p.tint },
   };
+}
+
+/** Every word of the query appears in the text, ignoring case and accents. */
+export function matchesQuery(text: string, query: string): boolean {
+  const fold = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+  const haystack = fold(text);
+  return fold(query).split(/\s+/).filter(Boolean).every((w) => haystack.includes(w));
+}
+
+export function SearchField({ value, onChange, placeholder }: { value: string; onChange: (s: string) => void; placeholder: string }) {
+  const p = usePalette();
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: p.fill, borderRadius: 10, paddingHorizontal: 8, height: 36 }}>
+      <Icon name="magnifyingglass" android="search" size={16} color={p.secondary} />
+      <TextInput accessibilityLabel={placeholder} value={value} onChangeText={onChange} placeholder={placeholder} placeholderTextColor={p.secondary}
+        returnKeyType="search" autoCorrect={false} autoCapitalize="none" clearButtonMode="while-editing" style={{ flex: 1, color: p.text, fontSize: 17 }} />
+    </View>
+  );
 }
 
 /** Pack prose (descriptions, `text` widgets) is markdown; links open in the browser. */

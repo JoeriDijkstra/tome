@@ -1,0 +1,42 @@
+[
+  {
+    "id": "arrow",
+    "name": "Arrow",
+    "data": {
+      "kind": "ammunition",
+      "category": "Ammunition",
+      "cost": "1 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "blowgun_needle",
+    "name": "Blowgun needle",
+    "data": {
+      "kind": "ammunition",
+      "category": "Ammunition",
+      "cost": "1 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "crossbow_bolt",
+    "name": "Crossbow bolt",
+    "data": {
+      "kind": "ammunition",
+      "category": "Ammunition",
+      "cost": "1 gp",
+      "weight": 1.5
+    }
+  },
+  {
+    "id": "sling_bullet",
+    "name": "Sling bullet",
+    "data": {
+      "kind": "ammunition",
+      "category": "Ammunition",
+      "cost": "4 cp",
+      "weight": 1.5
+    }
+  }
+]

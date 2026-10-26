@@ -1,0 +1,72 @@
+[
+  {
+    "id": "burglars_pack",
+    "name": "Burglar's Pack",
+    "description": "**Contains:** 1 × Backpack, 1 × Ball bearings (bag of 1,000), 1 × String (10 feet), 1 × Bell, 5 × Candle, 1 × Crowbar, 1 × Hammer, 10 × Piton, 1 × Lantern, hooded, 2 × Oil (flask), 5 × Rations (1 day), 1 × Tinderbox, 1 × Waterskin, 1 × Rope, hempen (50 feet)",
+    "data": {
+      "kind": "pack",
+      "category": "Equipment Packs",
+      "cost": "16 gp"
+    }
+  },
+  {
+    "id": "diplomats_pack",
+    "name": "Diplomat's Pack",
+    "description": "**Contains:** 1 × Chest, 2 × Case, map or scroll, 1 × Clothes, fine, 1 × Ink (1 ounce bottle), 1 × Ink pen, 1 × Lamp, 2 × Oil (flask), 5 × Paper (one sheet), 1 × Perfume (vial), 1 × Sealing wax, 1 × Soap",
+    "data": {
+      "kind": "pack",
+      "category": "Equipment Packs",
+      "cost": "39 gp"
+    }
+  },
+  {
+    "id": "dungeoneers_pack",
+    "name": "Dungeoneer's Pack",
+    "description": "**Contains:** 1 × Backpack, 1 × Crowbar, 1 × Hammer, 10 × Piton, 10 × Torch, 1 × Tinderbox, 10 × Rations (1 day), 1 × Waterskin, 1 × Rope, hempen (50 feet)",
+    "data": {
+      "kind": "pack",
+      "category": "Equipment Packs",
+      "cost": "12 gp"
+    }
+  },
+  {
+    "id": "entertainers_pack",
+    "name": "Entertainer's Pack",
+    "description": "**Contains:** 1 × Backpack, 1 × Bedroll, 2 × Clothes, costume, 5 × Candle, 5 × Rations (1 day), 1 × Waterskin, 1 × Disguise Kit",
+    "data": {
+      "kind": "pack",
+      "category": "Equipment Packs",
+      "cost": "40 gp"
+    }
+  },
+  {
+    "id": "explorers_pack",
+    "name": "Explorer's Pack",
+    "description": "**Contains:** 1 × Backpack, 1 × Bedroll, 1 × Mess Kit, 1 × Tinderbox, 10 × Torch, 10 × Rations (1 day), 1 × Waterskin, 1 × Rope, hempen (50 feet)",
+    "data": {
+      "kind": "pack",
+      "category": "Equipment Packs",
+      "cost": "10 gp"
+    }
+  },
+  {
+    "id": "priests_pack",
+    "name": "Priest's Pack",
+    "description": "**Contains:** 1 × Backpack, 1 × Blanket, 10 × Candle, 1 × Tinderbox, 2 × Rations (1 day), 1 × Waterskin, 1 × Alms box, 2 × Block of incense, 1 × Censer, 1 × Vestments",
+    "data": {
+      "kind": "pack",
+      "category": "Equipment Packs",
+      "cost": "19 gp"
+    }
+  },
+  {
+    "id": "scholars_pack",
+    "name": "Scholar's Pack",
+    "description": "**Contains:** 1 × Backpack, 1 × Book, 1 × Ink (1 ounce bottle), 1 × Ink pen, 10 × Parchment (one sheet), 1 × Little bag of sand, 1 × Small knife",
+    "data": {
+      "kind": "pack",
+      "category": "Equipment Packs",
+      "cost": "40 gp"
+    }
+  }
+]

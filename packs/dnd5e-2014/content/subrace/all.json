@@ -1,0 +1,130 @@
+[
+  {
+    "id": "hill_dwarf",
+    "name": "Hill Dwarf",
+    "summary": "+1 WIS",
+    "description": "As a hill dwarf, you have keen senses, deep intuition, and remarkable resilience.",
+    "data": {
+      "race": "dwarf"
+    },
+    "modifiers": [
+      {
+        "target": "abilities.wis",
+        "op": "add",
+        "value": 1
+      },
+      {
+        "target": "hp_max",
+        "op": "add",
+        "value": "@level"
+      }
+    ],
+    "features": [
+      {
+        "id": "dwarven_toughness",
+        "name": "Dwarven Toughness",
+        "description": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level."
+      }
+    ]
+  },
+  {
+    "id": "high_elf",
+    "name": "High Elf",
+    "summary": "+1 INT",
+    "description": "As a high elf, you have a keen mind and a mastery of at least the basics of magic. In many fantasy gaming worlds, there are two kinds of high elves. One type is haughty and reclusive, believing themselves to be superior to non-elves and even other elves. The other type is more common and more friendly, and often encountered among humans and other races.",
+    "data": {
+      "race": "elf"
+    },
+    "modifiers": [
+      {
+        "target": "abilities.int",
+        "op": "add",
+        "value": 1
+      }
+    ],
+    "features": [
+      {
+        "id": "elf_weapon_training",
+        "name": "Elf Weapon Training",
+        "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow."
+      },
+      {
+        "id": "high_elf_cantrip",
+        "name": "High Elf Cantrip",
+        "description": "You know one cantrip of your choice form the wizard spell list. Intelligence is your spellcasting ability for it."
+      },
+      {
+        "id": "extra_language",
+        "name": "Extra Language",
+        "description": "You can speak, read, and write one extra language of your choice."
+      }
+    ],
+    "hooks": {
+      "create": {
+        "any": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "has(['light', 'mage_hand', 'mending', 'message', 'minor_illusion', 'acid_splash', 'prestidigitation', 'ray_of_frost', 'shocking_grasp', 'true_strike', 'chill_touch', 'dancing_lights', 'fire_bolt', 'poison_spray'], $v.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "High Elf Cantrip"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "lightfoot_halfling",
+    "name": "Lightfoot Halfling",
+    "summary": "+1 CHA",
+    "description": "As a lightfoot halfling, you can easily hide from notice, even using other people as cover. You're inclined to be affable and get along well with others. Lightfoots are more prone to wanderlust than other halflings, and often dwell alongside other races or take up a nomadic life.",
+    "data": {
+      "race": "halfling"
+    },
+    "modifiers": [
+      {
+        "target": "abilities.cha",
+        "op": "add",
+        "value": 1
+      }
+    ],
+    "features": [
+      {
+        "id": "naturally_stealthy",
+        "name": "Naturally Stealthy",
+        "description": "You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you."
+      }
+    ]
+  },
+  {
+    "id": "rock_gnome",
+    "name": "Rock Gnome",
+    "summary": "+1 CON",
+    "description": "As a rock gnome, you have a natural inventiveness and hardiness beyond that of other gnomes.",
+    "data": {
+      "race": "gnome"
+    },
+    "modifiers": [
+      {
+        "target": "abilities.con",
+        "op": "add",
+        "value": 1
+      }
+    ],
+    "features": [
+      {
+        "id": "artificers_lore",
+        "name": "Artificer's Lore",
+        "description": "Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus, instead of any proficiency bonus you normally apply."
+      },
+      {
+        "id": "tinker",
+        "name": "Tinker",
+        "description": "You have proficiency with artisan's tools (tinker's tools). Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it to keep the device functioning), or when you use your action to dismantle it; at that time, you can reclaim the materials used to create it. You can have up to three such devices active at a time.\n\nWhen you create a device, choose one of the following options:\n\nClockwork Toy: This toy is a clockwork animal, monster, or person, such as a frog, mouse, bird, dragon, or soldier. When placed on the ground, the toy moves 5 feet across the ground on each of your turns in a random direction. It makes noises as appropriate to the creature it represents.\n\nFire Starter: The device produces a miniature flame, which you can use to light a candle, torch, or campfire. Using the device requires your action.\n\nMusic Box: When opened, this music box plays a single song at a moderate volume. The box stops playing when it reaches the song's end or when it is closed."
+      }
+    ]
+  }
+]

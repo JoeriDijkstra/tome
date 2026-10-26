@@ -1,0 +1,83 @@
+[
+  {
+    "id": "damage",
+    "title": "Take damage",
+    "fields": [
+      {
+        "key": "amount",
+        "type": "number",
+        "label": "Amount",
+        "min": 0,
+        "required": true
+      }
+    ],
+    "submit": {
+      "effects": [
+        {
+          "op": "add",
+          "path": "res.hp.current",
+          "value": "-max(0, $input.amount - @res.hp.temp)",
+          "min": 0
+        },
+        {
+          "op": "add",
+          "path": "res.hp.temp",
+          "value": "-min($input.amount, @res.hp.temp)",
+          "min": 0
+        }
+      ]
+    }
+  },
+  {
+    "id": "heal",
+    "title": "Heal",
+    "fields": [
+      {
+        "key": "amount",
+        "type": "number",
+        "label": "Amount",
+        "min": 0,
+        "required": true
+      }
+    ],
+    "submit": {
+      "label": "Heal",
+      "effects": [
+        {
+          "op": "add",
+          "path": "res.hp.current",
+          "value": "$input.amount"
+        },
+        {
+          "op": "set",
+          "path": "death_saves",
+          "value": "{success: 0, fail: 0}"
+        }
+      ]
+    }
+  },
+  {
+    "id": "temp_hp",
+    "title": "Temporary hit points",
+    "description": "Temporary hit points don't stack: the higher amount wins.",
+    "fields": [
+      {
+        "key": "amount",
+        "type": "number",
+        "label": "Amount",
+        "min": 0,
+        "required": true
+      }
+    ],
+    "submit": {
+      "label": "Set",
+      "effects": [
+        {
+          "op": "set",
+          "path": "res.hp.temp",
+          "value": "max(@res.hp.temp, $input.amount)"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,288 @@
+{
+  "steps": [
+    {
+      "id": "race",
+      "title": "Race",
+      "fields": [
+        {
+          "key": "race",
+          "type": "choice",
+          "label": "Race",
+          "entity_type": "race",
+          "min": 1,
+          "max": 1,
+          "required": true
+        },
+        {
+          "key": "subrace",
+          "type": "choice",
+          "label": "Subrace",
+          "entity_type": "subrace",
+          "filter": "$v.data.race == $input.race[0]",
+          "min": 1,
+          "max": 1,
+          "required": true,
+          "visible_when": "count(entities('subrace', $v.data.race == $input.race[0])) > 0"
+        }
+      ],
+      "effects": [
+        {
+          "op": "set",
+          "path": "race",
+          "value": "$input.race[0]"
+        },
+        {
+          "op": "run_hook",
+          "entity": "$input.race[0]",
+          "hook": "create",
+          "key": "'any'"
+        },
+        {
+          "op": "if",
+          "when": "$input.subrace != null",
+          "then": [
+            {
+              "op": "set",
+              "path": "subrace",
+              "value": "$input.subrace[0]"
+            },
+            {
+              "op": "run_hook",
+              "entity": "$input.subrace[0]",
+              "hook": "create",
+              "key": "'any'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "class",
+      "title": "Class",
+      "fields": [
+        {
+          "key": "class",
+          "type": "choice",
+          "label": "Class",
+          "entity_type": "class",
+          "min": 1,
+          "max": 1,
+          "required": true
+        }
+      ],
+      "effects": [
+        {
+          "op": "set",
+          "path": "classes[$input.class[0]]",
+          "value": "{level: 1, hp: [entity($input.class[0]).data.hit_die]}"
+        },
+        {
+          "op": "run_hook",
+          "entity": "$input.class[0]",
+          "hook": "on_level",
+          "key": 1
+        }
+      ]
+    },
+    {
+      "id": "abilities",
+      "title": "Ability scores",
+      "fields": [
+        {
+          "key": "method",
+          "type": "select",
+          "label": "Method",
+          "options": [
+            "standard_array",
+            "point_buy",
+            "manual"
+          ],
+          "default": "'standard_array'",
+          "required": true
+        },
+        {
+          "key": "array",
+          "type": "assign",
+          "label": "Standard array",
+          "keys": [
+            "str",
+            "dex",
+            "con",
+            "int",
+            "wis",
+            "cha"
+          ],
+          "labels": { "str": "Strength", "dex": "Dexterity", "con": "Constitution", "int": "Intelligence", "wis": "Wisdom", "cha": "Charisma" },
+          "values": [
+            15,
+            14,
+            13,
+            12,
+            10,
+            8
+          ],
+          "required": true,
+          "visible_when": "$input.method == 'standard_array'"
+        },
+        {
+          "key": "points",
+          "type": "allocation",
+          "label": "Point buy",
+          "keys": [
+            "str",
+            "dex",
+            "con",
+            "int",
+            "wis",
+            "cha"
+          ],
+          "labels": { "str": "Strength", "dex": "Dexterity", "con": "Constitution", "int": "Intelligence", "wis": "Wisdom", "cha": "Charisma" },
+          "cost_table": "point_buy",
+          "budget": 27,
+          "min": 8,
+          "max": 15,
+          "required": true,
+          "visible_when": "$input.method == 'point_buy'"
+        },
+        {
+          "key": "roll_str",
+          "type": "number",
+          "label": "Strength",
+          "min": 3,
+          "max": 18,
+          "required": true,
+          "visible_when": "$input.method == 'manual'"
+        },
+        {
+          "key": "roll_dex",
+          "type": "number",
+          "label": "Dexterity",
+          "min": 3,
+          "max": 18,
+          "required": true,
+          "visible_when": "$input.method == 'manual'"
+        },
+        {
+          "key": "roll_con",
+          "type": "number",
+          "label": "Constitution",
+          "min": 3,
+          "max": 18,
+          "required": true,
+          "visible_when": "$input.method == 'manual'"
+        },
+        {
+          "key": "roll_int",
+          "type": "number",
+          "label": "Intelligence",
+          "min": 3,
+          "max": 18,
+          "required": true,
+          "visible_when": "$input.method == 'manual'"
+        },
+        {
+          "key": "roll_wis",
+          "type": "number",
+          "label": "Wisdom",
+          "min": 3,
+          "max": 18,
+          "required": true,
+          "visible_when": "$input.method == 'manual'"
+        },
+        {
+          "key": "roll_cha",
+          "type": "number",
+          "label": "Charisma",
+          "min": 3,
+          "max": 18,
+          "required": true,
+          "visible_when": "$input.method == 'manual'"
+        }
+      ],
+      "description": "Racial bonuses are added on top.",
+      "effects": [
+        {
+          "op": "set",
+          "path": "abilities",
+          "value": "$input.method == 'standard_array' ? $input.array : $input.method == 'point_buy' ? $input.points : {str: $input.roll_str, dex: $input.roll_dex, con: $input.roll_con, int: $input.roll_int, wis: $input.roll_wis, cha: $input.roll_cha}"
+        }
+      ]
+    },
+    {
+      "id": "background",
+      "title": "Background",
+      "fields": [
+        {
+          "key": "background",
+          "type": "choice",
+          "label": "Background",
+          "entity_type": "background",
+          "min": 1,
+          "max": 1,
+          "required": true
+        },
+        {
+          "key": "alignment",
+          "type": "select",
+          "label": "Alignment",
+          "options": [
+            "Lawful good",
+            "Neutral good",
+            "Chaotic good",
+            "Lawful neutral",
+            "Neutral",
+            "Chaotic neutral",
+            "Lawful evil",
+            "Neutral evil",
+            "Chaotic evil"
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "op": "set",
+          "path": "background",
+          "value": "$input.background[0]"
+        },
+        {
+          "op": "if",
+          "when": "entity($input.background[0]).data.skills[0] != null && !has(@prof.skills, entity($input.background[0]).data.skills[0])",
+          "then": [
+            {
+              "op": "push",
+              "path": "prof.skills",
+              "value": "entity($input.background[0]).data.skills[0]"
+            }
+          ]
+        },
+        {
+          "op": "if",
+          "when": "entity($input.background[0]).data.skills[1] != null && !has(@prof.skills, entity($input.background[0]).data.skills[1])",
+          "then": [
+            {
+              "op": "push",
+              "path": "prof.skills",
+              "value": "entity($input.background[0]).data.skills[1]"
+            }
+          ]
+        },
+        {
+          "op": "if",
+          "when": "$input.alignment != null",
+          "then": [
+            {
+              "op": "set",
+              "path": "alignment",
+              "value": "$input.alignment"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "title": "Review",
+      "review": true
+    }
+  ]
+}

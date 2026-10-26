@@ -18,6 +18,8 @@ export interface SheetCtx {
   explain(path: string, label: string): void;
   /** show an entity's or feature's prose */
   detail(title: string, body: string): void;
+  /** show a pack tab as a page over the sheet */
+  open(tabId: string): void;
   /** the character's journal; lives on the document, outside the rules and undo */
   notes: Note[];
   editNotes(change: (notes: Note[]) => Note[]): Promise<void>;

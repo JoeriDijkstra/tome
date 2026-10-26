@@ -1,0 +1,3266 @@
+[
+  {
+    "id": "club",
+    "name": "Club",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "cost": "1 sp",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Light",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "dagger",
+    "name": "Dagger",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "cost": "2 gp",
+      "weight": 1,
+      "damage": "1d4",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "greatclub",
+    "name": "Greatclub",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "cost": "2 sp",
+      "weight": 10,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "handaxe",
+    "name": "Handaxe",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "cost": "5 gp",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "javelin",
+    "name": "Javelin",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "cost": "5 sp",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "light_hammer",
+    "name": "Light hammer",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "cost": "2 gp",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "mace",
+    "name": "Mace",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "cost": "5 gp",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "quarterstaff",
+    "name": "Quarterstaff",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "cost": "2 sp",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "bludgeoning",
+      "versatile": "1d8",
+      "properties": [
+        "Versatile",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "sickle",
+    "name": "Sickle",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "cost": "1 gp",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "slashing",
+      "properties": [
+        "Light",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "spear",
+    "name": "Spear",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "cost": "1 gp",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "versatile": "1d8",
+      "properties": [
+        "Thrown",
+        "Versatile",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "crossbow_light",
+    "name": "Crossbow, light",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "cost": "25 gp",
+      "weight": 5,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Loading",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "80/320 ft"
+    }
+  },
+  {
+    "id": "dart",
+    "name": "Dart",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "cost": "5 cp",
+      "weight": 0.25,
+      "damage": "1d4",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Thrown"
+      ],
+      "finesse": true,
+      "ranged": true,
+      "range": "20/60 ft"
+    }
+  },
+  {
+    "id": "shortbow",
+    "name": "Shortbow",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "cost": "25 gp",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "80/320 ft"
+    }
+  },
+  {
+    "id": "sling",
+    "name": "Sling",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "cost": "1 sp",
+      "weight": 0,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Ammunition"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "30/120 ft"
+    }
+  },
+  {
+    "id": "battleaxe",
+    "name": "Battleaxe",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "10 gp",
+      "weight": 4,
+      "damage": "1d8",
+      "damage_type": "slashing",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "flail",
+    "name": "Flail",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "10 gp",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "glaive",
+    "name": "Glaive",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "20 gp",
+      "weight": 6,
+      "damage": "1d10",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "greataxe",
+    "name": "Greataxe",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "30 gp",
+      "weight": 7,
+      "damage": "1d12",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "greatsword",
+    "name": "Greatsword",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "50 gp",
+      "weight": 6,
+      "damage": "2d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "halberd",
+    "name": "Halberd",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "20 gp",
+      "weight": 6,
+      "damage": "1d10",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "lance",
+    "name": "Lance",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "10 gp",
+      "weight": 6,
+      "damage": "1d12",
+      "damage_type": "piercing",
+      "properties": [
+        "Reach",
+        "Special"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "longsword",
+    "name": "Longsword",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "15 gp",
+      "weight": 3,
+      "damage": "1d8",
+      "damage_type": "slashing",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "maul",
+    "name": "Maul",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "10 gp",
+      "weight": 10,
+      "damage": "2d6",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "morningstar",
+    "name": "Morningstar",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "15 gp",
+      "weight": 4,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "pike",
+    "name": "Pike",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "5 gp",
+      "weight": 18,
+      "damage": "1d10",
+      "damage_type": "piercing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "rapier",
+    "name": "Rapier",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "25 gp",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "scimitar",
+    "name": "Scimitar",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "25 gp",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Finesse",
+        "Light"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "shortsword",
+    "name": "Shortsword",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "10 gp",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Light",
+        "Monk"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "trident",
+    "name": "Trident",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "5 gp",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "versatile": "1d8",
+      "properties": [
+        "Thrown",
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "war_pick",
+    "name": "War pick",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "5 gp",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "warhammer",
+    "name": "Warhammer",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "15 gp",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "whip",
+    "name": "Whip",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "cost": "2 gp",
+      "weight": 3,
+      "damage": "1d4",
+      "damage_type": "slashing",
+      "properties": [
+        "Finesse",
+        "Reach"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft"
+    }
+  },
+  {
+    "id": "blowgun",
+    "name": "Blowgun",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "cost": "10 gp",
+      "weight": 1,
+      "damage": "1",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Loading"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "25/100 ft"
+    }
+  },
+  {
+    "id": "crossbow_hand",
+    "name": "Crossbow, hand",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "cost": "75 gp",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Light",
+        "Loading"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "30/120 ft"
+    }
+  },
+  {
+    "id": "crossbow_heavy",
+    "name": "Crossbow, heavy",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "cost": "50 gp",
+      "weight": 18,
+      "damage": "1d10",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Heavy",
+        "Loading",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "100/400 ft"
+    }
+  },
+  {
+    "id": "longbow",
+    "name": "Longbow",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "cost": "50 gp",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "150/600 ft"
+    }
+  },
+  {
+    "id": "net",
+    "name": "Net",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "cost": "1 gp",
+      "weight": 3,
+      "properties": [
+        "Thrown",
+        "Special"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "5/15 ft"
+    }
+  },
+  {
+    "id": "club_1",
+    "name": "Club, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Light",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "dagger_1",
+    "name": "Dagger, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 1,
+      "damage": "1d4",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "greatclub_1",
+    "name": "Greatclub, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 10,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "handaxe_1",
+    "name": "Handaxe, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "javelin_1",
+    "name": "Javelin, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "light_hammer_1",
+    "name": "Light hammer, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "mace_1",
+    "name": "Mace, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "quarterstaff_1",
+    "name": "Quarterstaff, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "bludgeoning",
+      "versatile": "1d8",
+      "properties": [
+        "Versatile",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "sickle_1",
+    "name": "Sickle, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "slashing",
+      "properties": [
+        "Light",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "spear_1",
+    "name": "Spear, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "versatile": "1d8",
+      "properties": [
+        "Thrown",
+        "Versatile",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "crossbow_light_1",
+    "name": "Crossbow, light, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 5,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Loading",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "80/320 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "dart_1",
+    "name": "Dart, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 0.25,
+      "damage": "1d4",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Thrown"
+      ],
+      "finesse": true,
+      "ranged": true,
+      "range": "20/60 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "shortbow_1",
+    "name": "Shortbow, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "80/320 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "sling_1",
+    "name": "Sling, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 0,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Ammunition"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "30/120 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "battleaxe_1",
+    "name": "Battleaxe, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 4,
+      "damage": "1d8",
+      "damage_type": "slashing",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "flail_1",
+    "name": "Flail, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "glaive_1",
+    "name": "Glaive, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "1d10",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "greataxe_1",
+    "name": "Greataxe, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 7,
+      "damage": "1d12",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "greatsword_1",
+    "name": "Greatsword, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "2d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "halberd_1",
+    "name": "Halberd, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "1d10",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "lance_1",
+    "name": "Lance, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "1d12",
+      "damage_type": "piercing",
+      "properties": [
+        "Reach",
+        "Special"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "longsword_1",
+    "name": "Longsword, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 3,
+      "damage": "1d8",
+      "damage_type": "slashing",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "maul_1",
+    "name": "Maul, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 10,
+      "damage": "2d6",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "morningstar_1",
+    "name": "Morningstar, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 4,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "pike_1",
+    "name": "Pike, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 18,
+      "damage": "1d10",
+      "damage_type": "piercing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "rapier_1",
+    "name": "Rapier, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "scimitar_1",
+    "name": "Scimitar, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Finesse",
+        "Light"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "shortsword_1",
+    "name": "Shortsword, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Light",
+        "Monk"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "trident_1",
+    "name": "Trident, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "versatile": "1d8",
+      "properties": [
+        "Thrown",
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "war_pick_1",
+    "name": "War pick, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "warhammer_1",
+    "name": "Warhammer, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "whip_1",
+    "name": "Whip, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 3,
+      "damage": "1d4",
+      "damage_type": "slashing",
+      "properties": [
+        "Finesse",
+        "Reach"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "blowgun_1",
+    "name": "Blowgun, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 1,
+      "damage": "1",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Loading"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "25/100 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "crossbow_hand_1",
+    "name": "Crossbow, hand, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Light",
+        "Loading"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "30/120 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "crossbow_heavy_1",
+    "name": "Crossbow, heavy, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 18,
+      "damage": "1d10",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Heavy",
+        "Loading",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "100/400 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "longbow_1",
+    "name": "Longbow, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "150/600 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "net_1",
+    "name": "Net, +1",
+    "description": "Weapon (any), uncommon\n\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 3,
+      "properties": [
+        "Thrown",
+        "Special"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "5/15 ft",
+      "rarity": "Uncommon",
+      "attunement": false,
+      "attack_bonus": 1,
+      "damage_bonus": 1
+    }
+  },
+  {
+    "id": "club_2",
+    "name": "Club, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Light",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "dagger_2",
+    "name": "Dagger, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 1,
+      "damage": "1d4",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "greatclub_2",
+    "name": "Greatclub, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 10,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "handaxe_2",
+    "name": "Handaxe, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "javelin_2",
+    "name": "Javelin, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "light_hammer_2",
+    "name": "Light hammer, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "mace_2",
+    "name": "Mace, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "quarterstaff_2",
+    "name": "Quarterstaff, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "bludgeoning",
+      "versatile": "1d8",
+      "properties": [
+        "Versatile",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "sickle_2",
+    "name": "Sickle, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "slashing",
+      "properties": [
+        "Light",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "spear_2",
+    "name": "Spear, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "versatile": "1d8",
+      "properties": [
+        "Thrown",
+        "Versatile",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "crossbow_light_2",
+    "name": "Crossbow, light, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 5,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Loading",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "80/320 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "dart_2",
+    "name": "Dart, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 0.25,
+      "damage": "1d4",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Thrown"
+      ],
+      "finesse": true,
+      "ranged": true,
+      "range": "20/60 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "shortbow_2",
+    "name": "Shortbow, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "80/320 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "sling_2",
+    "name": "Sling, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 0,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Ammunition"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "30/120 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "battleaxe_2",
+    "name": "Battleaxe, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 4,
+      "damage": "1d8",
+      "damage_type": "slashing",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "flail_2",
+    "name": "Flail, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "glaive_2",
+    "name": "Glaive, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "1d10",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "greataxe_2",
+    "name": "Greataxe, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 7,
+      "damage": "1d12",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "greatsword_2",
+    "name": "Greatsword, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "2d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "halberd_2",
+    "name": "Halberd, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "1d10",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "lance_2",
+    "name": "Lance, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "1d12",
+      "damage_type": "piercing",
+      "properties": [
+        "Reach",
+        "Special"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "longsword_2",
+    "name": "Longsword, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 3,
+      "damage": "1d8",
+      "damage_type": "slashing",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "maul_2",
+    "name": "Maul, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 10,
+      "damage": "2d6",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "morningstar_2",
+    "name": "Morningstar, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 4,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "pike_2",
+    "name": "Pike, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 18,
+      "damage": "1d10",
+      "damage_type": "piercing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "rapier_2",
+    "name": "Rapier, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "scimitar_2",
+    "name": "Scimitar, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Finesse",
+        "Light"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "shortsword_2",
+    "name": "Shortsword, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Light",
+        "Monk"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "trident_2",
+    "name": "Trident, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "versatile": "1d8",
+      "properties": [
+        "Thrown",
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "war_pick_2",
+    "name": "War pick, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "warhammer_2",
+    "name": "Warhammer, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "whip_2",
+    "name": "Whip, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 3,
+      "damage": "1d4",
+      "damage_type": "slashing",
+      "properties": [
+        "Finesse",
+        "Reach"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "blowgun_2",
+    "name": "Blowgun, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 1,
+      "damage": "1",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Loading"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "25/100 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "crossbow_hand_2",
+    "name": "Crossbow, hand, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Light",
+        "Loading"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "30/120 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "crossbow_heavy_2",
+    "name": "Crossbow, heavy, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 18,
+      "damage": "1d10",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Heavy",
+        "Loading",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "100/400 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "longbow_2",
+    "name": "Longbow, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "150/600 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "net_2",
+    "name": "Net, +2",
+    "description": "Weapon (any), rare\n\nYou have a +2 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 3,
+      "properties": [
+        "Thrown",
+        "Special"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "5/15 ft",
+      "rarity": "Rare",
+      "attunement": false,
+      "attack_bonus": 2,
+      "damage_bonus": 2
+    }
+  },
+  {
+    "id": "club_3",
+    "name": "Club, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Light",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "dagger_3",
+    "name": "Dagger, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 1,
+      "damage": "1d4",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "greatclub_3",
+    "name": "Greatclub, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 10,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "handaxe_3",
+    "name": "Handaxe, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "javelin_3",
+    "name": "Javelin, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "light_hammer_3",
+    "name": "Light hammer, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Light",
+        "Thrown",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "mace_3",
+    "name": "Mace, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "quarterstaff_3",
+    "name": "Quarterstaff, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "bludgeoning",
+      "versatile": "1d8",
+      "properties": [
+        "Versatile",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "sickle_3",
+    "name": "Sickle, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 2,
+      "damage": "1d4",
+      "damage_type": "slashing",
+      "properties": [
+        "Light",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "spear_3",
+    "name": "Spear, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Melee",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "versatile": "1d8",
+      "properties": [
+        "Thrown",
+        "Versatile",
+        "Monk"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "crossbow_light_3",
+    "name": "Crossbow, light, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 5,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Loading",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "80/320 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "dart_3",
+    "name": "Dart, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 0.25,
+      "damage": "1d4",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Thrown"
+      ],
+      "finesse": true,
+      "ranged": true,
+      "range": "20/60 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "shortbow_3",
+    "name": "Shortbow, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "80/320 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "sling_3",
+    "name": "Sling, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Simple Ranged",
+      "weight": 0,
+      "damage": "1d4",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Ammunition"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "30/120 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "battleaxe_3",
+    "name": "Battleaxe, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 4,
+      "damage": "1d8",
+      "damage_type": "slashing",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "flail_3",
+    "name": "Flail, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "glaive_3",
+    "name": "Glaive, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "1d10",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "greataxe_3",
+    "name": "Greataxe, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 7,
+      "damage": "1d12",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "greatsword_3",
+    "name": "Greatsword, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "2d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "halberd_3",
+    "name": "Halberd, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "1d10",
+      "damage_type": "slashing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "lance_3",
+    "name": "Lance, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 6,
+      "damage": "1d12",
+      "damage_type": "piercing",
+      "properties": [
+        "Reach",
+        "Special"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "longsword_3",
+    "name": "Longsword, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 3,
+      "damage": "1d8",
+      "damage_type": "slashing",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "maul_3",
+    "name": "Maul, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 10,
+      "damage": "2d6",
+      "damage_type": "bludgeoning",
+      "properties": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "morningstar_3",
+    "name": "Morningstar, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 4,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "pike_3",
+    "name": "Pike, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 18,
+      "damage": "1d10",
+      "damage_type": "piercing",
+      "properties": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "rapier_3",
+    "name": "Rapier, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "scimitar_3",
+    "name": "Scimitar, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "slashing",
+      "properties": [
+        "Finesse",
+        "Light"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "shortsword_3",
+    "name": "Shortsword, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Finesse",
+        "Light",
+        "Monk"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "trident_3",
+    "name": "Trident, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 4,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "versatile": "1d8",
+      "properties": [
+        "Thrown",
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "war_pick_3",
+    "name": "War pick, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "warhammer_3",
+    "name": "Warhammer, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "bludgeoning",
+      "versatile": "1d10",
+      "properties": [
+        "Versatile"
+      ],
+      "finesse": false,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "whip_3",
+    "name": "Whip, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Melee",
+      "weight": 3,
+      "damage": "1d4",
+      "damage_type": "slashing",
+      "properties": [
+        "Finesse",
+        "Reach"
+      ],
+      "finesse": true,
+      "ranged": false,
+      "range": "5 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "blowgun_3",
+    "name": "Blowgun, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 1,
+      "damage": "1",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Loading"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "25/100 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "crossbow_hand_3",
+    "name": "Crossbow, hand, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 3,
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Light",
+        "Loading"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "30/120 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "crossbow_heavy_3",
+    "name": "Crossbow, heavy, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 18,
+      "damage": "1d10",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Heavy",
+        "Loading",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "100/400 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "longbow_3",
+    "name": "Longbow, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 2,
+      "damage": "1d8",
+      "damage_type": "piercing",
+      "properties": [
+        "Ammunition",
+        "Heavy",
+        "Two-Handed"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "150/600 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  },
+  {
+    "id": "net_3",
+    "name": "Net, +3",
+    "description": "Weapon (any), very rare\n\nYou have a +3 bonus to attack and damage rolls made with this magic weapon.",
+    "data": {
+      "kind": "weapon",
+      "category": "Martial Ranged",
+      "weight": 3,
+      "properties": [
+        "Thrown",
+        "Special"
+      ],
+      "finesse": false,
+      "ranged": true,
+      "range": "5/15 ft",
+      "rarity": "Very Rare",
+      "attunement": false,
+      "attack_bonus": 3,
+      "damage_bonus": 3
+    }
+  }
+]

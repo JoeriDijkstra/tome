@@ -1,0 +1,18 @@
+{
+  "header": {
+    "title": "{@name}",
+    "subtitle": "{entity(@subrace).name ?? entity(@race).name ?? ''} · {entity(@main_class).name ?? ''} {@class_level}{len(@subclasses) > 0 ? concat(' · ', entity(@subclasses[0]).name) : ''}",
+    "actions": [
+      "short_rest",
+      "long_rest",
+      "level_up"
+    ]
+  },
+  "tabs": [
+    "main",
+    "actions",
+    "spells",
+    "inventory",
+    "notes"
+  ]
+}

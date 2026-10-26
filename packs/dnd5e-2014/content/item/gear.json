@@ -1,0 +1,1114 @@
+[
+  {
+    "id": "abacus",
+    "name": "Abacus",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "acid_vial",
+    "name": "Acid (vial)",
+    "description": "As an action, you can splash the contents of this vial onto a creature within 5 feet of you or throw the vial up to 20 feet, shattering it on impact. In either case, make a ranged attack against a creature or object, treating the acid as an improvised weapon.\n\nOn a hit, the target takes 2d6 acid damage.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "25 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "alchemists_fire_flask",
+    "name": "Alchemist's fire (flask)",
+    "description": "This sticky, adhesive fluid ignites when exposed to air.\n\nAs an action, you can throw this flask up to 20 feet, shattering it on impact. Make a ranged attack against a creature or object, treating the alchemist's fire as an improvised weapon.\n\nOn a hit, the target takes 1d4 fire damage at the start of each of its turns. A creature can end this damage by using its action to make a DC 10 Dexterity check to extinguish the flames.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "50 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "alms_box",
+    "name": "Alms box",
+    "description": "A small box for alms, typically found in a priest's pack.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "0 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "block_of_incense",
+    "name": "Block of incense",
+    "description": "A block of incense, typically found in a priest's pack.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "0 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "censer",
+    "name": "Censer",
+    "description": "A censer, typically found in a priest's pack.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "0 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "amulet",
+    "name": "Amulet",
+    "description": "A holy symbol is a representation of a god or pantheon. It might be an amulet depicting a symbol representing a deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic.\n\nAppendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield.",
+    "data": {
+      "kind": "gear",
+      "category": "Holy Symbols",
+      "cost": "5 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "antitoxin_vial",
+    "name": "Antitoxin (vial)",
+    "description": "A creature that drinks this vial of liquid gains advantage on saving throws against poison for 1 hour. It confers no benefit to undead or constructs.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "50 gp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "crystal",
+    "name": "Crystal",
+    "description": "An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.",
+    "data": {
+      "kind": "gear",
+      "category": "Arcane Foci",
+      "cost": "10 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "orb",
+    "name": "Orb",
+    "description": "An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.",
+    "data": {
+      "kind": "gear",
+      "category": "Arcane Foci",
+      "cost": "20 gp",
+      "weight": 3
+    }
+  },
+  {
+    "id": "rod",
+    "name": "Rod",
+    "description": "An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.",
+    "data": {
+      "kind": "gear",
+      "category": "Arcane Foci",
+      "cost": "10 gp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "staff",
+    "name": "Staff",
+    "description": "An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.",
+    "data": {
+      "kind": "gear",
+      "category": "Arcane Foci",
+      "cost": "5 gp",
+      "weight": 4
+    }
+  },
+  {
+    "id": "wand",
+    "name": "Wand",
+    "description": "An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.",
+    "data": {
+      "kind": "gear",
+      "category": "Arcane Foci",
+      "cost": "10 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "backpack",
+    "name": "Backpack",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 5
+    }
+  },
+  {
+    "id": "ball_bearings_bag_of_1000",
+    "name": "Ball bearings (bag of 1,000)",
+    "description": "As an action, you can spill these tiny metal balls from their pouch to cover a level, square area that is 10 feet on a side.\n\nA creature moving across the covered area must succeed on a DC 10 Dexterity saving throw or fall prone.\n\nA creature moving through the area at half speed doesn't need to make the save.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "barrel",
+    "name": "Barrel",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 70
+    }
+  },
+  {
+    "id": "basket",
+    "name": "Basket",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "4 sp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "bedroll",
+    "name": "Bedroll",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 7
+    }
+  },
+  {
+    "id": "bell",
+    "name": "Bell",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "blanket",
+    "name": "Blanket",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 sp",
+      "weight": 3
+    }
+  },
+  {
+    "id": "block_and_tackle",
+    "name": "Block and tackle",
+    "description": "A set of pulleys with a cable threaded through them and a hook to attach to objects, a block and tackle allows you to hoist up to four times the weight you can normally lift.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 5
+    }
+  },
+  {
+    "id": "book",
+    "name": "Book",
+    "description": "A book might contain poetry, historical accounts, information pertaining to a particular field of lore, diagrams and notes on gnomish contraptions, or just about anything else that can be represented using text or pictures. A book of spells is a spellbook (described later in this section).",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "25 gp",
+      "weight": 5
+    }
+  },
+  {
+    "id": "bottle_glass",
+    "name": "Bottle, glass",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "bucket",
+    "name": "Bucket",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 cp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "caltrops",
+    "name": "Caltrops",
+    "description": "As an action, you can spread a bag of caltrops to cover a square area that is 5 feet on a side.\n\nAny creature that enters the area must succeed on a DC 15 Dexterity saving throw or stop moving this turn and take 1 piercing damage.\n\nTaking this damage reduces the creature's walking speed by 10 feet until the creature regains at least 1 hit point.\n\nA creature moving through the area at half speed doesn't need to make the save.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 cp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "candle",
+    "name": "Candle",
+    "description": "For 1 hour, a candle sheds bright light in a 5-foot radius and dim light for an additional 5 feet.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "case_crossbow_bolt",
+    "name": "Case, crossbow bolt",
+    "description": "This wooden case can hold up to twenty crossbow bolts.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "case_map_or_scroll",
+    "name": "Case, map or scroll",
+    "description": "This cylindrical leather case can hold up to ten rolled-up sheets of paper or five rolled-up sheets of parchment.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "chain_10_feet",
+    "name": "Chain (10 feet)",
+    "description": "A chain has 10 hit points. It can be burst with a successful DC 20 Strength check.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 gp",
+      "weight": 10
+    }
+  },
+  {
+    "id": "chalk_1_piece",
+    "name": "Chalk (1 piece)",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "chest",
+    "name": "Chest",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 gp",
+      "weight": 25
+    }
+  },
+  {
+    "id": "clothes_common",
+    "name": "Clothes, common",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 sp",
+      "weight": 3
+    }
+  },
+  {
+    "id": "clothes_costume",
+    "name": "Clothes, costume",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 gp",
+      "weight": 4
+    }
+  },
+  {
+    "id": "clothes_fine",
+    "name": "Clothes, fine",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "15 gp",
+      "weight": 6
+    }
+  },
+  {
+    "id": "clothes_travelers",
+    "name": "Clothes, traveler's",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 4
+    }
+  },
+  {
+    "id": "component_pouch",
+    "name": "Component pouch",
+    "description": "A component pouch is a small, watertight leather belt pouch that has compartments to hold all the material components and other special items you need to cast your spells, except for those components that have a specific cost (as indicated in a spell's description).",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "25 gp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "crowbar",
+    "name": "Crowbar",
+    "description": "Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 5
+    }
+  },
+  {
+    "id": "sprig_of_mistletoe",
+    "name": "Sprig of mistletoe",
+    "description": "A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.",
+    "data": {
+      "kind": "gear",
+      "category": "Druidic Foci",
+      "cost": "1 gp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "totem",
+    "name": "Totem",
+    "description": "A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.",
+    "data": {
+      "kind": "gear",
+      "category": "Druidic Foci",
+      "cost": "1 gp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "wooden_staff",
+    "name": "Wooden staff",
+    "description": "A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.",
+    "data": {
+      "kind": "gear",
+      "category": "Druidic Foci",
+      "cost": "5 gp",
+      "weight": 4
+    }
+  },
+  {
+    "id": "yew_wand",
+    "name": "Yew wand",
+    "description": "A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.",
+    "data": {
+      "kind": "gear",
+      "category": "Druidic Foci",
+      "cost": "10 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "emblem",
+    "name": "Emblem",
+    "description": "A holy symbol is a representation of a god or pantheon. It might be an amulet depicting a symbol representing a deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic.\n\nAppendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield.",
+    "data": {
+      "kind": "gear",
+      "category": "Holy Symbols",
+      "cost": "5 gp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "fishing_tackle",
+    "name": "Fishing tackle",
+    "description": "This kit includes a wooden rod, silken line, corkwood bobbers, steel hooks, lead sinkers, velvet lures, and narrow netting.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 4
+    }
+  },
+  {
+    "id": "flask_or_tankard",
+    "name": "Flask or tankard",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 cp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "grappling_hook",
+    "name": "Grappling hook",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 4
+    }
+  },
+  {
+    "id": "hammer",
+    "name": "Hammer",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 3
+    }
+  },
+  {
+    "id": "hammer_sledge",
+    "name": "Hammer, sledge",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 10
+    }
+  },
+  {
+    "id": "holy_water_flask",
+    "name": "Holy water (flask)",
+    "description": "As an action, you can splash the contents of this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. In either case, make a ranged attack against a target creature, treating the holy water as an improvised weapon.\n\nIf the target is a fiend or undead, it takes 2d6 radiant damage.\n\nA cleric or paladin may create holy water by performing a special ritual.\n\nThe ritual takes 1 hour to perform, uses 25 gp worth of powdered silver, and requires the caster to expend a 1st-level spell slot.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "25 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "hourglass",
+    "name": "Hourglass",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "25 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "hunting_trap",
+    "name": "Hunting trap",
+    "description": "When you use your action to set it, this trap forms a saw-toothed steel ring that snaps shut when a creature steps on a pressure plate in the center. The trap is affixed by a heavy chain to an immobile object, such as a tree or a spike driven into the ground.\n\nA creature that steps on the plate must succeed on a DC 13 Dexterity saving throw or take 1d4 piercing damage and stop moving. Thereafter, until the creature breaks free of the trap, its movement is limited by the length of the chain (typically 3 feet long).\n\nA creature can use its action to make a DC 13 Strength check, freeing itself or another creature within its reach on a success. Each failed check deals 1 piercing damage to the trapped creature.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 gp",
+      "weight": 25
+    }
+  },
+  {
+    "id": "ink_1_ounce_bottle",
+    "name": "Ink (1 ounce bottle)",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "10 gp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "ink_pen",
+    "name": "Ink pen",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "jug_or_pitcher",
+    "name": "Jug or pitcher",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 cp",
+      "weight": 4
+    }
+  },
+  {
+    "id": "climbers_kit",
+    "name": "Climber's Kit",
+    "description": "A climber's kit includes special pitons, boot tips, gloves, and a harness. You can use the climber's kit as an action to anchor yourself; when you do, you can't fall more than 25 feet from the point where you anchored yourself, and you can't climb more than 25 feet away from that point without undoing the anchor.",
+    "data": {
+      "kind": "gear",
+      "category": "Kits",
+      "cost": "25 gp",
+      "weight": 12
+    }
+  },
+  {
+    "id": "disguise_kit",
+    "name": "Disguise Kit",
+    "description": "This pouch of cosmetics, hair dye, and small props lets you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise.",
+    "data": {
+      "kind": "gear",
+      "category": "Kits",
+      "cost": "25 gp",
+      "weight": 3
+    }
+  },
+  {
+    "id": "forgery_kit",
+    "name": "Forgery Kit",
+    "description": "This small box contains a variety of papers and parchments, pens and inks, seals and sealing wax, gold and silver leaf, and other supplies necessary to create convincing forgeries of physical documents. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a physical forgery of a document.",
+    "data": {
+      "kind": "gear",
+      "category": "Kits",
+      "cost": "15 gp",
+      "weight": 5
+    }
+  },
+  {
+    "id": "herbalism_kit",
+    "name": "Herbalism Kit",
+    "description": "This kit contains a variety of instruments such as clippers, mortar and pestle, and pouches and vials used by herbalists to create remedies and potions. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to identify or apply herbs. Also, proficiency with this kit is required to create antitoxin and potions of healing.",
+    "data": {
+      "kind": "gear",
+      "category": "Kits",
+      "cost": "5 gp",
+      "weight": 3
+    }
+  },
+  {
+    "id": "healers_kit",
+    "name": "Healer's Kit",
+    "description": "This kit is a leather pouch containing bandages, salves, and splints. The kit has ten uses. As an action, you can expend one use of the kit to stabilize a creature that has 0 hit points, without needing to make a Wisdom (Medicine) check.",
+    "data": {
+      "kind": "gear",
+      "category": "Kits",
+      "cost": "5 gp",
+      "weight": 3
+    }
+  },
+  {
+    "id": "mess_kit",
+    "name": "Mess Kit",
+    "description": "This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or shallow bowl.",
+    "data": {
+      "kind": "gear",
+      "category": "Kits",
+      "cost": "2 sp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "poisoners_kit",
+    "name": "Poisoner's Kit",
+    "description": "A poisoner's kit includes the vials, chemicals, and other equipment necessary for the creation of poisons. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to craft or use poisons.",
+    "data": {
+      "kind": "gear",
+      "category": "Kits",
+      "cost": "50 gp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "ladder_10_foot",
+    "name": "Ladder (10-foot)",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 sp",
+      "weight": 25
+    }
+  },
+  {
+    "id": "lamp",
+    "name": "Lamp",
+    "description": "A lamp casts bright light in a 15-foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 sp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "lantern_bullseye",
+    "name": "Lantern, bullseye",
+    "description": "A bullseye lantern casts bright light in a 60-foot cone and dim light for an additional 60 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "10 gp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "lantern_hooded",
+    "name": "Lantern, hooded",
+    "description": "A hooded lantern casts bright light in a 30-foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil. As an action, you can lower the hood, reducing the light to dim light in a 5-foot radius.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 gp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "little_bag_of_sand",
+    "name": "Little bag of sand",
+    "description": "A small bag of sand, typically found in a scholar's pack.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "0 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "lock",
+    "name": "Lock",
+    "description": "A key is provided with the lock. Without the key, a creature proficient with thieves' tools can pick this lock with a successful DC 15 Dexterity check. Your GM may decide that better locks are available for higher prices.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "10 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "magnifying_glass",
+    "name": "Magnifying glass",
+    "description": "This lens allows a closer look at small objects. It is also useful as a substitute for flint and steel when starting fires. Lighting a fire with a magnifying glass requires light as bright as sunlight to focus, tinder to ignite, and about 5 minutes for the fire to ignite.\n\nA magnifying glass grants advantage on any ability check made to appraise or inspect an item that is small or highly detailed.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "100 gp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "manacles",
+    "name": "Manacles",
+    "description": "These metal restraints can bind a Small or Medium creature. Escaping the manacles requires a successful DC 20 Dexterity check. Breaking them requires a successful DC 20 Strength check.\n\nEach set of manacles comes with one key. Without the key, a creature proficient with thieves' tools can pick the manacles' lock with a successful DC 15 Dexterity check. Manacles have 15 hit points.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 6
+    }
+  },
+  {
+    "id": "mirror_steel",
+    "name": "Mirror, steel",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 gp",
+      "weight": 0.5
+    }
+  },
+  {
+    "id": "oil_flask",
+    "name": "Oil (flask)",
+    "description": "Oil usually comes in a clay flask that holds 1 pint.\n\nAs an action, you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon.\n\nOn a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (after 1 minute), the target takes an additional 5 fire damage from the burning oil.\n\nYou can also pour a flask of oil on the ground to cover a 5-foot-square area, provided that the surface is level.\n\nIf lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters the area or ends its turn in the area. A creature can take this damage only once per turn.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 sp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "paper_one_sheet",
+    "name": "Paper (one sheet)",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 sp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "parchment_one_sheet",
+    "name": "Parchment (one sheet)",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 sp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "perfume_vial",
+    "name": "Perfume (vial)",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 gp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "pick_miners",
+    "name": "Pick, miner's",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 10
+    }
+  },
+  {
+    "id": "piton",
+    "name": "Piton",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 cp",
+      "weight": 0.25
+    }
+  },
+  {
+    "id": "poison_basic_vial",
+    "name": "Poison, basic (vial)",
+    "description": "You can use the poison in this vial to coat one slashing or piercing weapon or up to three pieces of ammunition. Applying the poison takes an action. A creature hit by the poisoned weapon or ammunition must make a DC 10 Constitution saving throw or take 1d4 poison damage. Once applied, the poison retains potency for 1 minute before drying.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "100 gp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "pole_10_foot",
+    "name": "Pole (10-foot)",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 cp",
+      "weight": 7
+    }
+  },
+  {
+    "id": "pot_iron",
+    "name": "Pot, iron",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 10
+    }
+  },
+  {
+    "id": "pouch",
+    "name": "Pouch",
+    "description": "A cloth or leather pouch can hold up to 20 sling bullets or 50 blowgun needles, among other things. A compartmentalized pouch for holding spell components is called a component pouch (described earlier in this section).",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 sp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "quiver",
+    "name": "Quiver",
+    "description": "A quiver can hold up to 20 arrows.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "ram_portable",
+    "name": "Ram, portable",
+    "description": "You can use a portable ram to break down doors. When doing so, you gain a +4 bonus on the Strength check. One other character can help you use the ram, giving you advantage on this check.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "4 gp",
+      "weight": 35
+    }
+  },
+  {
+    "id": "rations_1_day",
+    "name": "Rations (1 day)",
+    "description": "Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 sp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "reliquary",
+    "name": "Reliquary",
+    "description": "A holy symbol is a representation of a god or pantheon. It might be an amulet depicting a symbol representing a deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic.\n\nAppendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield.",
+    "data": {
+      "kind": "gear",
+      "category": "Holy Symbols",
+      "cost": "5 gp",
+      "weight": 2
+    }
+  },
+  {
+    "id": "robes",
+    "name": "Robes",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 4
+    }
+  },
+  {
+    "id": "rope_hempen_50_feet",
+    "name": "Rope, hempen (50 feet)",
+    "description": "Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 10
+    }
+  },
+  {
+    "id": "rope_silk_50_feet",
+    "name": "Rope, silk (50 feet)",
+    "description": "Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "10 gp",
+      "weight": 5
+    }
+  },
+  {
+    "id": "sack",
+    "name": "Sack",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 cp",
+      "weight": 0.5
+    }
+  },
+  {
+    "id": "scale_merchants",
+    "name": "Scale, merchant's",
+    "description": "A scale includes a small balance, pans, and a suitable assortment of weights up to 2 pounds. With it, you can measure the exact weight of small objects, such as raw precious metals or trade goods, to help determine their worth.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 gp",
+      "weight": 3
+    }
+  },
+  {
+    "id": "sealing_wax",
+    "name": "Sealing wax",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 sp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "shovel",
+    "name": "Shovel",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 5
+    }
+  },
+  {
+    "id": "signal_whistle",
+    "name": "Signal whistle",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "signet_ring",
+    "name": "Signet ring",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 gp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "small_knife",
+    "name": "Small knife",
+    "description": "A small knife, typically found in a scholar's pack.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "0 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "soap",
+    "name": "Soap",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "spellbook",
+    "name": "Spellbook",
+    "description": "Essential for wizards, a spellbook is a leather-bound tome with 100 blank vellum pages suitable for recording spells.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "50 gp",
+      "weight": 3
+    }
+  },
+  {
+    "id": "spike_iron",
+    "name": "Spike, iron",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 sp",
+      "weight": 5
+    }
+  },
+  {
+    "id": "spyglass",
+    "name": "Spyglass",
+    "description": "Objects viewed through a spyglass are magnified to twice their size.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1000 gp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "string_10_feet",
+    "name": "String (10 feet)",
+    "description": "A 10-foot length of string, typically found in a burglar's pack.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "0 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "tent_two_person",
+    "name": "Tent, two-person",
+    "description": "A simple and portable canvas shelter, a tent sleeps two.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 gp",
+      "weight": 20
+    }
+  },
+  {
+    "id": "tinderbox",
+    "name": "Tinderbox",
+    "description": "This small container holds flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it to light a torch--or anything else with abundant, exposed fuel--takes an action.\n\nLighting any other fire takes 1 minute.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "5 sp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "torch",
+    "name": "Torch",
+    "description": "A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 cp",
+      "weight": 1
+    }
+  },
+  {
+    "id": "vestments",
+    "name": "Vestments",
+    "description": "Religious clothing, typically found in a priest's pack.",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "0 cp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "vial",
+    "name": "Vial",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 gp",
+      "weight": 0
+    }
+  },
+  {
+    "id": "waterskin",
+    "name": "Waterskin",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "2 sp",
+      "weight": 5
+    }
+  },
+  {
+    "id": "whetstone",
+    "name": "Whetstone",
+    "data": {
+      "kind": "gear",
+      "category": "Standard Gear",
+      "cost": "1 cp",
+      "weight": 1
+    }
+  }
+]

@@ -143,7 +143,7 @@ function Wizard({ pins, compiled, onExit }: Setup & { onExit: () => void }) {
   };
 
   // the review page previews the first sheet tab, read-only
-  const preview: SheetCtx = { compiled, view, readonly: true, action: async () => {}, effects: async () => {}, explain: () => {}, detail: () => {}, notes: [], editNotes: async () => {} };
+  const preview: SheetCtx = { compiled, view, readonly: true, action: async () => {}, effects: async () => {}, explain: () => {}, detail: () => {}, open: () => {}, notes: [], editNotes: async () => {} };
   const header = compiled.sheet.header;
 
   return (

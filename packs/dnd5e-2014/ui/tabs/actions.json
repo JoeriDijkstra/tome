@@ -1,0 +1,36 @@
+[
+  {
+    "id": "actions",
+    "label": "Actions",
+    "icon": "bolt",
+    "sections": [
+      {
+        "widget": "list",
+        "title": "Attacks",
+        "source": "filter(@inventory, $v.equipped && entity($v.item).data.kind == 'weapon')",
+        "empty": "Equip a weapon in Inventory to see its attack here.",
+        "row": {
+          "title": "{entity($v.item).name}",
+          "subtitle": "{entity($v.item).data.damage}{fmt_signed((entity($v.item).data.ranged ? @mods.dex : entity($v.item).data.finesse ? max(@mods.str, @mods.dex) : @mods.str) + (entity($v.item).data.damage_bonus ?? 0) + (entity($v.item).data.ranged ? @ranged_damage_bonus : @melee_damage_bonus))} {entity($v.item).data.damage_type}{entity($v.item).data.range ? concat(' · ', entity($v.item).data.range) : ''}",
+          "trailing": "{fmt_signed(@prof_bonus + (entity($v.item).data.ranged ? @mods.dex : entity($v.item).data.finesse ? max(@mods.str, @mods.dex) : @mods.str) + (entity($v.item).data.attack_bonus ?? 0) + (entity($v.item).data.ranged ? @ranged_attack_bonus : @melee_attack_bonus))}"
+        }
+      },
+      {
+        "widget": "resources",
+        "title": "Class resources",
+        "except": [
+          "pact_slots"
+        ]
+      },
+      {
+        "widget": "list",
+        "title": "Features & traits",
+        "source": "@features",
+        "group_by": "entity($v.source).name",
+        "row": {
+          "title": "{$v.name}"
+        }
+      }
+    ]
+  }
+]

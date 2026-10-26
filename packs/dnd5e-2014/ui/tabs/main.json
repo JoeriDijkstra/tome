@@ -1,0 +1,184 @@
+[
+  {
+    "id": "main",
+    "label": "Main",
+    "icon": "person",
+    "sections": [
+      {
+        "widget": "stat_grid",
+        "columns": 3,
+        "items": [
+          {
+            "label": "STR",
+            "value": "@abilities.str",
+            "sub": "fmt_signed(@mods.str)",
+            "explain": "abilities.str"
+          },
+          {
+            "label": "DEX",
+            "value": "@abilities.dex",
+            "sub": "fmt_signed(@mods.dex)",
+            "explain": "abilities.dex"
+          },
+          {
+            "label": "CON",
+            "value": "@abilities.con",
+            "sub": "fmt_signed(@mods.con)",
+            "explain": "abilities.con"
+          },
+          {
+            "label": "INT",
+            "value": "@abilities.int",
+            "sub": "fmt_signed(@mods.int)",
+            "explain": "abilities.int"
+          },
+          {
+            "label": "WIS",
+            "value": "@abilities.wis",
+            "sub": "fmt_signed(@mods.wis)",
+            "explain": "abilities.wis"
+          },
+          {
+            "label": "CHA",
+            "value": "@abilities.cha",
+            "sub": "fmt_signed(@mods.cha)",
+            "explain": "abilities.cha"
+          }
+        ]
+      },
+      {
+        "widget": "stat_grid",
+        "columns": 3,
+        "items": [
+          {
+            "label": "Armor Class",
+            "value": "@ac",
+            "explain": "ac"
+          },
+          {
+            "label": "Initiative",
+            "value": "fmt_signed(@initiative)",
+            "explain": "initiative"
+          },
+          {
+            "label": "Speed",
+            "value": "concat(@speed, ' ft')",
+            "explain": "speed"
+          },
+          {
+            "label": "Proficiency",
+            "value": "fmt_signed(@prof_bonus)"
+          },
+          {
+            "label": "Passive Perc.",
+            "value": "@passive_perception",
+            "explain": "passive_perception"
+          },
+          {
+            "label": "Inspiration",
+            "value": "@inspiration ? 'Yes' : 'No'",
+            "action": "toggle_inspiration"
+          }
+        ]
+      },
+      {
+        "widget": "resource",
+        "resource": "hp",
+        "style": "bar",
+        "actions": [
+          "take_damage",
+          "heal",
+          "temp_hp"
+        ]
+      },
+      {
+        "widget": "resource",
+        "resource": "hit_dice",
+        "label": "Hit Dice (d{@hit_die})",
+        "style": "counter"
+      },
+      {
+        "widget": "stat_grid",
+        "title": "Death saves",
+        "columns": 2,
+        "visible_when": "@res.hp.current == 0",
+        "items": [
+          {
+            "label": "Successes",
+            "value": "concat(@death_saves.success, ' / 3')",
+            "action": "death_success"
+          },
+          {
+            "label": "Failures",
+            "value": "concat(@death_saves.fail, ' / 3')",
+            "action": "death_fail"
+          }
+        ]
+      },
+      {
+        "widget": "stat",
+        "label": "Conditions",
+        "value": "len(@conditions) == 0 && @exhaustion == 0 ? 'None' : join([len(@conditions) > 0 ? join(map(@conditions, entity($v).name)) : null, @exhaustion > 0 ? concat('Exhaustion ', @exhaustion) : null])",
+        "open": "conditions"
+      },
+      {
+        "widget": "stat_grid",
+        "title": "Saving throws",
+        "columns": 3,
+        "items": [
+          {
+            "label": "STR",
+            "value": "fmt_signed(@saves.str)",
+            "sub": "has(@save_profs, 'str') ? 'Proficient' : ''",
+            "explain": "saves.str"
+          },
+          {
+            "label": "DEX",
+            "value": "fmt_signed(@saves.dex)",
+            "sub": "has(@save_profs, 'dex') ? 'Proficient' : ''",
+            "explain": "saves.dex"
+          },
+          {
+            "label": "CON",
+            "value": "fmt_signed(@saves.con)",
+            "sub": "has(@save_profs, 'con') ? 'Proficient' : ''",
+            "explain": "saves.con"
+          },
+          {
+            "label": "INT",
+            "value": "fmt_signed(@saves.int)",
+            "sub": "has(@save_profs, 'int') ? 'Proficient' : ''",
+            "explain": "saves.int"
+          },
+          {
+            "label": "WIS",
+            "value": "fmt_signed(@saves.wis)",
+            "sub": "has(@save_profs, 'wis') ? 'Proficient' : ''",
+            "explain": "saves.wis"
+          },
+          {
+            "label": "CHA",
+            "value": "fmt_signed(@saves.cha)",
+            "sub": "has(@save_profs, 'cha') ? 'Proficient' : ''",
+            "explain": "saves.cha"
+          }
+        ]
+      },
+      {
+        "widget": "list",
+        "title": "Skills",
+        "source": "entities('skill')",
+        "row": {
+          "title": "{has(@prof.expertise, $v.id) ? '◉ ' : has(@prof.skills, $v.id) ? '● ' : '○ '}{$v.name}",
+          "subtitle": "{lookup('abilities', $v.data.ability, 'name')}",
+          "trailing": "{fmt_signed(@skills[$v.id])}"
+        }
+      },
+      {
+        "widget": "field",
+        "label": "Alignment",
+        "path": "alignment"
+      }
+    ]
+  }
+]

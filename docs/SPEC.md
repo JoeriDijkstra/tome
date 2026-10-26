@@ -494,6 +494,9 @@ state (a choice the player made) stays as written.
 [ { "id": "hp", "label": "Hit Points", "max": "@hp_max", "reset": ["long_rest"], "temp": true } ]
 ```
 
+A resource may set `style` (`bar` `pips` `counter` `slots`): how the
+`resources` widget draws it.
+
 `model/tables/*.json` holds lookup tables, as
 `[{ "id": "proficiency", "key": "level", "rows": [{ "level": 1, "bonus": 2 }, …] }]`.
 
@@ -653,18 +656,21 @@ reach anything outside the character and its packs.
   when `x` is `null`.
 - **Numbers:** numbers are floats, and rounding is always explicit (`floor`
   and the like). Division by zero gives `null`.
-- **Higher-order arguments:** the second argument of `sum`, `count`, `map`
-  and `entities`, and `remove`'s `where`, is evaluated once per element, with
-  `$v` and `$k` bound to that element. A nested call rebinds `$v`, so to compare
-  against an outer `$v`, project the inner list first:
+- **Higher-order arguments:** the second argument of `sum`, `count`, `map`,
+  `filter` and `entities`, and `remove`'s `where`, is evaluated once per
+  element, with `$v` and `$k` bound to that element. A nested call rebinds
+  `$v`, so to compare against an outer `$v`, project the inner list first:
   `!has(map(@cards, $v.card), $v.id)`.
 - Operators: `+ - * / %`, `== != < <= > >=`, `&& || !`, `?:`, `??`.
 - Functions: `floor ceil round abs min max clamp`, `sum(list, expr)`,
-  `count(list, pred?)`, `map(list, expr)`, `has(list, id)`, `len`,
-  `lookup(table, row, col)`, `entity(id)`, `entities(type, pred?)`, `concat`,
-  `fmt_signed(n)` (→ `+3`).
+  `count(list, pred?)`, `map(list, expr)`, `filter(list, pred)`,
+  `has(list, id)`, `len`, `lookup(table, row, col)`, `entity(id)`,
+  `entities(type, pred?)`, `concat`, `join(list, sep?)` (one line of text,
+  `', '` by default, nulls skipped), `fmt_signed(n)` (→ `+3`).
 - Hand-written tokenizer and Pratt parser. No `eval`, no `Function`. A formula
   is at most 4 000 characters and 500 AST nodes, with a nesting depth limit.
+  Text fields may be up to 50 000 characters (long rules prose); each `{…}` in
+  them keeps the formula limits.
   Formulas are parsed once at load and cached as ASTs.
 - **Evaluation budget:** each top-level evaluation may take at most 1 000 000
   steps, and `formula` fields may nest at most 16 deep. Going over either limit
@@ -707,7 +713,7 @@ same effect ops:
 | `push` | `{path, value}` | append to list |
 | `remove` | `{path, where}` | remove list rows matching predicate |
 | `toggle` | `{path, value?}` | without `value`: flip a boolean; with `value`: add it to or remove it from the list |
-| `choose` | `{from:{entity_type, filter}, count, into?, then?}` | opens a generic chooser modal; `into` (a list or ref) receives the ids; `then` effects see `$choice` |
+| `choose` | `{from:{entity_type, filter}, count, into?, then?}` | opens a generic chooser modal; `into` (a list or ref) receives the ids; `then` effects see `$choice`. More than 10 options get a search field; the list shows 50 rows at a time with "Show more", and search covers all of them |
 | `open_modal` | `{modal, with?}` | |
 | `run_hook` | `{entity, hook, key}` | e.g. the `on_level` hook of the chosen class at the new level |
 | `reset` | `{tag}` | resets resources whose `reset` contains tag (`short_rest`, `long_rest`, …) |
@@ -827,11 +833,13 @@ allocation assign`.
 
 Input fields: `key`, `type`, `label` (text), `description` (text), `required`,
 `min`, `max`, `step`, `default` (formula), `options` (a list of strings, or a
-formula that gives one), `visible_when` (formula), for `choice` `entity_type`
-and `filter` (formula), and the `allocation`/`assign` keys above. Inputs hidden
-by `visible_when` are neither required nor checked, so a stale answer for a
-hidden input is ignored. Select options and `assign`/`allocation` keys are ids;
-the app shows them humanized (`point_buy` → "Point buy").
+formula that gives one), `labels` (display names by id for select options and
+`assign`/`allocation` keys), `visible_when` (formula), for `choice`
+`entity_type` and `filter` (formula), and the `allocation`/`assign` keys
+above. Inputs hidden by `visible_when` are neither required nor checked, so a
+stale answer for a hidden input is ignored. Select options and
+`assign`/`allocation` keys are ids; the app shows their `labels` entry, or the
+id humanized (`point_buy` → "Point buy").
 
 ### Creation wizard — `ui/creation.json`
 
@@ -902,8 +910,23 @@ same card.
 
 With two or more tabs, the sheet shows them in a native bottom tab bar, each
 with its `label` and `icon` (`list` when it has none). A single tab shows no
-tab bar. A tab that exists but isn't listed in `sheet.tabs` is an import
-warning. An id listed in `sheet.tabs` with no matching tab is an error.
+tab bar. A tab's `visible_when` hides it for characters it doesn't apply to
+(a Spells tab for non-casters). An id listed in `sheet.tabs` with no matching
+tab is an error.
+
+A tab that isn't listed in `sheet.tabs` is a **page**: a stat with
+`"open": "<tab id>"` shows it over the sheet (iOS page sheet, Done to close).
+Use pages to move rarely-changed detail off the main tabs, such as conditions
+behind one row that summarises them:
+
+```json
+{ "widget": "stat", "label": "Conditions", "open": "conditions",
+  "value": "len(@conditions) == 0 ? 'None' : join(map(@conditions, entity($v).name))" }
+```
+
+A page's widgets write through the same sheet as everything else (undo,
+live updates). A tab that is neither listed nor opened by a stat is an import
+warning; an `open` naming no tab is an error.
 
 #### Text and formulas
 
@@ -914,7 +937,7 @@ Every `ui/` field is one of two kinds, fixed by the schema:
   `visible_when`, `enabled_when`, `filter`, `default`, `options` (when a
   string), `at`.
 - **Text fields** hold words shown to the player: `label`, `title`,
-  `subtitle`, `body`, `empty`, `text`, `message`, `description`. They are
+  `subtitle`, `body`, `trailing`, `empty`, `text`, `message`, `description`. They are
   literal text, with `{…}` embedding a formula: `"Level {@level}"`,
   `"{$v.name}"`. `{{` and `}}` are literal braces. A `{…}` that evaluates to
   `null` renders as nothing, like `concat`. Entity `summary` and `description`
@@ -929,10 +952,11 @@ Every widget takes an optional `visible_when`. Text fields are marked *(text)*.
 
 | widget | fields | behaviour |
 |---|---|---|
-| `stat` | `label` *(text)*, `value`, `sub?`, `explain?` (a target path), `action?` | Tapping it runs `action`, or shows the modifier breakdown of `explain`. `explain` defaults to the value when the value is a single reference such as `@ac`. |
+| `stat` | `label` *(text)*, `value`, `sub?`, `explain?` (a target path), `action?`, `open?` (a tab id) | Tapping it opens the page `open`, runs `action`, or shows the modifier breakdown of `explain`. `explain` defaults to the value when the value is a single reference such as `@ac`. In a grid, an empty `sub` (`''` or `null`) draws no chip. |
 | `stat_grid` | `title?` *(text)*, `columns?`, `items` (stats without `widget`) | |
 | `resource` | `resource`, `label?` *(text)*, `style?` (`bar` `pips` `counter` `slots`), `thresholds?` (`[{label (text), at}]`), `actions?` | `bar` and `counter` get −/+ buttons; tapping a pip or slot sets it directly. Actions: one shows inline, several go in the resource's ••• menu. |
-| `list` | `source`, `title?` *(text)*, `style?` (`rows` `cards`), `row` (`title`, `subtitle?`, `body?`, all text; `actions?`), `group_by?`, `empty?` *(text)*, `add?` (action) | Rows come from `source` (a list or object) with `$v`/`$k` set. Row actions run with the row's `$v`/`$k`: one shows inline as tinted text, several go in a ••• menu. `add` is the list's last row. Tapping a row that is an entity shows its description. |
+| `list` | `source`, `title?` *(text)*, `style?` (`rows` `cards`), `row` (`title`, `subtitle?`, `body?`, `trailing?` (a right-aligned value such as a skill bonus), all text; `actions?`), `group_by?`, `empty?` *(text)*, `add?` (action) | Rows come from `source` (a list or object) with `$v`/`$k` set. Row actions run with the row's `$v`/`$k`: one shows inline as tinted text, several go in a ••• menu. `add` is the list's last row. Tapping a row that is an entity shows its description. |
+| `resources` | `title?` *(text)*, `except?` (resource ids) | Every resource the character's owned entities provide with a max above 0 (class pools, item charges), each drawn in its own `style` with its feature's actions and summary. New resources from expansions appear without layout changes. |
 | `toggles` | `title?` *(text)*, and either `items` (`[{label (text), path}]`: boolean fields) or `path` + `options` + `label` *(text)* (an id list toggled per option, `$v` = option) | Tapping toggles through the `toggle` effect. An entity option (a condition, say) shows its `summary` under the label, and tapping the row shows its `description`. |
 | `field` | `label` *(text)*, `path`, `input?` (`string` `text` `number`) | Inline editor. One undo entry per focus. |
 | `text` | `text` *(text)* | Static pack prose, rendered as markdown (after the `{…}` templates are filled in). |

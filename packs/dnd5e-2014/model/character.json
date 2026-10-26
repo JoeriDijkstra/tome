@@ -1,0 +1,259 @@
+{
+  "fields": [
+    {
+      "key": "abilities",
+      "type": "object",
+      "fields": [
+        {
+          "key": "str",
+          "type": "number",
+          "default": 10,
+          "min": 1,
+          "max": 30
+        },
+        {
+          "key": "dex",
+          "type": "number",
+          "default": 10,
+          "min": 1,
+          "max": 30
+        },
+        {
+          "key": "con",
+          "type": "number",
+          "default": 10,
+          "min": 1,
+          "max": 30
+        },
+        {
+          "key": "int",
+          "type": "number",
+          "default": 10,
+          "min": 1,
+          "max": 30
+        },
+        {
+          "key": "wis",
+          "type": "number",
+          "default": 10,
+          "min": 1,
+          "max": 30
+        },
+        {
+          "key": "cha",
+          "type": "number",
+          "default": 10,
+          "min": 1,
+          "max": 30
+        }
+      ]
+    },
+    {
+      "key": "race",
+      "type": "ref",
+      "entity_type": "race"
+    },
+    {
+      "key": "subrace",
+      "type": "ref",
+      "entity_type": "subrace"
+    },
+    {
+      "key": "race_abilities",
+      "type": "list",
+      "of": "select",
+      "options": [
+        "str",
+        "dex",
+        "con",
+        "int",
+        "wis",
+        "cha"
+      ]
+    },
+    {
+      "key": "classes",
+      "type": "map",
+      "of": "object",
+      "key_entity_type": "class",
+      "fields": [
+        {
+          "key": "level",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 20
+        },
+        {
+          "key": "hp",
+          "type": "list",
+          "of": "number"
+        }
+      ]
+    },
+    {
+      "key": "subclasses",
+      "type": "list",
+      "of": "ref",
+      "entity_type": "subclass"
+    },
+    {
+      "key": "background",
+      "type": "ref",
+      "entity_type": "background"
+    },
+    {
+      "key": "options",
+      "type": "list",
+      "of": "ref",
+      "entity_type": "option"
+    },
+    {
+      "key": "feats",
+      "type": "list",
+      "of": "ref",
+      "entity_type": "feat"
+    },
+    {
+      "key": "prof",
+      "type": "object",
+      "owns": false,
+      "fields": [
+        {
+          "key": "skills",
+          "type": "list",
+          "of": "ref",
+          "entity_type": "skill"
+        },
+        {
+          "key": "expertise",
+          "type": "list",
+          "of": "ref",
+          "entity_type": "skill"
+        }
+      ]
+    },
+    {
+      "key": "spells",
+      "type": "list",
+      "of": "ref",
+      "entity_type": "spell",
+      "owns": false
+    },
+    {
+      "key": "prepared",
+      "type": "list",
+      "of": "ref",
+      "entity_type": "spell",
+      "owns": false
+    },
+    {
+      "key": "inventory",
+      "type": "list",
+      "of": "object",
+      "owns_when": "$v.equipped || $v.attuned",
+      "fields": [
+        {
+          "key": "item",
+          "type": "ref",
+          "entity_type": "item"
+        },
+        {
+          "key": "qty",
+          "type": "number",
+          "default": 1,
+          "min": 0
+        },
+        {
+          "key": "equipped",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "key": "attuned",
+          "type": "boolean",
+          "default": false
+        }
+      ]
+    },
+    {
+      "key": "currency",
+      "type": "object",
+      "fields": [
+        {
+          "key": "cp",
+          "type": "number",
+          "default": 0,
+          "min": 0
+        },
+        {
+          "key": "sp",
+          "type": "number",
+          "default": 0,
+          "min": 0
+        },
+        {
+          "key": "ep",
+          "type": "number",
+          "default": 0,
+          "min": 0
+        },
+        {
+          "key": "gp",
+          "type": "number",
+          "default": 0,
+          "min": 0
+        },
+        {
+          "key": "pp",
+          "type": "number",
+          "default": 0,
+          "min": 0
+        }
+      ]
+    },
+    {
+      "key": "conditions",
+      "type": "list",
+      "of": "ref",
+      "entity_type": "condition"
+    },
+    {
+      "key": "exhaustion",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 6
+    },
+    {
+      "key": "death_saves",
+      "type": "object",
+      "fields": [
+        {
+          "key": "success",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 3
+        },
+        {
+          "key": "fail",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "key": "inspiration",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "key": "alignment",
+      "type": "string",
+      "default": ""
+    }
+  ]
+}

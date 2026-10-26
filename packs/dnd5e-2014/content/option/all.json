@@ -1,0 +1,1091 @@
+[
+  {
+    "id": "circle_of_the_land_arctic",
+    "name": "Circle of the Land: Arctic",
+    "description": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk. As a member of this circle, your magic is influenced by the land where you were initiated into the circle's mysterious rites.",
+    "data": {
+      "groups": [
+        "circle_of_the_land"
+      ]
+    }
+  },
+  {
+    "id": "circle_of_the_land_coast",
+    "name": "Circle of the Land: Coast",
+    "description": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk. As a member of this circle, your magic is influenced by the land where you were initiated into the circle's mysterious rites.",
+    "data": {
+      "groups": [
+        "circle_of_the_land"
+      ]
+    }
+  },
+  {
+    "id": "circle_of_the_land_desert",
+    "name": "Circle of the Land: Desert",
+    "description": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk. As a member of this circle, your magic is influenced by the land where you were initiated into the circle's mysterious rites.",
+    "data": {
+      "groups": [
+        "circle_of_the_land"
+      ]
+    }
+  },
+  {
+    "id": "circle_of_the_land_forest",
+    "name": "Circle of the Land: Forest",
+    "description": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk. As a member of this circle, your magic is influenced by the land where you were initiated into the circle's mysterious rites.",
+    "data": {
+      "groups": [
+        "circle_of_the_land"
+      ]
+    }
+  },
+  {
+    "id": "circle_of_the_land_grassland",
+    "name": "Circle of the Land: Grassland",
+    "description": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk. As a member of this circle, your magic is influenced by the land where you were initiated into the circle's mysterious rites.",
+    "data": {
+      "groups": [
+        "circle_of_the_land"
+      ]
+    }
+  },
+  {
+    "id": "circle_of_the_land_mountain",
+    "name": "Circle of the Land: Mountain",
+    "description": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk. As a member of this circle, your magic is influenced by the land where you were initiated into the circle's mysterious rites.",
+    "data": {
+      "groups": [
+        "circle_of_the_land"
+      ]
+    }
+  },
+  {
+    "id": "circle_of_the_land_swamp",
+    "name": "Circle of the Land: Swamp",
+    "description": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk. As a member of this circle, your magic is influenced by the land where you were initiated into the circle's mysterious rites.",
+    "data": {
+      "groups": [
+        "circle_of_the_land"
+      ]
+    }
+  },
+  {
+    "id": "fighter_fighting_style_archery",
+    "name": "Fighting Style: Archery",
+    "description": "You gain a +2 bonus to attack rolls you make with ranged weapons.",
+    "data": {
+      "groups": [
+        "fighter_fighting_style",
+        "additional_fighting_style"
+      ]
+    },
+    "summary": "+2 to ranged weapon attacks",
+    "modifiers": [
+      {
+        "target": "ranged_attack_bonus",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "fighter_fighting_style_defense",
+    "name": "Fighting Style: Defense",
+    "description": "While you are wearing armor, you gain a +1 bonus to AC.",
+    "data": {
+      "groups": [
+        "fighter_fighting_style",
+        "additional_fighting_style"
+      ]
+    },
+    "summary": "+1 AC while wearing armor",
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1,
+        "when": "@armor_worn"
+      }
+    ]
+  },
+  {
+    "id": "fighter_fighting_style_dueling",
+    "name": "Fighting Style: Dueling",
+    "description": "When you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon.",
+    "data": {
+      "groups": [
+        "fighter_fighting_style",
+        "additional_fighting_style"
+      ]
+    },
+    "summary": "+2 damage with a one-handed melee weapon",
+    "modifiers": [
+      {
+        "target": "melee_damage_bonus",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "fighter_fighting_style_great_weapon_fighting",
+    "name": "Fighting Style: Great Weapon Fighting",
+    "description": "When you roll a 1 or 2 on a damage die for an attack you make with a melee weapon that you are wielding with two hands, you can reroll the die and must use the new roll, even if the new roll is a 1 or a 2. The weapon must have the two-handed or versatile property for you to gain this benefit.",
+    "data": {
+      "groups": [
+        "fighter_fighting_style",
+        "additional_fighting_style"
+      ]
+    }
+  },
+  {
+    "id": "fighter_fighting_style_protection",
+    "name": "Fighting Style: Protection",
+    "description": "When a creature you can see attacks a target other than you that is within 5 feet of you, you can use your reaction to impose disadvantage on the attack roll. You must be wielding a shield.",
+    "data": {
+      "groups": [
+        "fighter_fighting_style",
+        "additional_fighting_style"
+      ]
+    }
+  },
+  {
+    "id": "fighter_fighting_style_two_weapon_fighting",
+    "name": "Fighting Style: Two-Weapon Fighting",
+    "description": "When you engage in two-weapon fighting, you can add your ability modifier to the damage of the second attack.",
+    "data": {
+      "groups": [
+        "fighter_fighting_style",
+        "additional_fighting_style"
+      ]
+    }
+  },
+  {
+    "id": "fighting_style_defense",
+    "name": "Fighting Style: Defense",
+    "description": "While you are wearing armor, you gain a +1 bonus to AC.",
+    "data": {
+      "groups": [
+        "paladin_fighting_style"
+      ]
+    },
+    "summary": "+1 AC while wearing armor",
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1,
+        "when": "@armor_worn"
+      }
+    ]
+  },
+  {
+    "id": "fighting_style_dueling",
+    "name": "Fighting Style: Dueling",
+    "description": "When you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon.",
+    "data": {
+      "groups": [
+        "paladin_fighting_style"
+      ]
+    },
+    "summary": "+2 damage with a one-handed melee weapon",
+    "modifiers": [
+      {
+        "target": "melee_damage_bonus",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "fighting_style_great_weapon_fighting",
+    "name": "Fighting Style: Great Weapon Fighting",
+    "description": "When you roll a 1 or 2 on a damage die for an attack you make with a melee weapon that you are wielding with two hands, you can reroll the die and must use the new roll. The weapon must have the two-handed or versatile property for you to gain this benefit.",
+    "data": {
+      "groups": [
+        "paladin_fighting_style"
+      ]
+    }
+  },
+  {
+    "id": "fighting_style_protection",
+    "name": "Fighting Style: Protection",
+    "description": "When a creature you can see attacks a target other than you that is within 5 feet of you, you can use your reaction to impose disadvantage on the attack roll. You must be wielding a shield.",
+    "data": {
+      "groups": [
+        "paladin_fighting_style"
+      ]
+    }
+  },
+  {
+    "id": "ranger_fighting_style_archery",
+    "name": "Fighting Style: Archery",
+    "description": "You gain a +2 bonus to attack rolls you make with ranged weapons.",
+    "data": {
+      "groups": [
+        "ranger_fighting_style"
+      ]
+    },
+    "summary": "+2 to ranged weapon attacks",
+    "modifiers": [
+      {
+        "target": "ranged_attack_bonus",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "ranger_fighting_style_defense",
+    "name": "Fighting Style: Defense",
+    "description": "While you are wearing armor, you gain a +1 bonus to AC.",
+    "data": {
+      "groups": [
+        "ranger_fighting_style"
+      ]
+    },
+    "summary": "+1 AC while wearing armor",
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1,
+        "when": "@armor_worn"
+      }
+    ]
+  },
+  {
+    "id": "ranger_fighting_style_dueling",
+    "name": "Fighting Style: Dueling",
+    "description": "When you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon.",
+    "data": {
+      "groups": [
+        "ranger_fighting_style"
+      ]
+    },
+    "summary": "+2 damage with a one-handed melee weapon",
+    "modifiers": [
+      {
+        "target": "melee_damage_bonus",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "ranger_fighting_style_two_weapon_fighting",
+    "name": "Fighting Style: Two-Weapon Fighting",
+    "description": "When you engage in two-weapon fighting, you can add your ability modifier to the damage of the second attack.",
+    "data": {
+      "groups": [
+        "ranger_fighting_style"
+      ]
+    }
+  },
+  {
+    "id": "hunters_prey_colossus_slayer",
+    "name": "Hunter's Prey: Colossus Slayer",
+    "description": "Your tenacity can wear down the most potent foes. When you hit a creature with a weapon attack, the creature takes an extra 1d8 damage if it's below its hit point maximum. You can deal this extra damage only once per turn.",
+    "data": {
+      "groups": [
+        "hunters_prey"
+      ]
+    }
+  },
+  {
+    "id": "hunters_prey_giant_killer",
+    "name": "Hunter's Prey: Giant Killer",
+    "description": "When a Large or larger creature within 5 feet of you hits or misses you with an attack, you can use your reaction to attack that creature immediately after its attack, provided that you can see the creature.",
+    "data": {
+      "groups": [
+        "hunters_prey"
+      ]
+    }
+  },
+  {
+    "id": "hunters_prey_horde_breaker",
+    "name": "Hunter's Prey: Horde Breaker",
+    "description": "Once on each of your turns when you make a weapon attack, you can make another attack with the same weapon against a different creature that is within 5 feet of the original target and within range of your weapon.",
+    "data": {
+      "groups": [
+        "hunters_prey"
+      ]
+    }
+  },
+  {
+    "id": "defensive_tactics_escape_the_horde",
+    "name": "Defensive Tactics: Escape the Horde",
+    "description": "Opportunity attacks against you are made with disadvantage.",
+    "data": {
+      "groups": [
+        "defensive_tactics"
+      ]
+    }
+  },
+  {
+    "id": "defensive_tactics_multiattack_defense",
+    "name": "Defensive Tactics: Multiattack Defense",
+    "description": "When a creature hits you with an attack, you gain a +4 bonus to AC against all subsequent attacks made by that creature for the rest of the turn.",
+    "data": {
+      "groups": [
+        "defensive_tactics"
+      ]
+    }
+  },
+  {
+    "id": "defensive_tactics_steel_will",
+    "name": "Defensive Tactics: Steel Will",
+    "description": "You have advantage on saving throws against being frightened.",
+    "data": {
+      "groups": [
+        "defensive_tactics"
+      ]
+    }
+  },
+  {
+    "id": "multiattack_volley",
+    "name": "Multiattack: Volley",
+    "description": "You can use your action to make a ranged attack against any number of creatures within 10 feet of a point you can see within your weapon's range. You must have ammunition for each target, as normal, and you make a separate attack roll for each target.",
+    "data": {
+      "groups": [
+        "multiattack"
+      ]
+    }
+  },
+  {
+    "id": "multiattack_whirlwind_attack",
+    "name": "Multiattack: Whirlwind Attack",
+    "description": "You can use your action to make a melee attack against any number of creatures within 5 feet of you, with a separate attack roll for each target.",
+    "data": {
+      "groups": [
+        "multiattack"
+      ]
+    }
+  },
+  {
+    "id": "superior_hunters_defense_evasion",
+    "name": "Superior Hunter's Defense: Evasion",
+    "description": "When you are subjected to an effect, such as a red dragon's fiery breath or a lightning bolt spell, that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail.",
+    "data": {
+      "groups": [
+        "superior_hunters_defense"
+      ]
+    }
+  },
+  {
+    "id": "superior_hunters_defense_stand_against_the_tide",
+    "name": "Superior Hunter's Defense: Stand Against the Tide",
+    "description": "When a hostile creature misses you with a melee attack, you can use your reaction to force that creature to repeat the same attack against another creature (other than itself) of your choice.",
+    "data": {
+      "groups": [
+        "superior_hunters_defense"
+      ]
+    }
+  },
+  {
+    "id": "superior_hunters_defense_uncanny_dodge",
+    "name": "Superior Hunter's Defense: Uncanny Dodge",
+    "description": "When an attacker that you can see hits you with an attack, you can use your reaction to halve the attack's damage against you.",
+    "data": {
+      "groups": [
+        "superior_hunters_defense"
+      ]
+    }
+  },
+  {
+    "id": "dragon_ancestor_black___acid_damage",
+    "name": "Dragon Ancestor: Black - Acid Damage",
+    "description": "At 1st level, you choose one type of dragon as your ancestor. The damage type associated with each dragon is used by features you gain later.\n\nYou can speak, read, and write Draconic. Additionally, whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.",
+    "data": {
+      "groups": [
+        "dragon_ancestor"
+      ]
+    }
+  },
+  {
+    "id": "dragon_ancestor_blue___lightning_damage",
+    "name": "Dragon Ancestor: Blue - Lightning Damage",
+    "description": "At 1st level, you choose one type of dragon as your ancestor. The damage type associated with each dragon is used by features you gain later.\n\nYou can speak, read, and write Draconic. Additionally, whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.",
+    "data": {
+      "groups": [
+        "dragon_ancestor"
+      ]
+    }
+  },
+  {
+    "id": "dragon_ancestor_brass___fire_damage",
+    "name": "Dragon Ancestor: Brass - Fire Damage",
+    "description": "At 1st level, you choose one type of dragon as your ancestor. The damage type associated with each dragon is used by features you gain later.\n\nYou can speak, read, and write Draconic. Additionally, whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.",
+    "data": {
+      "groups": [
+        "dragon_ancestor"
+      ]
+    }
+  },
+  {
+    "id": "dragon_ancestor_bronze___lightning_damage",
+    "name": "Dragon Ancestor: Bronze - Lightning Damage",
+    "description": "At 1st level, you choose one type of dragon as your ancestor. The damage type associated with each dragon is used by features you gain later.\n\nYou can speak, read, and write Draconic. Additionally, whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.",
+    "data": {
+      "groups": [
+        "dragon_ancestor"
+      ]
+    }
+  },
+  {
+    "id": "dragon_ancestor_copper___acid_damage",
+    "name": "Dragon Ancestor: Copper - Acid Damage",
+    "description": "At 1st level, you choose one type of dragon as your ancestor. The damage type associated with each dragon is used by features you gain later.\n\nYou can speak, read, and write Draconic. Additionally, whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.",
+    "data": {
+      "groups": [
+        "dragon_ancestor"
+      ]
+    }
+  },
+  {
+    "id": "dragon_ancestor_gold___fire_damage",
+    "name": "Dragon Ancestor: Gold - Fire Damage",
+    "description": "At 1st level, you choose one type of dragon as your ancestor. The damage type associated with each dragon is used by features you gain later.\n\nYou can speak, read, and write Draconic. Additionally, whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.",
+    "data": {
+      "groups": [
+        "dragon_ancestor"
+      ]
+    }
+  },
+  {
+    "id": "dragon_ancestor_green___poison_damage",
+    "name": "Dragon Ancestor: Green - Poison Damage",
+    "description": "At 1st level, you choose one type of dragon as your ancestor. The damage type associated with each dragon is used by features you gain later.\n\nYou can speak, read, and write Draconic. Additionally, whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.",
+    "data": {
+      "groups": [
+        "dragon_ancestor"
+      ]
+    }
+  },
+  {
+    "id": "dragon_ancestor_red___fire_damage",
+    "name": "Dragon Ancestor: Red - Fire Damage",
+    "description": "At 1st level, you choose one type of dragon as your ancestor. The damage type associated with each dragon is used by features you gain later.\n\nYou can speak, read, and write Draconic. Additionally, whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.",
+    "data": {
+      "groups": [
+        "dragon_ancestor"
+      ]
+    }
+  },
+  {
+    "id": "dragon_ancestor_silver___cold_damage",
+    "name": "Dragon Ancestor: Silver - Cold Damage",
+    "description": "At 1st level, you choose one type of dragon as your ancestor. The damage type associated with each dragon is used by features you gain later.\n\nYou can speak, read, and write Draconic. Additionally, whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.",
+    "data": {
+      "groups": [
+        "dragon_ancestor"
+      ]
+    }
+  },
+  {
+    "id": "dragon_ancestor_white___cold_damage",
+    "name": "Dragon Ancestor: White - Cold Damage",
+    "description": "At 1st level, you choose one type of dragon as your ancestor. The damage type associated with each dragon is used by features you gain later.\n\nYou can speak, read, and write Draconic. Additionally, whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.",
+    "data": {
+      "groups": [
+        "dragon_ancestor"
+      ]
+    }
+  },
+  {
+    "id": "metamagic_careful_spell",
+    "name": "Metamagic: Careful Spell",
+    "description": "When you cast a spell that forces other creatures to make a saving throw, you can protect some of those creatures from the spell's full force. To do so, you spend 1 sorcery point and choose a number of those creatures up to your Charisma modifier (minimum of one creature). A chosen creature automatically succeeds on its saving throw against the spell.",
+    "data": {
+      "groups": [
+        "metamagic"
+      ],
+      "min_level": 3
+    }
+  },
+  {
+    "id": "metamagic_distant_spell",
+    "name": "Metamagic: Distant Spell",
+    "description": "When you cast a spell that has a range of 5 feet or greater, you can spend 1 sorcery point to double the range of the spell.\n\nWhen you cast a spell that has a range of touch, you can spend 1 sorcery point to make the range of the spell 30 feet.",
+    "data": {
+      "groups": [
+        "metamagic"
+      ],
+      "min_level": 3
+    }
+  },
+  {
+    "id": "metamagic_empowered_spell",
+    "name": "Metamagic: Empowered Spell",
+    "description": "When you roll damage for a spell, you can spend 1 sorcery point to reroll a number of the damage dice up to your Charisma modifier (minimum of one). You must use the new rolls.\n\nYou can use Empowered Spell even if you have already used a different Metamagic option during the casting of the spell.",
+    "data": {
+      "groups": [
+        "metamagic"
+      ],
+      "min_level": 3
+    }
+  },
+  {
+    "id": "metamagic_extended_spell",
+    "name": "Metamagic: Extended Spell",
+    "description": "When you cast a spell that has a duration of 1 minute or longer, you can spend 1 sorcery point to double its duration, to a maximum duration of 24 hours.",
+    "data": {
+      "groups": [
+        "metamagic"
+      ],
+      "min_level": 3
+    }
+  },
+  {
+    "id": "metamagic_heightened_spell",
+    "name": "Metamagic: Heightened Spell",
+    "description": "When you cast a spell that forces a creature to make a saving throw to resist its effects, you can spend 3 sorcery points to give one target of the spell disadvantage on its first saving throw made against the spell.",
+    "data": {
+      "groups": [
+        "metamagic"
+      ],
+      "min_level": 3
+    }
+  },
+  {
+    "id": "metamagic_quickened_spell",
+    "name": "Metamagic: Quickened Spell",
+    "description": "When you cast a spell that has a casting time of 1 action, you can spend 2 sorcery points to change the casting time to 1 bonus action for this casting.",
+    "data": {
+      "groups": [
+        "metamagic"
+      ],
+      "min_level": 3
+    }
+  },
+  {
+    "id": "metamagic_subtle_spell",
+    "name": "Metamagic: Subtle Spell",
+    "description": "When you cast a spell, you can spend 1 sorcery point to cast it without any somatic or verbal components.",
+    "data": {
+      "groups": [
+        "metamagic"
+      ],
+      "min_level": 3
+    }
+  },
+  {
+    "id": "metamagic_twinned_spell",
+    "name": "Metamagic: Twinned Spell",
+    "description": "When you cast a spell that targets only one creature and doesn't have a range of self, you can spend a number of sorcery points equal to the spell's level to target a second creature in range with the same spell (1 sorcery point if the spell is a cantrip).\n\nTo be eligible, a spell must be incapable of targeting more than one creature at the spell's current level. For example, magic missile and scorching ray aren't eligible, but ray of frost is.",
+    "data": {
+      "groups": [
+        "metamagic"
+      ],
+      "min_level": 3
+    }
+  },
+  {
+    "id": "eldritch_invocation_agonizing_blast",
+    "name": "Eldritch Invocation: Agonizing Blast",
+    "description": "When you cast eldritch blast, add your Charisma modifier to the damage it deals on a hit.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    },
+    "summary": "+{@mods.cha} damage per eldritch blast beam"
+  },
+  {
+    "id": "eldritch_invocation_armor_of_shadows",
+    "name": "Eldritch Invocation: Armor of Shadows",
+    "description": "You can cast mage armor on yourself at will, without expending a spell slot or material components.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    },
+    "summary": "Mage armor at will: AC 13 + Dex without armor",
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "13 + @mods.dex",
+        "when": "!@armor_worn"
+      }
+    ]
+  },
+  {
+    "id": "eldritch_invocation_beast_speech",
+    "name": "Eldritch Invocation: Beast Speech",
+    "description": "You can cast speak with animals at will, without expending a spell slot.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_beguiling_influence",
+    "name": "Eldritch Invocation: Beguiling Influence",
+    "description": "You gain proficiency in the Deception and Persuasion skills.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    },
+    "summary": "Proficient in Deception and Persuasion",
+    "modifiers": [
+      {
+        "target": "skills.deception",
+        "op": "add",
+        "value": "@prof_bonus",
+        "when": "!has(@prof.skills, 'deception')"
+      },
+      {
+        "target": "skills.persuasion",
+        "op": "add",
+        "value": "@prof_bonus",
+        "when": "!has(@prof.skills, 'persuasion')"
+      }
+    ]
+  },
+  {
+    "id": "eldritch_invocation_book_of_ancient_secrets",
+    "name": "Eldritch Invocation: Book of Ancient Secrets",
+    "description": "You can now inscribe magical rituals in your Book of Shadows. Choose two 1st-level spells that have the ritual tag from any class's spell list (the two needn't be from the same list). The spells appear in the book and don't count against the number of spells you know. With your Book of Shadows in hand, you can cast the chosen spells as rituals. You can't cast the spells except as rituals, unless you've learned them by some other means. You can also cast a warlock spell you know as a ritual if it has the ritual tag.\n\nOn your adventures, you can add other ritual spells to your Book of Shadows. When you find such a spell, you can add it to the book if the spell's level is equal to or less than half your warlock level (rounded up) and if you can spare the time to transcribe the spell. For each level of the spell, the transcription process takes 2 hours and costs 50 gp for the rare inks needed to inscribe it.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_devils_sight",
+    "name": "Eldritch Invocation: Devil's Sight",
+    "description": "You can see normally in darkness, both magical and nonmagical, to a distance of 120 feet.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_eldritch_sight",
+    "name": "Eldritch Invocation: Eldritch Sight",
+    "description": "You can cast detect magic at will, without expending a spell slot.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_eldritch_spear",
+    "name": "Eldritch Invocation: Eldritch Spear",
+    "description": "When you cast eldritch blast, its range is 300 feet.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_eyes_of_the_rune_keeper",
+    "name": "Eldritch Invocation: Eyes of the Rune Keeper",
+    "description": "You can read all writing.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_fiendish_vigor",
+    "name": "Eldritch Invocation: Fiendish Vigor",
+    "description": "You can cast false life on yourself at will as a 1st-level spell, without expending a spell slot or material components.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_gaze_of_two_minds",
+    "name": "Eldritch Invocation: Gaze of Two Minds",
+    "description": "You can use your action to touch a willing humanoid and perceive through its senses until the end of your next turn. As long as the creature is on the same plane of existence as you, you can use your action on subsequent turns to maintain this connection, extending the duration until the end of your next turn. While perceiving through the other creature's senses, you benefit from any special senses possessed by that creature, and you are blinded and deafened to your own surroundings.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_mask_of_many_faces",
+    "name": "Eldritch Invocation: Mask of Many Faces",
+    "description": "You can cast disguise self at will, without expending a spell slot.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_misty_visions",
+    "name": "Eldritch Invocation: Misty Visions",
+    "description": "You can cast silent image at will, without expending a spell slot or material components.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_repelling_blast",
+    "name": "Eldritch Invocation: Repelling Blast",
+    "description": "When you hit a creature with eldritch blast, you can push the creature up to 10 feet away from you in a straight line.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_thief_of_five_fates",
+    "name": "Eldritch Invocation: Thief of Five Fates",
+    "description": "You can cast bane once using a warlock spell slot. You can't do so again until you finish a long rest.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_voice_of_the_chain_master",
+    "name": "Eldritch Invocation: Voice of the Chain Master",
+    "description": "You can communicate telepathically with your familiar and perceive through your familiar's senses as long as you are on the same plane of existence.\n\nAdditionally, while perceiving through your familiar's senses, you can also speak through your familiar in your own voice, even if your familiar is normally incapable of speech.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 2
+    }
+  },
+  {
+    "id": "eldritch_invocation_mire_the_mind",
+    "name": "Eldritch Invocation: Mire the Mind",
+    "description": "You can cast slow once using a warlock spell slot. You can't do so again until you finish a long rest.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 5
+    }
+  },
+  {
+    "id": "eldritch_invocation_one_with_shadows",
+    "name": "Eldritch Invocation: One with Shadows",
+    "description": "When you are in an area of dim light or darkness, you can use your action to become invisible until you move or take an action or a reaction.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 5
+    }
+  },
+  {
+    "id": "eldritch_invocation_sign_of_ill_omen",
+    "name": "Eldritch Invocation: Sign of Ill Omen",
+    "description": "You can cast bestow curse once using a warlock spell slot. You can't do so again until you finish a long rest.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 5
+    }
+  },
+  {
+    "id": "eldritch_invocation_thirsting_blade",
+    "name": "Eldritch Invocation: Thirsting Blade",
+    "description": "You can attack with your pact weapon twice, instead of once, whenever you take the Attack action on your turn.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 5
+    }
+  },
+  {
+    "id": "eldritch_invocation_bewitching_whispers",
+    "name": "Eldritch Invocation: Bewitching Whispers",
+    "description": "You can cast compulsion once using a warlock spell slot. You can't do so again until you finish a long rest.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 7
+    }
+  },
+  {
+    "id": "eldritch_invocation_dreadful_word",
+    "name": "Eldritch Invocation: Dreadful Word",
+    "description": "You can cast confusion once using a warlock spell slot. You can't do so again until you finish a long rest.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 7
+    }
+  },
+  {
+    "id": "eldritch_invocation_sculptor_of_flesh",
+    "name": "Eldritch Invocation: Sculptor of Flesh",
+    "description": "You can cast polymorph once using a warlock spell slot. You can't do so again until you finish a long rest.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 7
+    }
+  },
+  {
+    "id": "eldritch_invocation_ascendant_step",
+    "name": "Eldritch Invocation: Ascendant Step",
+    "description": "You can cast levitate on yourself at will, without expending a spell slot or material components.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 9
+    }
+  },
+  {
+    "id": "eldritch_invocation_minions_of_chaos",
+    "name": "Eldritch Invocation: Minions of Chaos",
+    "description": "You can cast conjure elemental once using a warlock spell slot. You can't do so again until you finish a long rest.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 9
+    }
+  },
+  {
+    "id": "eldritch_invocation_otherworldly_leap",
+    "name": "Eldritch Invocation: Otherworldly Leap",
+    "description": "You can cast jump on yourself at will, without expending a spell slot or material components.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 9
+    }
+  },
+  {
+    "id": "eldritch_invocation_whispers_of_the_grave",
+    "name": "Eldritch Invocation: Whispers of the Grave",
+    "description": "You can cast speak with dead at will, without expending a spell slot.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 9
+    }
+  },
+  {
+    "id": "eldritch_invocation_lifedrinker",
+    "name": "Eldritch Invocation: Lifedrinker",
+    "description": "When you hit a creature with your pact weapon, the creature takes extra necrotic damage equal to your Charisma modifier (minimum 1).",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 12
+    },
+    "summary": "+{max(1, @mods.cha)} necrotic damage with your pact weapon"
+  },
+  {
+    "id": "eldritch_invocation_chains_of_carceri",
+    "name": "Eldritch Invocation: Chains of Carceri",
+    "description": "You can cast hold monster at will--targeting a celestial, fiend, or elemental--without expending a spell slot or material components. You must finish a long rest before you can use this invocation on the same creature again.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 15
+    }
+  },
+  {
+    "id": "eldritch_invocation_master_of_myriad_forms",
+    "name": "Eldritch Invocation: Master of Myriad Forms",
+    "description": "You can cast alter self at will, without expending a spell slot.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 15
+    }
+  },
+  {
+    "id": "eldritch_invocation_visions_of_distant_realms",
+    "name": "Eldritch Invocation: Visions of Distant Realms",
+    "description": "You can cast arcane eye at will, without expending a spell slot.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 15
+    }
+  },
+  {
+    "id": "eldritch_invocation_witch_sight",
+    "name": "Eldritch Invocation: Witch Sight",
+    "description": "You can see the true form of any shapechanger or creature concealed by illusion or transmutation magic while the creature is within 30 feet of you and within line of sight.",
+    "data": {
+      "groups": [
+        "eldritch_invocations"
+      ],
+      "min_level": 15
+    }
+  },
+  {
+    "id": "pact_of_the_chain",
+    "name": "Pact of the Chain",
+    "description": "You learn the find familiar spell and can cast it as a ritual. The spell doesn't count against your number of spells known.\n\nWhen you cast the spell, you can choose one of the normal forms for your familiar or one of the following special forms: imp, pseudodragon, quasit, or sprite.\n\nAdditionally, when you take the Attack action, you can forgo one of your own attacks to allow your familiar to make one attack of its own with its reaction.\n\nYour familiar is more cunning than a typical familiar. Its default form can be a reflection of your patron, with imps and quasits tied to the Fiend.",
+    "data": {
+      "groups": [
+        "pact_boon"
+      ]
+    }
+  },
+  {
+    "id": "pact_of_the_blade",
+    "name": "Pact of the Blade",
+    "description": "You can use your action to create a pact weapon in your empty hand. You can choose the form that this melee weapon takes each time you create it. You are proficient with it while you wield it. This weapon counts as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage.\n\nYour pact weapon disappears if it is more than 5 feet away from you for 1 minute or more. It also disappears if you use this feature again, if you dismiss the weapon (no action required), or if you die.\n\nYou can transform one magic weapon into your pact weapon by performing a special ritual while you hold the weapon. You perform the ritual over the course of 1 hour, which can be done during a short rest. You can then dismiss the weapon, shunting it into an extradimensional space, and it appears whenever you create your pact weapon thereafter. You can't affect an artifact or a sentient weapon in this way. The weapon ceases being your pact weapon if you die, if you perform the 1-hour ritual on a different weapon, or if you use a 1-hour ritual to break your bond to it. The weapon appears at your feet if it is in the extradimensional space when the bond breaks.\n\nIf you serve the Fiend, your weapon could be an axe made of black metal and adorned with decorative flames.",
+    "data": {
+      "groups": [
+        "pact_boon"
+      ]
+    }
+  },
+  {
+    "id": "pact_of_the_tome",
+    "name": "Pact of the Tome",
+    "description": "Your patron gives you a grimoire called a Book of Shadows. When you gain this feature, choose three cantrips from any class's spell list (the three needn't be from the same list). While the book is on your person, you can cast those cantrips at will. They don't count against your number of cantrips known. If they don't appear on the warlock spell list, they are nonetheless warlock spells for you.\n\nIf you lose your Book of Shadows, you can perform a 1-hour ceremony to receive a replacement from your patron. This ceremony can be performed during a short or long rest, and it destroys the previous book. The book turns to ash when you die.\n\nYour Book of Shadows could be a weighty tome bound in demon hide studded with iron, holding spells of conjuration and a wealth of forbidden lore about the sinister regions of the cosmos, a gift of the Fiend.",
+    "data": {
+      "groups": [
+        "pact_boon"
+      ]
+    }
+  },
+  {
+    "id": "draconic_ancestry_black",
+    "name": "Draconic Ancestry (Black)",
+    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",
+    "data": {
+      "groups": [
+        "draconic_ancestry"
+      ]
+    }
+  },
+  {
+    "id": "draconic_ancestry_blue",
+    "name": "Draconic Ancestry (Blue)",
+    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",
+    "data": {
+      "groups": [
+        "draconic_ancestry"
+      ]
+    }
+  },
+  {
+    "id": "draconic_ancestry_brass",
+    "name": "Draconic Ancestry (Brass)",
+    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",
+    "data": {
+      "groups": [
+        "draconic_ancestry"
+      ]
+    }
+  },
+  {
+    "id": "draconic_ancestry_bronze",
+    "name": "Draconic Ancestry (Bronze)",
+    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",
+    "data": {
+      "groups": [
+        "draconic_ancestry"
+      ]
+    }
+  },
+  {
+    "id": "draconic_ancestry_copper",
+    "name": "Draconic Ancestry (Copper)",
+    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",
+    "data": {
+      "groups": [
+        "draconic_ancestry"
+      ]
+    }
+  },
+  {
+    "id": "draconic_ancestry_gold",
+    "name": "Draconic Ancestry (Gold)",
+    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",
+    "data": {
+      "groups": [
+        "draconic_ancestry"
+      ]
+    }
+  },
+  {
+    "id": "draconic_ancestry_green",
+    "name": "Draconic Ancestry (Green)",
+    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",
+    "data": {
+      "groups": [
+        "draconic_ancestry"
+      ]
+    }
+  },
+  {
+    "id": "draconic_ancestry_red",
+    "name": "Draconic Ancestry (Red)",
+    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",
+    "data": {
+      "groups": [
+        "draconic_ancestry"
+      ]
+    }
+  },
+  {
+    "id": "draconic_ancestry_silver",
+    "name": "Draconic Ancestry (Silver)",
+    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",
+    "data": {
+      "groups": [
+        "draconic_ancestry"
+      ]
+    }
+  },
+  {
+    "id": "draconic_ancestry_white",
+    "name": "Draconic Ancestry (White)",
+    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",
+    "data": {
+      "groups": [
+        "draconic_ancestry"
+      ]
+    }
+  }
+]

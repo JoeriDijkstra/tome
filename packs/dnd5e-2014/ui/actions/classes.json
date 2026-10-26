@@ -1,0 +1,72 @@
+[
+  {
+    "id": "use_second_wind",
+    "label": "Use",
+    "enabled_when": "@res.second_wind.current > 0",
+    "effects": [
+      {
+        "op": "add",
+        "path": "res.second_wind.current",
+        "value": -1,
+        "min": 0
+      }
+    ]
+  },
+  {
+    "id": "use_action_surge",
+    "label": "Use",
+    "enabled_when": "@res.action_surge.current > 0",
+    "effects": [
+      {
+        "op": "add",
+        "path": "res.action_surge.current",
+        "value": -1,
+        "min": 0
+      }
+    ]
+  },
+  {
+    "id": "use_rage",
+    "label": "Rage",
+    "enabled_when": "@res.rage.current > 0",
+    "effects": [
+      {
+        "op": "add",
+        "path": "res.rage.current",
+        "value": -1,
+        "min": 0
+      }
+    ]
+  },
+  {
+    "id": "use_breath_weapon",
+    "label": "Breathe",
+    "enabled_when": "@res.breath_weapon.current > 0",
+    "effects": [
+      {
+        "op": "add",
+        "path": "res.breath_weapon.current",
+        "value": -1,
+        "min": 0
+      }
+    ]
+  },
+  {
+    "id": "use_relentless_endurance",
+    "label": "Use",
+    "enabled_when": "@res.relentless_endurance.current > 0 && @res.hp.current == 0",
+    "effects": [
+      {
+        "op": "add",
+        "path": "res.relentless_endurance.current",
+        "value": -1,
+        "min": 0
+      },
+      {
+        "op": "set",
+        "path": "res.hp.current",
+        "value": 1
+      }
+    ]
+  }
+]

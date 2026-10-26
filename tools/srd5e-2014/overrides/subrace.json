@@ -1,0 +1,11 @@
+{
+  "hill_dwarf": {
+    "modifiers": [
+      {
+        "target": "hp_max",
+        "op": "add",
+        "value": "@level"
+      }
+    ]
+  }
+}

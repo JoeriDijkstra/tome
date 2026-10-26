@@ -1,0 +1,96 @@
+{
+  "ring_of_protection": {
+    "summary": "+1 AC and saving throws",
+    "modifiers": [
+      { "target": "ac", "op": "add", "value": 1, "when": "$owner.attuned" },
+      { "target": "saves", "op": "add", "value": 1, "when": "$owner.attuned" }
+    ]
+  },
+  "cloak_of_protection": {
+    "summary": "+1 AC and saving throws",
+    "modifiers": [
+      { "target": "ac", "op": "add", "value": 1, "when": "$owner.attuned" },
+      { "target": "saves", "op": "add", "value": 1, "when": "$owner.attuned" }
+    ]
+  },
+  "bracers_of_defense": {
+    "summary": "+2 AC without armor or shield",
+    "modifiers": [
+      { "target": "ac", "op": "add", "value": 2, "when": "$owner.attuned && !@armor_worn && !@shield_worn" }
+    ]
+  },
+  "stone_of_good_luck_luckstone": {
+    "summary": "+1 to ability checks and saving throws",
+    "modifiers": [
+      { "target": "saves", "op": "add", "value": 1, "when": "$owner.attuned" },
+      { "target": "skills", "op": "add", "value": 1, "when": "$owner.attuned" },
+      { "target": "initiative", "op": "add", "value": 1, "when": "$owner.attuned" }
+    ]
+  },
+  "ioun_stone_of_protection": {
+    "summary": "+1 AC",
+    "modifiers": [
+      { "target": "ac", "op": "add", "value": 1, "when": "$owner.attuned" }
+    ]
+  },
+  "ioun_stone_of_mastery": {
+    "summary": "+1 proficiency bonus",
+    "modifiers": [
+      { "target": "prof_bonus", "op": "add", "value": 1, "when": "$owner.attuned" }
+    ]
+  },
+  "gauntlets_of_ogre_power": {
+    "summary": "Strength 19",
+    "modifiers": [
+      { "target": "abilities.str", "op": "max", "value": 19, "when": "$owner.attuned" }
+    ]
+  },
+  "headband_of_intellect": {
+    "summary": "Intelligence 19",
+    "modifiers": [
+      { "target": "abilities.int", "op": "max", "value": 19, "when": "$owner.attuned" }
+    ]
+  },
+  "amulet_of_health": {
+    "summary": "Constitution 19",
+    "modifiers": [
+      { "target": "abilities.con", "op": "max", "value": 19, "when": "$owner.attuned" }
+    ]
+  },
+  "belt_of_giant_strength_hill": {
+    "summary": "Strength 21",
+    "modifiers": [
+      { "target": "abilities.str", "op": "max", "value": 21, "when": "$owner.attuned" }
+    ]
+  },
+  "belt_of_giant_strength_stone": {
+    "summary": "Strength 23",
+    "modifiers": [
+      { "target": "abilities.str", "op": "max", "value": 23, "when": "$owner.attuned" }
+    ]
+  },
+  "belt_of_giant_strength_frost": {
+    "summary": "Strength 23",
+    "modifiers": [
+      { "target": "abilities.str", "op": "max", "value": 23, "when": "$owner.attuned" }
+    ]
+  },
+  "belt_of_giant_strength_fire": {
+    "summary": "Strength 25",
+    "modifiers": [
+      { "target": "abilities.str", "op": "max", "value": 25, "when": "$owner.attuned" }
+    ]
+  },
+  "belt_of_giant_strength_cloud": {
+    "summary": "Strength 27",
+    "modifiers": [
+      { "target": "abilities.str", "op": "max", "value": 27, "when": "$owner.attuned" }
+    ]
+  },
+  "belt_of_giant_strength_storm": {
+    "summary": "Strength 29",
+    "modifiers": [
+      { "target": "abilities.str", "op": "max", "value": 29, "when": "$owner.attuned" }
+    ]
+  }
+}

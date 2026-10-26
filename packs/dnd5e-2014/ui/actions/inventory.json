@@ -1,0 +1,92 @@
+[
+  {
+    "id": "add_item",
+    "label": "Add item",
+    "effects": [
+      {
+        "op": "choose",
+        "from": {
+          "entity_type": "item"
+        },
+        "count": 1,
+        "title": "Add an item",
+        "then": [
+          {
+            "op": "push",
+            "path": "inventory",
+            "value": "{item: $choice[0], qty: 1, equipped: false, attuned: false}"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "toggle_equip",
+    "label": "{$v.equipped ? 'Unequip' : 'Equip'}",
+    "visible_when": "entity($v.item).data.kind == 'weapon' || entity($v.item).data.kind == 'armor' || entity($v.item).data.kind == 'shield' || entity($v.item).data.kind == 'magic'",
+    "effects": [
+      {
+        "op": "toggle",
+        "path": "inventory[$k].equipped"
+      }
+    ]
+  },
+  {
+    "id": "toggle_attune",
+    "label": "{$v.attuned ? 'End attunement' : 'Attune'}",
+    "visible_when": "entity($v.item).data.attunement",
+    "enabled_when": "$v.attuned || @attuned < 3",
+    "effects": [
+      {
+        "op": "toggle",
+        "path": "inventory[$k].attuned"
+      }
+    ]
+  },
+  {
+    "id": "qty_up",
+    "label": "Add one",
+    "effects": [
+      {
+        "op": "add",
+        "path": "inventory[$k].qty",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "qty_down",
+    "label": "Remove one",
+    "visible_when": "$v.qty > 1",
+    "effects": [
+      {
+        "op": "add",
+        "path": "inventory[$k].qty",
+        "value": -1,
+        "min": 1
+      }
+    ]
+  },
+  {
+    "id": "remove_item",
+    "label": "Remove",
+    "style": "danger",
+    "effects": [
+      {
+        "op": "set",
+        "path": "inventory[$k].qty",
+        "value": 0
+      },
+      {
+        "op": "remove",
+        "path": "inventory",
+        "where": "$v.qty <= 0"
+      }
+    ]
+  },
+  {
+    "id": "edit_currency",
+    "label": "Edit coins",
+    "modal": "currency"
+  }
+]

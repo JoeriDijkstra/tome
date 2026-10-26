@@ -5,19 +5,14 @@ import { Alert, Modal, ScrollView, TextInput, View } from 'react-native';
 import { EnrichedMarkdownTextInput } from 'react-native-enriched-markdown';
 
 import { newId, type Note } from '@/data';
-import { Group, Icon, markdownStyle, ModalBar, Row, styles, TextButton, Txt, usePalette } from '@/ui/kit';
+import { Group, Icon, markdownStyle, matchesQuery, ModalBar, Row, SearchField, styles, TextButton, Txt, usePalette } from '@/ui/kit';
 
 import { useSheet } from './context';
 
 /** first line of the body without markdown markers, for the row subtitle */
 const preview = (body: string) => body.split('\n').map((l) => l.replace(/^[#>\-*+\d.)\s]+/, '').replace(/[*_~`]/g, '').trim()).find((l) => l) ?? '';
 
-/** every word of the query appears in the title or body, ignoring case and accents */
-const fold = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
-const matches = (note: Note, query: string) => {
-  const text = fold(`${note.title}\n${note.body}`);
-  return fold(query).split(/\s+/).filter(Boolean).every((w) => text.includes(w));
-};
+const matches = (note: Note, query: string) => matchesQuery(`${note.title}\n${note.body}`, query);
 
 export function Notes() {
   const { notes, editNotes, readonly } = useSheet();
@@ -43,13 +38,7 @@ export function Notes() {
 
   return (
     <>
-      {notes.length ? (
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: p.fill, borderRadius: 10, paddingHorizontal: 8, height: 36 }}>
-          <Icon name="magnifyingglass" android="search" size={16} color={p.secondary} />
-          <TextInput accessibilityLabel="Search notes" value={query} onChangeText={setQuery} placeholder="Search notes" placeholderTextColor={p.secondary}
-            returnKeyType="search" autoCorrect={false} autoCapitalize="none" clearButtonMode="while-editing" style={{ flex: 1, color: p.text, fontSize: 17 }} />
-        </View>
-      ) : null}
+      {notes.length ? <SearchField value={query} onChange={setQuery} placeholder="Search notes" /> : null}
       <Group footer={footer}>
         {shown.map((n) => (
           <Row key={n.id} label={n.title || 'Untitled'} title={n.title || 'Untitled'} chevron onPress={() => setOpen(n)}

@@ -4,7 +4,7 @@ import { Modal, ScrollView, View } from 'react-native';
 import { Tabs } from 'react-native-screens';
 
 import { type Character, data, loadPackSet, type PackSetResult } from '@/data';
-import { type Answer, type Breakdown, createView, type PromptRequest, runAction, runBatch } from '@/engine';
+import { type Answer, type Breakdown, createView, type PromptRequest, runAction, runBatch, truthy } from '@/engine';
 import type { Effect, Tab } from '@/engine/schema';
 import { Button, Group, IconButton, ModalBar, PACK_ICONS, Prose, Row, Screen, styles, TextButton, Txt, usePalette } from '@/ui/kit';
 import { SheetContext, type SheetCtx } from '@/ui/sheet/context';
@@ -25,6 +25,7 @@ export default function SheetScreen() {
   const [nav, setNav] = useState<{ key: string | null; provenance: number }>({ key: null, provenance: 0 });
   const [pending, setPending] = useState<{ request: PromptRequest; resolve: (a: Answer | null) => void } | null>(null);
   const [overlay, setOverlay] = useState<{ title: string; body?: string; breakdown?: Breakdown } | null>(null);
+  const [pageId, setPageId] = useState<string | null>(null);
   const [settings, setSettings] = useState(false);
   const [undoCount, setUndoCount] = useState(0);
   const [session] = useState(() => new SheetSession((d, depth) => { setDoc(d); setUndoCount(depth); }));
@@ -51,6 +52,7 @@ export default function SheetScreen() {
       effects: (effects: Effect[], vars) => session.write((d) => runBatch(compiled, d.state, effects, { name: d.name, vars, prompt })),
       explain: (path, label) => setOverlay({ title: label, breakdown: view.explain(path) }),
       detail: (title, body) => setOverlay({ title, body }),
+      open: setPageId,
       notes: doc.notes ?? [],
       editNotes: (change) => session.edit((d) => ({ ...d, notes: change(d.notes ?? []) })),
     };
@@ -85,13 +87,15 @@ export default function SheetScreen() {
   if (!ctx || !compiled || !view) return null;
 
   const header = compiled.sheet.header;
-  const current = compiled.tabs.find((t) => t.id === nav.key) ?? compiled.tabs[0];
+  // a pack hides tabs that don't apply to this character
+  const tabs = compiled.tabs.filter((t) => t.visible_when === undefined || truthy(view.eval(t.visible_when)));
+  const current = tabs.find((t) => t.id === nav.key) ?? tabs[0];
   const name = header?.title ? view.text(header.title) : doc.name;
-  const first = current === compiled.tabs[0];
+  const first = current === tabs[0];
   const page = (tab: Tab | undefined) => (
     <Screen>
       {/* the card is the character's identity, so it heads the first tab; tapping it opens settings */}
-      {tab === compiled.tabs[0] ? <CharacterCard title={name} subtitle={header?.subtitle ? view.text(header.subtitle) : undefined} onPress={() => setSettings(true)} /> : null}
+      {tab === tabs[0] ? <CharacterCard title={name} subtitle={header?.subtitle ? view.text(header.subtitle) : undefined} onPress={() => setSettings(true)} /> : null}
       {tab?.sections.map((s, i) => <SectionView key={`${tab.id}-${i}`} section={s} />)}
       {view.warnings.size ? (
         <Group header={`${view.warnings.size} pack warning${view.warnings.size === 1 ? '' : 's'}`}>
@@ -99,6 +103,17 @@ export default function SheetScreen() {
         </Group>
       ) : null}
     </Screen>
+  );
+  const pageView = pageId ? compiled.pages.get(pageId) : undefined;
+  const dialogs = (
+    <>
+      <Modal visible={pending !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => { pending?.resolve(null); setPending(null); }}>
+        {pending ? <PromptView request={pending.request} compiled={compiled} view={view} onAnswer={(a) => { pending.resolve(a); setPending(null); }} /> : null}
+      </Modal>
+      <Modal visible={overlay !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setOverlay(null)}>
+        {overlay ? <Overlay {...overlay} names={(source) => String(compiled.entities.get(source)?.envelope.name ?? source)} onClose={() => setOverlay(null)} /> : null}
+      </Modal>
+    </>
   );
   return (
     <SheetContext.Provider value={ctx}>
@@ -116,14 +131,14 @@ export default function SheetScreen() {
           ),
         }}
       />
-      {compiled.tabs.length > 1 ? (
+      {tabs.length > 1 ? (
         <View style={{ flex: 1 }}>
           <Tabs.Host
             navStateRequest={{ selectedScreenKey: current.id, baseProvenance: nav.provenance }}
             ios={{ tabBarTintColor: p.tint }}
             onTabSelected={(e) => setNav({ key: e.nativeEvent.selectedScreenKey, provenance: e.nativeEvent.provenance })}>
             {/* ponytail: SF Symbols only; Android tabs show titles until icons ship as drawables */}
-            {compiled.tabs.map((t) => (
+            {tabs.map((t) => (
               <Tabs.Screen key={t.id} screenKey={t.id} title={view.text(t.label)} ios={{ icon: { type: 'sfSymbol', name: PACK_ICONS[t.icon ?? 'list'].ios } }}>
                 {page(t)}
               </Tabs.Screen>
@@ -131,11 +146,19 @@ export default function SheetScreen() {
           </Tabs.Host>
         </View>
       ) : page(current)}
-      <Modal visible={pending !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => { pending?.resolve(null); setPending(null); }}>
-        {pending ? <PromptView request={pending.request} compiled={compiled} view={view} onAnswer={(a) => { pending.resolve(a); setPending(null); }} /> : null}
-      </Modal>
-      <Modal visible={overlay !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setOverlay(null)}>
-        {overlay ? <Overlay {...overlay} names={(source) => String(compiled.entities.get(source)?.envelope.name ?? source)} onClose={() => setOverlay(null)} /> : null}
+      {pageView ? null : dialogs}
+      {/* a pack page over the sheet; its widgets write through the same session, so it stays live */}
+      <Modal visible={pageView !== undefined} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setPageId(null)}>
+        {pageView ? (
+          <View style={{ flex: 1, backgroundColor: p.background }}>
+            <ModalBar title={view.text(pageView.label)} onCancel={() => setPageId(null)} cancelLabel="Done" />
+            <ScrollView contentContainerStyle={styles.screen}>
+              {pageView.sections.map((s, i) => <SectionView key={`${pageView.id}-${i}`} section={s} />)}
+            </ScrollView>
+            {/* iOS presents a modal only from the topmost one, so a page hosts the dialogs its widgets open */}
+            {dialogs}
+          </View>
+        ) : null}
       </Modal>
       {settingsModal}
     </SheetContext.Provider>

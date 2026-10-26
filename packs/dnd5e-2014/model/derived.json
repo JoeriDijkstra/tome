@@ -1,0 +1,129 @@
+[
+  {
+    "id": "level",
+    "formula": "sum(@classes, $v.level)"
+  },
+  {
+    "id": "main_class",
+    "formula": "map(@classes, $k)[0]"
+  },
+  {
+    "id": "class_level",
+    "formula": "@classes[@main_class].level ?? 0"
+  },
+  {
+    "id": "prof_bonus",
+    "formula": "floor((max(@level, 1) - 1) / 4) + 2"
+  },
+  {
+    "id": "mods",
+    "each": "abilities",
+    "formula": "floor(($v - 10) / 2)"
+  },
+  {
+    "id": "save_profs",
+    "formula": "entity(@main_class).data.saves ?? []"
+  },
+  {
+    "id": "saves",
+    "each": "abilities",
+    "formula": "@mods[$k] + (has(@save_profs, $k) ? @prof_bonus : 0)"
+  },
+  {
+    "id": "skills",
+    "each_type": "skill",
+    "formula": "@mods[$v.data.ability] + (has(@prof.skills, $v.id) ? @prof_bonus : 0) + (has(@prof.expertise, $v.id) ? @prof_bonus : 0)"
+  },
+  {
+    "id": "passive_perception",
+    "formula": "10 + @skills.perception"
+  },
+  {
+    "id": "initiative",
+    "formula": "@mods.dex"
+  },
+  {
+    "id": "speed",
+    "formula": "entity(@race).data.speed ?? 30"
+  },
+  {
+    "id": "armor_worn",
+    "formula": "count(@inventory, $v.equipped && entity($v.item).data.kind == 'armor') > 0"
+  },
+  {
+    "id": "shield_worn",
+    "formula": "count(@inventory, $v.equipped && entity($v.item).data.kind == 'shield') > 0"
+  },
+  {
+    "id": "ac",
+    "formula": "10 + @mods.dex"
+  },
+  {
+    "id": "melee_attack_bonus",
+    "formula": "0"
+  },
+  {
+    "id": "ranged_attack_bonus",
+    "formula": "0"
+  },
+  {
+    "id": "melee_damage_bonus",
+    "formula": "0"
+  },
+  {
+    "id": "ranged_damage_bonus",
+    "formula": "0"
+  },
+  {
+    "id": "hp_max",
+    "formula": "sum(@classes, sum($v.hp, $v)) + @level * @mods.con"
+  },
+  {
+    "id": "hit_die",
+    "formula": "entity(@main_class).data.hit_die"
+  },
+  {
+    "id": "spell_ability",
+    "formula": "entity(@main_class).data.cast_ability"
+  },
+  {
+    "id": "spell_dc",
+    "formula": "@spell_ability == null ? null : 8 + @prof_bonus + @mods[@spell_ability]"
+  },
+  {
+    "id": "spell_attack",
+    "formula": "@spell_ability == null ? null : @prof_bonus + @mods[@spell_ability]"
+  },
+  {
+    "id": "cantrips_known",
+    "formula": "lookup(@main_class, @class_level, 'cantrips_known') ?? 0"
+  },
+  {
+    "id": "spells_known",
+    "formula": "lookup(@main_class, @class_level, 'spells_known')"
+  },
+  {
+    "id": "prepare_max",
+    "formula": "entity(@main_class).data.prepares ? max(1, @mods[@spell_ability] + (entity(@main_class).data.caster == 'half' ? floor(@class_level / 2) : @class_level)) : null"
+  },
+  {
+    "id": "max_spell_level",
+    "formula": "max(count([1, 2, 3, 4, 5, 6, 7, 8, 9], (lookup(@main_class, @class_level, concat('slot_', $v)) ?? 0) > 0), lookup(@main_class, @class_level, 'pact_level') ?? 0)"
+  },
+  {
+    "id": "casts",
+    "formula": "@max_spell_level > 0 || @cantrips_known > 0 || len(@spells) > 0"
+  },
+  {
+    "id": "attuned",
+    "formula": "count(@inventory, $v.attuned)"
+  },
+  {
+    "id": "carried",
+    "formula": "sum(@inventory, ($v.qty ?? 1) * (entity($v.item).data.weight ?? 0))"
+  },
+  {
+    "id": "capacity",
+    "formula": "@abilities.str * 15"
+  }
+]

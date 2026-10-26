@@ -1,0 +1,12 @@
+[
+  {
+    "id": "notes",
+    "label": "Notes",
+    "icon": "note",
+    "sections": [
+      {
+        "widget": "notes"
+      }
+    ]
+  }
+]

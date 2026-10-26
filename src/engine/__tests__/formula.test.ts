@@ -62,6 +62,9 @@ describe('formula language', () => {
     expect(ev("count(@classes, $k != 'fighter')")).toBe(1);
     expect(ev('count(@cards, $v.on)')).toBe(1);
     expect(ev('map(@cards, $v.card)')).toEqual(['parry', 'mend']);
+    // filter keeps the elements (values, not keys) whose predicate holds, in order
+    expect(ev('filter(@cards, $v.on)')).toEqual([{ card: 'parry', on: true }]);
+    expect(ev("map(filter(@classes, $k != 'fighter'), $v.level)")).toEqual([2]);
     expect(ev("entities('x', $v.data.level > 1)")).toEqual([{ id: 'mend', data: { level: 2 } }]);
     expect(ev("entities('x', !has(map(@cards, $v.card), $v.id))")).toEqual([]);
   });
@@ -72,6 +75,9 @@ describe('formula language', () => {
     expect(ev('fmt_signed(floor((@abilities.dex - 10) / 2))')).toBe('-1');
     expect(ev('fmt_signed(0)')).toBe('+0');
     expect(ev("concat('L', @missing, 3)")).toBe('L3');
+    expect(ev("join(['a', @missing, 'b'])")).toBe('a, b');
+    expect(ev("join([1, 2], '/')")).toBe('1/2');
+    expect(ev('join(@n)')).toBeNull();
     expect(ev('clamp(@n, 0, 3)')).toBe(3);
     expect(ev('min(@n, @missing)')).toBeNull();
     expect(ev("has(@classes, 'fighter')")).toBe(true);

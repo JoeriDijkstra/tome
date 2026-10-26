@@ -28,6 +28,7 @@ export interface CResource {
   max: Ast;
   reset: string[];
   temp: boolean;
+  style?: S.ResourceDef['style'];
   gate?: Ast;
   at: string;
 }
@@ -84,6 +85,8 @@ export interface Compiled {
   sheet: S.Sheet;
   /** in `sheet.tabs` order */
   tabs: S.Tab[];
+  /** every tab by id, including pages: tabs that only open over the sheet from a stat's `open` */
+  pages: Map<string, S.Tab>;
   /** roots that at least one modifier targets */
   modTargets: Set<string>;
   /** parsed formula for a source string that compile() has seen */
@@ -265,7 +268,7 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
     seenResources.set(r.id, at);
     resourceIds.add(r.id);
     const max = f(r.max, `${at}/max`) ?? { t: 'lit', v: null };
-    return { id: r.id, label: r.label, max, reset: r.reset ?? [], temp: r.temp ?? false, gate, at };
+    return { id: r.id, label: r.label, max, reset: r.reset ?? [], temp: r.temp ?? false, style: r.style, gate, at };
   }
   // collect ids first so @res references resolve regardless of order
   for (const r of [
@@ -436,8 +439,10 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
     return def;
   }
   // ----- ui/: every field is text (a template) or a formula, by key; see SPEC → Text and formulas -----
-  const TEXT_KEYS = new Set(['label', 'title', 'subtitle', 'body', 'empty', 'text', 'message', 'description']);
+  const TEXT_KEYS = new Set(['label', 'title', 'subtitle', 'body', 'trailing', 'empty', 'text', 'message', 'description']);
   const FORMULA_KEYS = new Set(['value', 'sub', 'source', 'group_by', 'when', 'visible_when', 'enabled_when', 'filter', 'default', 'at']);
+  const tabIds = new Set(merged.tabs.map((x) => x.v.id));
+  const opened = new Set<string>();
   function checkUi(node: unknown, at: string) {
     if (Array.isArray(node)) { node.forEach((x, i) => checkUi(x, `${at}/${i}`)); return; }
     if (!node || typeof node !== 'object') return;
@@ -452,6 +457,7 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
       else if (k === 'cost_table' && typeof v === 'string') ref(tableIds, 'table', v, kat);
       else if (k === 'modal' && typeof v === 'string') ref(modalIds, 'modal', v, kat);
       else if (k === 'resource' && typeof v === 'string') ref(resourceIds, 'resource', v, kat);
+      else if (k === 'open' && typeof v === 'string') { opened.add(v); ref(tabIds, 'tab', v, kat); }
       else if (k === 'entity_type' && typeof v === 'string') ref(new Set(entityTypes.keys()), 'entity type', v, kat);
       else if (k === 'explain' && typeof v === 'string') p(v, kat, 'target');
       else if (k === 'path' && typeof v === 'string') p(v, kat, 'write');
@@ -484,10 +490,9 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
   const assets = new Set(merged.packs.flatMap((pk) => pk.assets));
   if (merged.manifest.icon && !assets.has(merged.manifest.icon)) err(`${merged.manifest.id}:manifest.json#/icon`, `no such asset '${merged.manifest.icon}'`);
   for (const { v: e, at } of merged.entities) if (e.image && !assets.has(e.image)) err(`${at}/image`, `no such asset '${e.image}'`);
-  const tabIds = new Set(merged.tabs.map((x) => x.v.id));
   const listed = new Set(merged.sheet?.v.tabs ?? []);
   merged.sheet?.v.tabs.forEach((x, i) => { if (!tabIds.has(x)) err(`${merged.sheet!.at}#/tabs/${i}`, `unknown tab '${x}'`); });
-  for (const x of merged.tabs) if (!listed.has(x.v.id)) warn(x.at, `tab '${x.v.id}' is not listed in ui/sheet.json`);
+  for (const x of merged.tabs) if (!listed.has(x.v.id) && !opened.has(x.v.id)) warn(x.at, `tab '${x.v.id}' is neither listed in ui/sheet.json nor opened by a stat`);
 
   // ownership is settled from the ownership formulas
   edge('owned', ownershipFormulas.flatMap(({ ast }) => nodesOf(ast)));
@@ -556,6 +561,7 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
     creation: merged.creation?.v,
     sheet: merged.sheet?.v ?? { tabs: [] },
     tabs: (merged.sheet?.v.tabs ?? []).map((id) => merged.tabs.find((x) => x.v.id === id)!.v),
+    pages: new Map(merged.tabs.map((x) => [x.v.id, x.v])),
     modTargets,
     locate: (ast) => locations.get(ast),
     formula(src) {

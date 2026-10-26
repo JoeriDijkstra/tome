@@ -1,0 +1,143 @@
+[
+  {
+    "id": "spells",
+    "label": "Spells",
+    "icon": "sparkles",
+    "visible_when": "@casts",
+    "sections": [
+      {
+        "widget": "stat_grid",
+        "columns": 3,
+        "visible_when": "@spell_ability != null",
+        "items": [
+          {
+            "label": "Ability",
+            "value": "lookup('abilities', @spell_ability, 'abbr')"
+          },
+          {
+            "label": "Save DC",
+            "value": "@spell_dc"
+          },
+          {
+            "label": "Attack",
+            "value": "fmt_signed(@spell_attack)"
+          }
+        ]
+      },
+      {
+        "widget": "resource",
+        "resource": "slot_1",
+        "label": "Level 1 slots",
+        "style": "slots",
+        "visible_when": "@res.slot_1.max > 0"
+      },
+      {
+        "widget": "resource",
+        "resource": "slot_2",
+        "label": "Level 2 slots",
+        "style": "slots",
+        "visible_when": "@res.slot_2.max > 0"
+      },
+      {
+        "widget": "resource",
+        "resource": "slot_3",
+        "label": "Level 3 slots",
+        "style": "slots",
+        "visible_when": "@res.slot_3.max > 0"
+      },
+      {
+        "widget": "resource",
+        "resource": "slot_4",
+        "label": "Level 4 slots",
+        "style": "slots",
+        "visible_when": "@res.slot_4.max > 0"
+      },
+      {
+        "widget": "resource",
+        "resource": "slot_5",
+        "label": "Level 5 slots",
+        "style": "slots",
+        "visible_when": "@res.slot_5.max > 0"
+      },
+      {
+        "widget": "resource",
+        "resource": "slot_6",
+        "label": "Level 6 slots",
+        "style": "slots",
+        "visible_when": "@res.slot_6.max > 0"
+      },
+      {
+        "widget": "resource",
+        "resource": "slot_7",
+        "label": "Level 7 slots",
+        "style": "slots",
+        "visible_when": "@res.slot_7.max > 0"
+      },
+      {
+        "widget": "resource",
+        "resource": "slot_8",
+        "label": "Level 8 slots",
+        "style": "slots",
+        "visible_when": "@res.slot_8.max > 0"
+      },
+      {
+        "widget": "resource",
+        "resource": "slot_9",
+        "label": "Level 9 slots",
+        "style": "slots",
+        "visible_when": "@res.slot_9.max > 0"
+      },
+      {
+        "widget": "resource",
+        "resource": "pact_slots",
+        "label": "Pact slots (level {lookup(@main_class, @class_level, 'pact_level')})",
+        "style": "slots",
+        "visible_when": "@res.pact_slots != null"
+      },
+      {
+        "widget": "text",
+        "visible_when": "@prepare_max != null",
+        "text": "Prepared **{len(@prepared)}** of {@prepare_max}. Tap a spell to read it; use its menu to prepare it."
+      },
+      {
+        "widget": "list",
+        "title": "Cantrips",
+        "source": "map(filter(@spells, entity($v).data.level == 0), entity($v))",
+        "row": {
+          "title": "{$v.name}",
+          "subtitle": "{$v.data.casting_time} · {$v.data.range}{$v.data.damage ? concat(' · ', $v.data.damage) : ''}"
+        }
+      },
+      {
+        "widget": "list",
+        "visible_when": "entity(@main_class).data.learns",
+        "source": "map(filter(@spells, entity($v).data.level > 0), entity($v))",
+        "group_by": "concat('Level ', $v.data.level)",
+        "empty": "No spells yet.",
+        "add": "learn_spell",
+        "row": {
+          "title": "{$v.name}",
+          "subtitle": "{$v.data.casting_time} · {$v.data.range}{$v.data.concentration ? ' · Concentration' : ''}",
+          "trailing": "{has(@prepared, $v.id) ? 'Prepared' : ''}",
+          "actions": [
+            "toggle_prepared"
+          ]
+        }
+      },
+      {
+        "widget": "list",
+        "visible_when": "!entity(@main_class).data.learns && @max_spell_level > 0",
+        "source": "entities('spell', has($v.data.classes, @main_class) && $v.data.level >= 1 && $v.data.level <= @max_spell_level)",
+        "group_by": "concat('Level ', $v.data.level)",
+        "row": {
+          "title": "{$v.name}",
+          "subtitle": "{$v.data.casting_time} · {$v.data.range}{$v.data.concentration ? ' · Concentration' : ''}",
+          "trailing": "{has(@prepared, $v.id) ? 'Prepared' : ''}",
+          "actions": [
+            "toggle_prepared"
+          ]
+        }
+      }
+    ]
+  }
+]

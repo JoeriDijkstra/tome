@@ -1,0 +1,104 @@
+{
+  "fighter_fighting_style_defense": {
+    "summary": "+1 AC while wearing armor",
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1,
+        "when": "@armor_worn"
+      }
+    ]
+  },
+  "fighter_fighting_style_archery": {
+    "summary": "+2 to ranged weapon attacks",
+    "modifiers": [
+      {
+        "target": "ranged_attack_bonus",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  "fighter_fighting_style_dueling": {
+    "summary": "+2 damage with a one-handed melee weapon",
+    "modifiers": [
+      {
+        "target": "melee_damage_bonus",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  "ranger_fighting_style_defense": {
+    "summary": "+1 AC while wearing armor",
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1,
+        "when": "@armor_worn"
+      }
+    ]
+  },
+  "ranger_fighting_style_archery": {
+    "summary": "+2 to ranged weapon attacks",
+    "modifiers": [
+      {
+        "target": "ranged_attack_bonus",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  "ranger_fighting_style_dueling": {
+    "summary": "+2 damage with a one-handed melee weapon",
+    "modifiers": [
+      {
+        "target": "melee_damage_bonus",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  "fighting_style_defense": {
+    "summary": "+1 AC while wearing armor",
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1,
+        "when": "@armor_worn"
+      }
+    ]
+  },
+  "fighting_style_dueling": {
+    "summary": "+2 damage with a one-handed melee weapon",
+    "modifiers": [
+      {
+        "target": "melee_damage_bonus",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  "eldritch_invocation_armor_of_shadows": {
+    "summary": "Mage armor at will: AC 13 + Dex without armor",
+    "modifiers": [
+      { "target": "ac", "op": "set", "value": "13 + @mods.dex", "when": "!@armor_worn" }
+    ]
+  },
+  "eldritch_invocation_agonizing_blast": {
+    "summary": "+{@mods.cha} damage per eldritch blast beam"
+  },
+  "eldritch_invocation_lifedrinker": {
+    "summary": "+{max(1, @mods.cha)} necrotic damage with your pact weapon"
+  },
+  "eldritch_invocation_beguiling_influence": {
+    "summary": "Proficient in Deception and Persuasion",
+    "modifiers": [
+      { "target": "skills.deception", "op": "add", "value": "@prof_bonus", "when": "!has(@prof.skills, 'deception')" },
+      { "target": "skills.persuasion", "op": "add", "value": "@prof_bonus", "when": "!has(@prof.skills, 'persuasion')" }
+    ]
+  }
+}

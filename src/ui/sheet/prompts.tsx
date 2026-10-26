@@ -5,7 +5,7 @@ import { ScrollView, Switch, TextInput, View } from 'react-native';
 
 import { type Answer, type Compiled, type PromptRequest, truthy, type View as SheetView } from '@/engine';
 import type { Input } from '@/engine/schema';
-import { Group, Icon, IconButton, ModalBar, Row, styles, Txt, usePalette } from '@/ui/kit';
+import { Group, Icon, IconButton, matchesQuery, ModalBar, Row, SearchField, styles, Txt, usePalette } from '@/ui/kit';
 
 export type Values = Record<string, unknown>;
 
@@ -86,6 +86,7 @@ function PackModal({ modalId, initial, compiled, view, onAnswer }: { modalId: st
 export function Field({ input, value, onChange, compiled, view, vars }: { input: Input; value: unknown; onChange: (v: unknown) => void; compiled: Compiled; view: SheetView; vars: Values }) {
   const p = usePalette();
   const label = input.label ? view.text(input.label, vars) : input.key;
+  const name = (id: string) => input.labels?.[id] ?? humanize(id);
   const footer = input.description ? view.text(input.description, vars) : undefined;
   const textStyle = { color: p.text, fontSize: 17 };
   switch (input.type) {
@@ -136,7 +137,7 @@ export function Field({ input, value, onChange, compiled, view, vars }: { input:
       return (
         <Group header={label} footer={footer}>
           {(Array.isArray(options) ? options : []).map((o) => (
-            <Row key={String(o)} title={humanize(String(o))} label={humanize(String(o))} onPress={() => onChange(o)} trailing={value === o ? <Icon name="checkmark" android="check" size={17} /> : undefined} />
+            <Row key={String(o)} title={name(String(o))} label={name(String(o))} onPress={() => onChange(o)} trailing={value === o ? <Icon name="checkmark" android="check" size={17} /> : undefined} />
           ))}
         </Group>
       );
@@ -145,11 +146,7 @@ export function Field({ input, value, onChange, compiled, view, vars }: { input:
       const options = (compiled.byType.get(input.entity_type ?? '') ?? [])
         .filter((e) => input.filter === undefined || truthy(view.eval(input.filter, { ...vars, v: e.envelope, k: e.id })))
         .map((e) => e.id);
-      return (
-        <Group header={label} footer={footer}>
-          {choiceRows(options, Array.isArray(value) ? (value as string[]) : [], input.max ?? 1, onChange, compiled, view)}
-        </Group>
-      );
+      return <ChoiceList header={label} footer={footer} options={options} selected={Array.isArray(value) ? (value as string[]) : []} max={input.max ?? 1} onChange={onChange} compiled={compiled} view={view} />;
     }
     case 'assign': {
       const given = (value ?? {}) as Record<string, number | undefined>;
@@ -165,10 +162,10 @@ export function Field({ input, value, onChange, compiled, view, vars }: { input:
       return (
         <Group header={label} footer={footer ?? `Use each of ${pool.join(', ')} once.`}>
           {(input.keys ?? []).map((k) => (
-            <Row key={k} title={humanize(k)} trailing={
-              <MenuView title={humanize(k)} actions={[...new Set(pool)].map((n) => ({ id: String(n), title: String(n), state: given[k] === n ? 'on' as const : undefined }))}
+            <Row key={k} title={name(k)} trailing={
+              <MenuView title={name(k)} actions={[...new Set(pool)].map((n) => ({ id: String(n), title: String(n), state: given[k] === n ? 'on' as const : undefined }))}
                 onPressAction={({ nativeEvent }) => pick(k, Number(nativeEvent.event))}>
-                <View accessibilityRole="button" accessibilityLabel={`${humanize(k)} value`} style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                <View accessibilityRole="button" accessibilityLabel={`${name(k)} value`} style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                   <Txt weight="600" color={given[k] === undefined ? p.secondary : p.tint} style={{ fontVariant: ['tabular-nums'] }}>{given[k] === undefined ? 'Choose' : String(given[k])}</Txt>
                   <Icon name="chevron.up.chevron.down" android="unfold_more" size={13} color={p.secondary} />
                 </View>
@@ -193,11 +190,11 @@ export function Field({ input, value, onChange, compiled, view, vars }: { input:
           {(input.keys ?? []).map((k) => {
             const n = scores[k] ?? input.min ?? 0;
             return (
-              <Row key={k} title={humanize(k)} trailing={
+              <Row key={k} title={name(k)} trailing={
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-                  <IconButton name="minus.circle" android="remove_circle_outline" label={`${humanize(k)} minus`} disabled={(input.min !== undefined && n - 1 < input.min) || !affordable(k, n - 1)} onPress={() => onChange({ ...scores, [k]: n - 1 })} />
+                  <IconButton name="minus.circle" android="remove_circle_outline" label={`${name(k)} minus`} disabled={(input.min !== undefined && n - 1 < input.min) || !affordable(k, n - 1)} onPress={() => onChange({ ...scores, [k]: n - 1 })} />
                   <Txt weight="600" style={{ minWidth: 28, textAlign: 'center', fontVariant: ['tabular-nums'] }}>{String(n)}</Txt>
-                  <IconButton name="plus.circle" android="add_circle_outline" label={`${humanize(k)} plus`} disabled={(input.max !== undefined && n + 1 > input.max) || !affordable(k, n + 1)} onPress={() => onChange({ ...scores, [k]: n + 1 })} />
+                  <IconButton name="plus.circle" android="add_circle_outline" label={`${name(k)} plus`} disabled={(input.max !== undefined && n + 1 > input.max) || !affordable(k, n + 1)} onPress={() => onChange({ ...scores, [k]: n + 1 })} />
                 </View>
               } />
             );
@@ -213,25 +210,39 @@ function Chooser({ title, options, count, compiled, view, onDone, onCancel }: { 
   return (
     <>
       <ModalBar title={title} onCancel={onCancel} confirm={{ label: 'Choose', onPress: () => onDone(selected), disabled: selected.length !== count }} />
-      <ScrollView contentContainerStyle={styles.screen}>
-        <Group footer={count > 1 ? `${selected.length} of ${count} chosen` : undefined}>
-          {choiceRows(options, selected, count, (ids) => setSelected(ids as string[]), compiled, view)}
-        </Group>
+      <ScrollView contentContainerStyle={styles.screen} keyboardShouldPersistTaps="handled">
+        <ChoiceList footer={count > 1 ? `${selected.length} of ${count} chosen` : undefined} options={options} selected={selected} max={count}
+          onChange={(ids) => setSelected(ids as string[])} compiled={compiled} view={view} />
       </ScrollView>
     </>
   );
 }
 
-/** Entities to pick from, with checkmarks; with max 1 a tap replaces the selection. */
-function choiceRows(options: string[], selected: string[], max: number, onChange: (ids: unknown) => void, compiled: Compiled, view: SheetView) {
-  return options.map((id) => {
-    const e = compiled.entities.get(id)!.envelope;
-    const on = selected.includes(id);
-    const toggle = () => onChange(on ? selected.filter((x) => x !== id) : max === 1 ? [id] : selected.length < max ? [...selected, id] : selected);
-    return (
-      <Row key={id} label={String(e.name)} onPress={toggle} title={String(e.name)}
-        subtitle={typeof e.summary === 'string' ? view.text(e.summary, { self: e }) : undefined}
-        trailing={on ? <Icon name="checkmark" android="check" size={17} /> : undefined} />
-    );
-  });
+/** Rows a long chooser renders at once; more load on request so big packs open instantly. */
+const PAGE = 50;
+
+/** Entities to pick from, with checkmarks; with max 1 a tap replaces the selection. Long lists get a search field. */
+function ChoiceList({ header, footer, options, selected, max, onChange, compiled, view }: {
+  header?: string; footer?: string; options: string[]; selected: string[]; max: number; onChange: (ids: unknown) => void; compiled: Compiled; view: SheetView;
+}) {
+  const [query, setQuery] = useState('');
+  const [limit, setLimit] = useState(PAGE);
+  const envelope = (id: string) => compiled.entities.get(id)!.envelope;
+  const matched = query.trim() ? options.filter((id) => matchesQuery(String(envelope(id).name), query)) : options;
+  return (
+    <>
+      {options.length > 10 ? <SearchField value={query} onChange={setQuery} placeholder={`Search ${options.length}`} /> : null}
+      <Group header={header} footer={query.trim() && matched.length === 0 ? `Nothing matches “${query.trim()}”.` : footer}>
+        {matched.slice(0, limit).map((id) => {
+          const e = envelope(id);
+          const name = String(e.name);
+          const on = selected.includes(id);
+          const toggle = () => onChange(on ? selected.filter((x) => x !== id) : max === 1 ? [id] : selected.length < max ? [...selected, id] : selected);
+          return <Row key={id} label={name} onPress={toggle} title={name} subtitle={typeof e.summary === 'string' ? view.text(e.summary, { self: e }) : undefined}
+            trailing={on ? <Icon name="checkmark" android="check" size={17} /> : undefined} />;
+        })}
+        {matched.length > limit ? <Row label="Show more" onPress={() => setLimit(limit + PAGE)} title={`Show more (${matched.length - limit} left)`} /> : null}
+      </Group>
+    </>
+  );
 }

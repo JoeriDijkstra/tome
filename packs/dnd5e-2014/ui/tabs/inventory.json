@@ -1,0 +1,74 @@
+[
+  {
+    "id": "inventory",
+    "label": "Inventory",
+    "icon": "backpack",
+    "sections": [
+      {
+        "widget": "list",
+        "title": "Equipment",
+        "source": "@inventory",
+        "empty": "Nothing carried.",
+        "add": "add_item",
+        "row": {
+          "title": "{entity($v.item).name}",
+          "subtitle": "{entity($v.item).data.category}{$v.equipped ? ' · Equipped' : ''}{$v.attuned ? ' · Attuned' : ''}",
+          "trailing": "{$v.qty > 1 ? concat('×', $v.qty) : ''}",
+          "actions": [
+            "toggle_equip",
+            "toggle_attune",
+            "qty_up",
+            "qty_down",
+            "remove_item"
+          ]
+        }
+      },
+      {
+        "widget": "stat_grid",
+        "title": "Currency",
+        "columns": 5,
+        "items": [
+          {
+            "label": "CP",
+            "value": "@currency.cp",
+            "action": "edit_currency"
+          },
+          {
+            "label": "SP",
+            "value": "@currency.sp",
+            "action": "edit_currency"
+          },
+          {
+            "label": "EP",
+            "value": "@currency.ep",
+            "action": "edit_currency"
+          },
+          {
+            "label": "GP",
+            "value": "@currency.gp",
+            "action": "edit_currency"
+          },
+          {
+            "label": "PP",
+            "value": "@currency.pp",
+            "action": "edit_currency"
+          }
+        ]
+      },
+      {
+        "widget": "stat_grid",
+        "columns": 2,
+        "items": [
+          {
+            "label": "Carried",
+            "value": "concat(@carried, ' / ', @capacity, ' lb')"
+          },
+          {
+            "label": "Attuned",
+            "value": "concat(@attuned, ' / 3')"
+          }
+        ]
+      }
+    ]
+  }
+]

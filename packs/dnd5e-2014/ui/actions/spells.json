@@ -1,0 +1,32 @@
+[
+  {
+    "id": "toggle_prepared",
+    "label": "{has(@prepared, $v.id) ? 'Unprepare' : 'Prepare'}",
+    "visible_when": "entity(@main_class).data.prepares && $v.data.level > 0",
+    "enabled_when": "has(@prepared, $v.id) || len(@prepared) < @prepare_max",
+    "effects": [
+      {
+        "op": "toggle",
+        "path": "prepared",
+        "value": "$v.id"
+      }
+    ]
+  },
+  {
+    "id": "learn_spell",
+    "label": "Add spell",
+    "enabled_when": "@max_spell_level > 0",
+    "effects": [
+      {
+        "op": "choose",
+        "from": {
+          "entity_type": "spell",
+          "filter": "has($v.data.classes, @main_class) && $v.data.level >= 1 && $v.data.level <= @max_spell_level && !has(@spells, $v.id)"
+        },
+        "count": 1,
+        "into": "spells",
+        "title": "Add a spell"
+      }
+    ]
+  }
+]

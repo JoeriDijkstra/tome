@@ -27,6 +27,10 @@ export interface ResourceState {
   current: number | null;
   temp: number | null;
   reset: string[];
+  /** the layout's default drawing for it, from the resource definition */
+  style: string | null;
+  /** the owned entity that provides it; null for the character's own resources (model/resources.json) */
+  source: string | null;
 }
 export interface Contribution {
   source: string;
@@ -360,16 +364,16 @@ export function createView(compiled: Compiled, stored: State, name = ''): View {
   function resources(): ResourceState[] {
     if (resourceCache) return resourceCache;
     resourceCache = [];
-    for (const r of compiled.resources) resourceCache.push(resourceState(r.id, r.label, r.max, r.reset, r.temp, undefined));
+    for (const r of compiled.resources) resourceCache.push(resourceState(r.id, r.label, r.max, r.reset, r.temp, r.style ?? null, null, undefined));
     for (const o of owned()) {
       for (const r of o.entity.resources) {
         if (r.gate && !truthy(run(r.gate, entityVars(o)))) continue;
-        resourceCache.push(resourceState(r.id, r.label, r.max, r.reset, r.temp, entityVars(o)));
+        resourceCache.push(resourceState(r.id, r.label, r.max, r.reset, r.temp, r.style ?? null, o.entity.id, entityVars(o)));
       }
     }
     return resourceCache;
   }
-  function resourceState(id: string, label: string, maxAst: Ast, reset: string[], temp: boolean, vars?: Record<string, unknown>): ResourceState {
+  function resourceState(id: string, label: string, maxAst: Ast, reset: string[], temp: boolean, style: string | null, source: string | null, vars?: Record<string, unknown>): ResourceState {
     const res = isPlain(state.res) ? state.res : {};
     const entry = isPlain(res[id]) ? res[id] : {};
     let cachedMax: number | null | undefined;
@@ -379,7 +383,7 @@ export function createView(compiled: Compiled, stored: State, name = ''): View {
     };
     // getters keep @res.x.current from evaluating max formulas it doesn't need
     return {
-      id, label, reset,
+      id, label, reset, style, source,
       get max() { return max(); },
       get current() {
         const stored = entry.current;

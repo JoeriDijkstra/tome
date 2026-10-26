@@ -1,0 +1,643 @@
+[
+  {
+    "id": "berserker",
+    "name": "Berserker",
+    "summary": "Primal Path",
+    "description": "For some barbarians, rage is a means to an end--that end being violence. The Path of the Berserker is a path of untrammeled fury, slick with blood. As you enter the berserker's rage, you thrill in the chaos of battle, heedless of your own health or well-being.",
+    "data": {
+      "class": "barbarian"
+    },
+    "features": [
+      {
+        "id": "frenzy",
+        "name": "Frenzy",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 3",
+        "description": "Starting when you choose this path at 3rd level, you can go into a frenzy when you rage. If you do so, for the duration of your rage you can make a single melee weapon attack as a bonus action on each of your turns after this one. When your rage ends, you suffer one level of exhaustion (as described in appendix A)."
+      },
+      {
+        "id": "mindless_rage",
+        "name": "Mindless Rage",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 6",
+        "description": "Beginning at 6th level, you can't be charmed or frightened while raging. If you are charmed or frightened when you enter your rage, the effect is suspended for the duration of the rage."
+      },
+      {
+        "id": "intimidating_presence",
+        "name": "Intimidating Presence",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 10",
+        "description": "Beginning at 10th level, you can use your action to frighten someone with your menacing presence. When you do so, choose one creature that you can see within 30 feet of you. If the creature can see or hear you, it must succeed on a Wisdom saving throw (DC equal to 8 + your proficiency bonus + your Charisma modifier) or be frightened of you until the end of your next turn. On subsequent turns, you can use your action to extend the duration of this effect on the frightened creature until the end of your next turn. This effect ends if the creature ends its turn out of line of sight or more than 60 feet away from you.\n\n If the creature succeeds on its saving throw, you can't use this feature on that creature again for 24 hours."
+      },
+      {
+        "id": "retaliation",
+        "name": "Retaliation",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 14",
+        "description": "Starting at 14th level, when you take damage from a creature that is within 5 feet of you, you can use your reaction to make a melee weapon Attack against that creature."
+      }
+    ]
+  },
+  {
+    "id": "lore",
+    "name": "Lore",
+    "summary": "Bard College",
+    "description": "Bards of the College of Lore know something about most things, collecting bits of knowledge from sources as diverse as scholarly tomes and peasant tales. Whether singing folk ballads in taverns or elaborate compositions in royal courts, these bards use their gifts to hold audiences spellbound. When the applause dies down, the audience members might find themselves questioning everything they held to be true, from their faith in the priesthood of the local temple to their loyalty to the king. The loyalty of these bards lies in the pursuit of beauty and truth, not in fealty to a monarch or following the tenets of a deity. A noble who keeps such a bard as a herald or advisor knows that the bard would rather be honest than politic. The college's members gather in libraries and sometimes in actual colleges, complete with classrooms and dormitories, to share their lore with one another. They also meet at festivals or affairs of state, where they can expose corruption, unravel lies, and poke fun at self-important figures of authority.",
+    "data": {
+      "class": "bard"
+    },
+    "features": [
+      {
+        "id": "bonus_proficiencies",
+        "name": "Bonus Proficiencies",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 3",
+        "description": "When you join the College of Lore at 3rd level, you gain proficiency with three skills of your choice."
+      },
+      {
+        "id": "cutting_words",
+        "name": "Cutting Words",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 3",
+        "description": "Also at 3rd level, you learn how to use your wit to distract, confuse, and otherwise sap the confidence and competence of others.\n\nWhen a creature that you can see within 60 feet of you makes an attack roll, an ability check, or a damage roll, you can use your reaction to expend one of your uses of Bardic Inspiration, rolling a Bardic Inspiration die and subtracting the number rolled from the creature's roll.\n\nYou can choose to use this feature after the creature makes its roll, but before the GM determines whether the attack roll or ability check succeeds or fails, or before the creature deals its damage. The creature is immune if it can't hear you or if it's immune to being charmed."
+      },
+      {
+        "id": "additional_magical_secrets",
+        "name": "Additional Magical Secrets",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 6",
+        "description": "At 6th level, you learn two spells of your choice from any class. A spell you choose must be of a level you can cast, as shown on the Bard table, or a cantrip. The chosen spells count as bard spells for you but don't count against the number of bard spells you know."
+      },
+      {
+        "id": "peerless_skill",
+        "name": "Peerless Skill",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 14",
+        "description": "Starting at 14th level, when you make an ability check, you can expend one use of Bardic Inspiration. Roll a Bardic Inspiration die and add the number rolled to your ability check. You can choose to do so after you roll the die for the ability check, but before the GM tells you whether you succeed or fail."
+      }
+    ]
+  },
+  {
+    "id": "life",
+    "name": "Life",
+    "summary": "Divine Domain",
+    "description": "The Life domain focuses on the vibrant positive energy--one of the fundamental forces of the universe--that sustains all life. The gods of life promote vitality and health through healing the sick and wounded, caring for those in need, and driving away the forces of death and undeath. Almost any non-evil deity can claim influence over this domain, particularly agricultural deities, sun gods, gods of healing or endurance, and gods of home and community.",
+    "data": {
+      "class": "cleric"
+    },
+    "features": [
+      {
+        "id": "bonus_proficiency",
+        "name": "Bonus Proficiency",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 1",
+        "description": "When you choose this domain at 1st level, you gain proficiency with heavy armor."
+      },
+      {
+        "id": "disciple_of_life",
+        "name": "Disciple of Life",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 1",
+        "description": "Also starting at 1st level, your healing spells are more effective. Whenever you use a spell of 1st level or higher to restore hit points to a creature, the creature regains additional hit points equal to 2 + the spell's level."
+      },
+      {
+        "id": "channel_divinity_preserve_life",
+        "name": "Channel Divinity: Preserve Life",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 2",
+        "description": "Starting at 2nd level, you can use your Channel Divinity to heal the badly injured.\n\nAs an action, you present your holy symbol and evoke healing energy that can restore a number of hit points equal to five times your cleric level.\n\nChoose any creatures within 30 feet of you, and divide those hit points among them. This feature can restore a creature to no more than half of its hit point maximum. You can't use this feature on an undead or a construct."
+      },
+      {
+        "id": "blessed_healer",
+        "name": "Blessed Healer",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 6",
+        "description": "Beginning at 6th level, the healing spells you cast on others heal you as well. When you cast a spell of 1st level or higher that restores hit points to a creature other than you, you regain hit points equal to 2 + the spell's level."
+      },
+      {
+        "id": "divine_strike",
+        "name": "Divine Strike",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 8",
+        "description": "At 8th level, you gain the ability to infuse your weapon strikes with divine energy. Once on each of your turns when you hit a creature with a weapon attack, you can cause the attack to deal an extra 1d8 radiant damage to the target. When you reach 14th level, the extra damage increases to 2d8."
+      }
+    ]
+  },
+  {
+    "id": "land",
+    "name": "Land",
+    "summary": "Druid Circle",
+    "description": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk. As a member of this circle, your magic is influenced by the land where you were initiated into the circle's mysterious rites.",
+    "data": {
+      "class": "druid"
+    },
+    "features": [
+      {
+        "id": "circle_of_the_land",
+        "name": "Circle of the Land",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 2",
+        "description": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk. As a member of this circle, your magic is influenced by the land where you were initiated into the circle's mysterious rites."
+      },
+      {
+        "id": "bonus_cantrip",
+        "name": "Bonus Cantrip",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 2",
+        "description": "When you choose this circle at 2nd level, you learn one additional druid cantrip of your choice."
+      },
+      {
+        "id": "natural_recovery",
+        "name": "Natural Recovery",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 2",
+        "description": "Starting at 2nd level, you can regain some of your magical energy by sitting in meditation and communing with nature. During a short rest, you choose expended spell slots to recover. The spell slots can have a combined level that is equal to or less than half your druid level (rounded up), and none of the slots can be 6th level or higher. You can't use this feature again until you finish a long rest.\n\nFor example, when you are a 4th-level druid, you can recover up to two levels worth of spell slots. You can recover either a 2nd-level slot or two 1st-level slots."
+      },
+      {
+        "id": "circle_spells_1",
+        "name": "Circle Spells",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 3",
+        "description": "Your mystical connection to the land infuses you with the ability to cast certain spells. At 3rd, 5th, 7th, and 9th level you gain access to circle spells connected to the land where you became a druid.\n\nChoose that land--arctic, coast, desert, forest, grassland, mountain, or swamp--and consult the associated list of spells.\n\nOnce you gain access to a circle spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day. If you gain access to a spell that doesn't appear on the druid spell list, the spell is nonetheless a druid spell for you."
+      },
+      {
+        "id": "circle_spells_2",
+        "name": "Circle Spells",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 5",
+        "description": "Your mystical connection to the land infuses you with the ability to cast certain spells. At 3rd, 5th, 7th, and 9th level you gain access to circle spells connected to the land where you became a druid.\n\nChoose that land--arctic, coast, desert, forest, grassland, mountain, or swamp--and consult the associated list of spells.\n\nOnce you gain access to a circle spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day. If you gain access to a spell that doesn't appear on the druid spell list, the spell is nonetheless a druid spell for you."
+      },
+      {
+        "id": "druid_lands_stride",
+        "name": "Land's Stride",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 6",
+        "description": "Starting at 6th level, moving through nonmagical difficult terrain costs you no extra movement. You can also pass through nonmagical plants without being slowed by them and without taking damage from them if they have thorns, spines, or a similar hazard.\n\nIn addition, you have advantage on saving throws against plants that are magically created or manipulated to impede movement, such those created by the entangle spell."
+      },
+      {
+        "id": "circle_spells_3",
+        "name": "Circle Spells",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 7",
+        "description": "Your mystical connection to the land infuses you with the ability to cast certain spells. At 3rd, 5th, 7th, and 9th level you gain access to circle spells connected to the land where you became a druid.\n\nChoose that land--arctic, coast, desert, forest, grassland, mountain, or swamp--and consult the associated list of spells.\n\nOnce you gain access to a circle spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day. If you gain access to a spell that doesn't appear on the druid spell list, the spell is nonetheless a druid spell for you."
+      },
+      {
+        "id": "circle_spells_4",
+        "name": "Circle Spells",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 9",
+        "description": "Your mystical connection to the land infuses you with the ability to cast certain spells. At 3rd, 5th, 7th, and 9th level you gain access to circle spells connected to the land where you became a druid.\n\nChoose that land--arctic, coast, desert, forest, grassland, mountain, or swamp--and consult the associated list of spells.\n\nOnce you gain access to a circle spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day. If you gain access to a spell that doesn't appear on the druid spell list, the spell is nonetheless a druid spell for you."
+      },
+      {
+        "id": "natures_ward",
+        "name": "Nature's Ward",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 10",
+        "description": "When you reach 10th level, you can't be charmed or frightened by elementals or fey, and you are immune to poison and disease."
+      },
+      {
+        "id": "natures_sanctuary",
+        "name": "Nature's Sanctuary",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 14",
+        "description": "When you reach 14th level, creatures of the natural world sense your connection to nature and become hesitant to attack you. When a beast or plant creature attacks you, that creature must make a Wisdom saving throw against your druid spell save DC. On a failed save, the creature must choose a different target, or the attack automatically misses. On a successful save, the creature is immune to this effect for 24 hours. The creature is aware of this effect before it makes its attack against you."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "2": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'circle_of_the_land') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Circle of the Land"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "champion",
+    "name": "Champion",
+    "summary": "Martial Archetype",
+    "description": "The archetypal Champion focuses on the development of raw physical power honed to deadly perfection. Those who model themselves on this archetype combine rigorous training with physical excellence to deal devastating blows.",
+    "data": {
+      "class": "fighter"
+    },
+    "features": [
+      {
+        "id": "improved_critical",
+        "name": "Improved Critical",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 3",
+        "description": "Beginning when you choose this archetype at 3rd level, your weapon attacks score a critical hit on a roll of 19 or 20.",
+        "summary": "Weapon attacks crit on 19–20"
+      },
+      {
+        "id": "remarkable_athlete",
+        "name": "Remarkable Athlete",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 7",
+        "description": "Starting at 7th level, you can add half your proficiency bonus (round up) to any Strength, Dexterity, or Constitution check you make that doesn't already use your proficiency bonus. In addition, when you make a running long jump, the distance you can cover increases by a number of feet equal to your Strength modifier.",
+        "summary": "+{ceil(@prof_bonus / 2)} to Str, Dex and Con checks you aren't proficient in",
+        "modifiers": [
+          {
+            "target": "initiative",
+            "op": "add",
+            "value": "ceil(@prof_bonus / 2)"
+          },
+          {
+            "target": "skills.athletics",
+            "op": "add",
+            "value": "ceil(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'athletics')"
+          },
+          {
+            "target": "skills.acrobatics",
+            "op": "add",
+            "value": "ceil(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'acrobatics')"
+          },
+          {
+            "target": "skills.sleight_of_hand",
+            "op": "add",
+            "value": "ceil(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'sleight_of_hand')"
+          },
+          {
+            "target": "skills.stealth",
+            "op": "add",
+            "value": "ceil(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'stealth')"
+          }
+        ]
+      },
+      {
+        "id": "additional_fighting_style",
+        "name": "Additional Fighting Style",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 10",
+        "description": "At 10th level, you can choose a second option from the Fighting Style class feature."
+      },
+      {
+        "id": "superior_critical",
+        "name": "Superior Critical",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 15",
+        "description": "Starting at 15th level, your weapon attacks score a critical hit on a roll of 18-20.",
+        "summary": "Weapon attacks crit on 18–20"
+      },
+      {
+        "id": "survivor",
+        "name": "Survivor",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 18",
+        "description": "At 18th level, you attain the pinnacle of resilience in battle. At the start of each of your turns, you regain hit points equal to 5 + your Constitution modifier if you have no more than half of your hit points left. You don't gain this benefit if you have 0 hit points.",
+        "summary": "Regain {5 + @mods.con} HP at the start of each turn while at or below half HP"
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "10": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'additional_fighting_style') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Additional Fighting Style"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "open_hand",
+    "name": "Open Hand",
+    "summary": "Monastic Tradition",
+    "description": "Monks of the Way of the Open Hand are the ultimate masters of martial arts combat, whether armed or unarmed. They learn techniques to push and trip their opponents, manipulate ki to heal damage to their bodies, and practice advanced meditation that can protect them from harm.",
+    "data": {
+      "class": "monk"
+    },
+    "features": [
+      {
+        "id": "open_hand_technique",
+        "name": "Open Hand Technique",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 3",
+        "description": "Starting when you choose this tradition at 3rd level, you can manipulate your enemy's ki when you harness your own. Whenever you hit a creature with one of the attacks granted by your Flurry of Blows, you can impose one of the following effects on that target:\n\n- It must succeed on a Dexterity saving throw or be knocked prone.\n\n- It must make a Strength saving throw. If it fails, you can push it up to 15 feet away from you.\n\n- It can't take reactions until the end of your next turn."
+      },
+      {
+        "id": "wholeness_of_body",
+        "name": "Wholeness of Body",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 6",
+        "description": "At 6th level, you gain the ability to heal yourself. As an action, you can regain hit points equal to three times your monk level. You must finish a long rest before you can use this feature again."
+      },
+      {
+        "id": "tranquility",
+        "name": "Tranquility",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 11",
+        "description": "Beginning at 11th level, you can enter a special meditation that surrounds you with an aura of peace. At the end of a long rest, you gain the effect of a sanctuary spell that lasts until the start of your next long rest (the spell can end early as normal). The saving throw DC for the spell equals 8 + your Wisdom modifier + your proficiency bonus."
+      },
+      {
+        "id": "quivering_palm",
+        "name": "Quivering Palm",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 17",
+        "description": "At 17th level, you gain the ability to set up lethal vibrations in someone's body. When you hit a creature with an unarmed strike, you can spend 3 ki points to start these imperceptible vibrations, which last for a number of days equal to your monk level. The vibrations are harmless unless you use your action to end them. To do so, you and the target must be on the same plane of existence. When you use this action, the creature must make a Constitution saving throw. If it fails, it is reduced to 0 hit points. If it succeeds, it takes 10d10 necrotic damage.\n\nYou can have only one creature under the effect of this feature at a time. You can choose to end the vibrations harmlessly without using an action."
+      }
+    ]
+  },
+  {
+    "id": "devotion",
+    "name": "Devotion",
+    "summary": "Sacred Oath",
+    "description": "The Oath of Devotion binds a paladin to the loftiest ideals of justice, virtue, and order. Sometimes called cavaliers, white knights, or holy warriors, these paladins meet the ideal of the knight in shining armor, acting with honor in pursuit of justice and the greater good. They hold themselves to the highest standards of conduct, and some, for better or worse, hold the rest of the world to the same standards. Many who swear this oath are devoted to gods of law and good and use their gods' tenets as the measure of their devotion. They hold angels--the perfect servants of good--as their ideals, and incorporate images of angelic wings into their helmets or coats of arms.",
+    "data": {
+      "class": "paladin"
+    },
+    "features": [
+      {
+        "id": "channel_divinity_sacred_weapon",
+        "name": "Channel Divinity: Sacred Weapon",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 3",
+        "description": "As an action, you can imbue one weapon that you are holding with positive energy, using your Channel Divinity. For 1 minute, you add your Charisma modifier to attack rolls made with that weapon (with a minimum bonus of +1). The weapon also emits bright light in a 20-foot radius and dim light 20 feet beyond that. If the weapon is not already magical, it becomes magical for the duration.\n\nYou can end this effect on your turn as part of any other action. If you are no longer holding or carrying this weapon, or if you fall unconscious, this effect ends."
+      },
+      {
+        "id": "channel_divinity_turn_the_unholy",
+        "name": "Channel Divinity: Turn the Unholy",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 3",
+        "description": "As an action, you present your holy symbol and speak a prayer censuring fiends and undead, using your Channel Divinity. Each fiend or undead that can see or hear you within 30 feet of you must make a Wisdom saving throw. If the creature fails its saving throw, it is turned for 1 minute or until it takes damage.\n\nA turned creature must spend its turns trying to move as far away from you as it can, and it can't willingly move to a space within 30 feet of you. It also can't take reactions. For its action, it can use only the Dash action or try to escape from an effect that prevents it from moving. If there's nowhere to move, the creature can use the Dodge action."
+      },
+      {
+        "id": "aura_of_devotion",
+        "name": "Aura of Devotion",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 7",
+        "description": "Starting at 7th level, you and friendly creatures within 10 feet of you can't be charmed while you are conscious.\n\nAt 18th level, the range of this aura increases to 30 feet."
+      },
+      {
+        "id": "purity_of_spirit",
+        "name": "Purity of Spirit",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 15",
+        "description": "Beginning at 15th level, you are always under the effects of a protection from evil and good spell."
+      },
+      {
+        "id": "holy_nimbus",
+        "name": "Holy Nimbus",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 20",
+        "description": "At 20th level, as an action, you can emanate an aura of sunlight. For 1 minute, bright light shines from you in a 30-foot radius, and dim light shines 30 feet beyond that.\n\nWhenever an enemy creature starts its turn in the bright light, the creature takes 10 radiant damage.\n\nIn addition, for the duration, you have advantage on saving throws against spells cast by fiends or undead."
+      }
+    ]
+  },
+  {
+    "id": "hunter",
+    "name": "Hunter",
+    "summary": "Ranger Archetype",
+    "description": "Emulating the Hunter archetype means accepting your place as a bulwark between civilization and the terrors of the wilderness. As you walk the Hunter's path, you learn specialized techniques for fighting the threats you face, from rampaging ogres and hordes of orcs to towering giants and terrifying dragons.",
+    "data": {
+      "class": "ranger"
+    },
+    "features": [
+      {
+        "id": "hunters_prey",
+        "name": "Hunter's Prey",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 3",
+        "description": "At 3rd level, you gain one of the following features of your choice.\n\nColossus Slayer\n\nGiant Killer\n\nHorde Breaker"
+      },
+      {
+        "id": "defensive_tactics",
+        "name": "Defensive Tactics",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 7",
+        "description": "At 7th level, you gain one of the following features of your choice.\n\nEscape the Horde\n\nMultiattack Defense\n\nSteel Will"
+      },
+      {
+        "id": "multiattack",
+        "name": "Multiattack",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 11",
+        "description": "At 11th level, you gain one of the following features of your choice.\n\nVolley\n\nWhirlwind Attack"
+      },
+      {
+        "id": "superior_hunters_defense",
+        "name": "Superior Hunter's Defense",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 15",
+        "description": "At 15th level, you gain one of the following features of your choice.\n\nEvasion\n\nStand Against the Tide\n\nUncanny Dodge"
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'hunters_prey') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Hunter's Prey"
+          }
+        ],
+        "7": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'defensive_tactics') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Defensive Tactics"
+          }
+        ],
+        "11": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'multiattack') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Multiattack"
+          }
+        ],
+        "15": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'superior_hunters_defense') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Superior Hunter's Defense"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "thief",
+    "name": "Thief",
+    "summary": "Roguish Archetype",
+    "description": "You hone your skills in the larcenous arts. Burglars, bandits, cutpurses, and other criminals typically follow this archetype, but so do rogues who prefer to think of themselves as professional treasure seekers, explorers, delvers, and investigators. In addition to improving your agility and stealth, you learn skills useful for delving into ancient ruins, reading unfamiliar languages, and using magic items you normally couldn't employ.",
+    "data": {
+      "class": "rogue"
+    },
+    "features": [
+      {
+        "id": "fast_hands",
+        "name": "Fast Hands",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 3",
+        "description": "Starting at 3rd level, you can use the bonus action granted by your Cunning Action to make a Dexterity (Sleight of Hand) check, use your thieves' tools to disarm a trap or open a lock, or take the Use an Object action."
+      },
+      {
+        "id": "second_story_work",
+        "name": "Second-Story Work",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 3",
+        "description": "When you choose this archetype at 3rd level, you gain the ability to climb faster than normal; climbing no longer costs you extra movement.\n\nIn addition, when you make a running jump, the distance you cover increases by a number of feet equal to your Dexterity modifier."
+      },
+      {
+        "id": "supreme_sneak",
+        "name": "Supreme Sneak",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 9",
+        "description": "Starting at 9th level, you have advantage on a Dexterity (Stealth) check if you move no more than half your speed on the same turn."
+      },
+      {
+        "id": "use_magic_device",
+        "name": "Use Magic Device",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 13",
+        "description": "By 13th level, you have learned enough about the workings of magic that you can improvise the use of items even when they are not intended for you. You ignore all class, race, and level requirements on the use of magic items."
+      },
+      {
+        "id": "thiefs_reflexes",
+        "name": "Thief's Reflexes",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 17",
+        "description": "When you reach 17th level, you have become adept at laying ambushes and quickly escaping danger. You can take two turns during the first round of any combat. You take your first turn at your normal initiative and your second turn at your initiative minus 10. You can't use this feature when you are surprised."
+      }
+    ]
+  },
+  {
+    "id": "draconic",
+    "name": "Draconic",
+    "summary": "Sorcerous Origin",
+    "description": "Your innate magic comes from draconic magic that was mingled with your blood or that of your ancestors. Most often, sorcerers with this origin trace their descent back to a mighty sorcerer of ancient times who made a bargain with a dragon or who might even have claimed a dragon parent. Some of these bloodlines are well established in the world, but most are obscure. Any given sorcerer could be the first of a new bloodline, as a result of a pact or some other exceptional circumstance.",
+    "data": {
+      "class": "sorcerer"
+    },
+    "features": [
+      {
+        "id": "dragon_ancestor",
+        "name": "Dragon Ancestor",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 1",
+        "description": "At 1st level, you choose one type of dragon as your ancestor. The damage type associated with each dragon is used by features you gain later.\n\nYou can speak, read, and write Draconic. Additionally, whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check."
+      },
+      {
+        "id": "draconic_resilience",
+        "name": "Draconic Resilience",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 1",
+        "description": "As magic flows through your body, it causes physical traits of your dragon ancestors to emerge. At 1st level, your hit point maximum increases by 1 and increases by 1 again whenever you gain a level in this class.\n\nAdditionally, parts of your skin are covered by a thin sheen of dragon-like scales. When you aren't wearing armor, your AC equals 13 + your Dexterity modifier.",
+        "summary": "+{@classes[$self.data.class].level ?? 0} HP · AC 13 + Dex without armor",
+        "modifiers": [
+          {
+            "target": "hp_max",
+            "op": "add",
+            "value": "@classes[$self.data.class].level ?? 0"
+          },
+          {
+            "target": "ac",
+            "op": "set",
+            "value": "13 + @mods.dex",
+            "when": "!@armor_worn"
+          }
+        ]
+      },
+      {
+        "id": "elemental_affinity",
+        "name": "Elemental Affinity",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 6",
+        "description": "Starting at 6th level, when you cast a spell that deals damage of the type associated with your draconic ancestry, you can add your Charisma modifier to one damage roll of that spell. At the same time, you can spend 1 sorcery point to gain resistance to that damage type for 1 hour."
+      },
+      {
+        "id": "dragon_wings",
+        "name": "Dragon Wings",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 14",
+        "description": "At 14th level, you gain the ability to sprout a pair of dragon wings from your back, gaining a flying speed equal to your current speed. You can create these wings as a bonus action on your turn. They last until you dismiss them as a bonus action on your turn.\n\nYou can't manifest your wings while wearing armor unless the armor is made to accommodate them, and clothing not made to accommodate your wings might be destroyed when you manifest them."
+      },
+      {
+        "id": "draconic_presence",
+        "name": "Draconic Presence",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 18",
+        "description": "Beginning at 18th level, you can channel the dread presence of your dragon ancestor, causing those around you to become awestruck or frightened. As an action, you can spend 5 sorcery points to draw on this power and exude an aura of awe or fear (your choice) to a distance of 60 feet. For 1 minute or until you lose your concentration (as if you were casting a concentration spell), each hostile creature that starts its turn in this aura must succeed on a Wisdom saving throw or be charmed (if you chose awe) or frightened (if you chose fear) until the aura ends. A creature that succeeds on this saving throw is immune to your aura for 24 hours."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'dragon_ancestor') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Dragon Ancestor"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "fiend",
+    "name": "Fiend",
+    "summary": "Otherworldly Patron",
+    "description": "You have made a pact with a fiend from the lower planes of existence, a being whose aims are evil, even if you strive against those aims. Such beings desire the corruption or destruction of all things, ultimately including you. Fiends powerful enough to forge a pact include demon lords such as Demogorgon, Orcus, Fraz'Urb-luu, and Baphomet; archdevils such as Asmodeus, Dispater, Mephistopheles, and Belial; pit fiends and balors that are especially mighty; and ultroloths and other lords of the yugoloths.",
+    "data": {
+      "class": "warlock"
+    },
+    "features": [
+      {
+        "id": "dark_ones_blessing",
+        "name": "Dark One's Blessing",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 1",
+        "description": "Starting at 1st level, when you reduce a hostile creature to 0 hit points, you gain temporary hit points equal to your Charisma modifier + your warlock level (minimum of 1)."
+      },
+      {
+        "id": "dark_ones_own_luck",
+        "name": "Dark One's Own Luck",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 6",
+        "description": "Starting at 6th level, you can call on your patron to alter fate in your favor. When you make an ability check or a saving throw, you can use this feature to add a d10 to your roll. You can do so after seeing the initial roll but before any of the roll's effects occur.\n\nOnce you use this feature, you can't use it again until you finish a short or long rest."
+      },
+      {
+        "id": "fiendish_resilience",
+        "name": "Fiendish Resilience",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 10",
+        "description": "Starting at 10th level, you can choose one damage type when you finish a short or long rest. You gain resistance to that damage type until you choose a different one with this feature. Damage from magical weapons or silver weapons ignores this resistance."
+      },
+      {
+        "id": "hurl_through_hell",
+        "name": "Hurl Through Hell",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 14",
+        "description": "Starting at 14th level, when you hit a creature with an attack, you can use this feature to instantly transport the target through the lower planes. The creature disappears and hurtles through a nightmare landscape.\n\nAt the end of your next turn, the target returns to the space it previously occupied, or the nearest unoccupied space. If the target is not a fiend, it takes 10d10 psychic damage as it reels from its horrific experience.\n\nOnce you use this feature, you can't use it again until you finish a long rest."
+      }
+    ]
+  },
+  {
+    "id": "evocation",
+    "name": "Evocation",
+    "summary": "Arcane Tradition",
+    "description": "You focus your study on magic that creates powerful elemental effects such as bitter cold, searing flame, rolling thunder, crackling lightning, and burning acid. Some evokers find employment in military forces, serving as artillery to blast enemy armies from afar. Others use their spectacular power to protect the weak, while some seek their own gain as bandits, adventurers, or aspiring tyrants.",
+    "data": {
+      "class": "wizard"
+    },
+    "features": [
+      {
+        "id": "evocation_savant",
+        "name": "Evocation Savant",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 2",
+        "description": "Beginning when you select this school at 2nd level, the gold and time you must spend to copy an evocation spell into your spellbook is halved."
+      },
+      {
+        "id": "sculpt_spells",
+        "name": "Sculpt Spells",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 2",
+        "description": "Beginning at 2nd level, you can create pockets of relative safety within the effects of your evocation spells. When you cast an evocation spell that affects other creatures that you can see, you can choose a number of them equal to 1 + the spell's level. The chosen creatures automatically succeed on their saving throws against the spell, and they take no damage if they would normally take half damage on a successful save."
+      },
+      {
+        "id": "potent_cantrip",
+        "name": "Potent Cantrip",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 6",
+        "description": "Starting at 6th level, your damaging cantrips affect even creatures that avoid the brunt of the effect. When a creature succeeds on a saving throw against your cantrip, the creature takes half the cantrip's damage (if any) but suffers no additional effect from the cantrip."
+      },
+      {
+        "id": "empowered_evocation",
+        "name": "Empowered Evocation",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 10",
+        "description": "Beginning at 10th level, you can add your Intelligence modifier to one damage roll of any wizard evocation spell you cast."
+      },
+      {
+        "id": "overchannel",
+        "name": "Overchannel",
+        "when": "(@classes[$self.data.class].level ?? 0) >= 14",
+        "description": "Starting at 14th level, you can increase the power of your simpler spells. When you cast a wizard spell of 1st through 5th level that deals damage, you can deal maximum damage with that spell.\n\nThe first time you do so, you suffer no adverse effect. If you use this feature again before you finish a long rest, you take 2d12 necrotic damage for each level of the spell, immediately after you cast it. Each time you use this feature again before finishing a long rest, the necrotic damage per spell level increases by 1d12. This damage ignores resistance and immunity."
+      }
+    ]
+  }
+]

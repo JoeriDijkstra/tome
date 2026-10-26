@@ -1,0 +1,32 @@
+{
+  "champion": {
+    "features": [
+      { "id": "improved_critical", "summary": "Weapon attacks crit on 19–20" },
+      { "id": "superior_critical", "summary": "Weapon attacks crit on 18–20" },
+      {
+        "id": "remarkable_athlete",
+        "summary": "+{ceil(@prof_bonus / 2)} to Str, Dex and Con checks you aren't proficient in",
+        "modifiers": [
+          { "target": "initiative", "op": "add", "value": "ceil(@prof_bonus / 2)" },
+          { "target": "skills.athletics", "op": "add", "value": "ceil(@prof_bonus / 2)", "when": "!has(@prof.skills, 'athletics')" },
+          { "target": "skills.acrobatics", "op": "add", "value": "ceil(@prof_bonus / 2)", "when": "!has(@prof.skills, 'acrobatics')" },
+          { "target": "skills.sleight_of_hand", "op": "add", "value": "ceil(@prof_bonus / 2)", "when": "!has(@prof.skills, 'sleight_of_hand')" },
+          { "target": "skills.stealth", "op": "add", "value": "ceil(@prof_bonus / 2)", "when": "!has(@prof.skills, 'stealth')" }
+        ]
+      },
+      { "id": "survivor", "summary": "Regain {5 + @mods.con} HP at the start of each turn while at or below half HP" }
+    ]
+  },
+  "draconic": {
+    "features": [
+      {
+        "id": "draconic_resilience",
+        "summary": "+{@classes[$self.data.class].level ?? 0} HP · AC 13 + Dex without armor",
+        "modifiers": [
+          { "target": "hp_max", "op": "add", "value": "@classes[$self.data.class].level ?? 0" },
+          { "target": "ac", "op": "set", "value": "13 + @mods.dex", "when": "!@armor_worn" }
+        ]
+      }
+    ]
+  }
+}

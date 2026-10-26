@@ -1,0 +1,207 @@
+[
+  {
+    "id": "asi",
+    "title": "Ability Score Improvement",
+    "description": "Raise one ability by 2, or two abilities by 1 (to at most 20), or take a feat.",
+    "fields": [
+      {
+        "key": "mode",
+        "type": "select",
+        "label": "Improvement",
+        "options": [
+          "plus_two",
+          "two_plus_one",
+          "feat"
+        ],
+        "default": "'plus_two'",
+        "required": true
+      },
+      {
+        "key": "first",
+        "type": "select",
+        "label": "{$input.mode == 'plus_two' ? '+2 to' : '+1 to'}",
+        "options": [
+          "str",
+          "dex",
+          "con",
+          "int",
+          "wis",
+          "cha"
+        ],
+        "required": true,
+        "visible_when": "$input.mode != 'feat'"
+      },
+      {
+        "key": "second",
+        "type": "select",
+        "label": "+1 to",
+        "options": [
+          "str",
+          "dex",
+          "con",
+          "int",
+          "wis",
+          "cha"
+        ],
+        "required": true,
+        "visible_when": "$input.mode == 'two_plus_one'"
+      },
+      {
+        "key": "feat",
+        "type": "choice",
+        "label": "Feat",
+        "entity_type": "feat",
+        "filter": "!has(@feats, $v.id)",
+        "min": 1,
+        "max": 1,
+        "required": true,
+        "visible_when": "$input.mode == 'feat'"
+      }
+    ],
+    "validate": [
+      {
+        "when": "$input.mode == 'two_plus_one' && $input.first == $input.second",
+        "message": "Pick two different abilities."
+      }
+    ],
+    "submit": {
+      "label": "Apply",
+      "effects": [
+        {
+          "op": "if",
+          "when": "$input.mode == 'plus_two'",
+          "then": [
+            {
+              "op": "add",
+              "path": "abilities[$input.first]",
+              "value": 2,
+              "max": 20
+            }
+          ]
+        },
+        {
+          "op": "if",
+          "when": "$input.mode == 'two_plus_one'",
+          "then": [
+            {
+              "op": "add",
+              "path": "abilities[$input.first]",
+              "value": 1,
+              "max": 20
+            },
+            {
+              "op": "add",
+              "path": "abilities[$input.second]",
+              "value": 1,
+              "max": 20
+            }
+          ]
+        },
+        {
+          "op": "if",
+          "when": "$input.mode == 'feat'",
+          "then": [
+            {
+              "op": "push",
+              "path": "feats",
+              "value": "$input.feat[0]"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "race_abilities",
+    "title": "Ability score increases",
+    "description": "Choose {$input.count} different abilities to increase by 1.",
+    "fields": [
+      {
+        "key": "first",
+        "type": "select",
+        "label": "First",
+        "options": "filter(['str', 'dex', 'con', 'int', 'wis', 'cha'], !has($input.exclude, $v))",
+        "required": true
+      },
+      {
+        "key": "second",
+        "type": "select",
+        "label": "Second",
+        "options": "filter(['str', 'dex', 'con', 'int', 'wis', 'cha'], !has($input.exclude, $v))",
+        "required": true
+      }
+    ],
+    "validate": [
+      {
+        "when": "$input.first == $input.second",
+        "message": "Pick two different abilities."
+      }
+    ],
+    "submit": {
+      "label": "Choose",
+      "effects": [
+        {
+          "op": "set",
+          "path": "race_abilities",
+          "value": "[$input.first, $input.second]"
+        }
+      ]
+    }
+  },
+  {
+    "id": "currency",
+    "title": "Coins",
+    "fields": [
+      {
+        "key": "cp",
+        "type": "number",
+        "label": "CP",
+        "min": 0,
+        "default": "@currency.cp",
+        "required": true
+      },
+      {
+        "key": "sp",
+        "type": "number",
+        "label": "SP",
+        "min": 0,
+        "default": "@currency.sp",
+        "required": true
+      },
+      {
+        "key": "ep",
+        "type": "number",
+        "label": "EP",
+        "min": 0,
+        "default": "@currency.ep",
+        "required": true
+      },
+      {
+        "key": "gp",
+        "type": "number",
+        "label": "GP",
+        "min": 0,
+        "default": "@currency.gp",
+        "required": true
+      },
+      {
+        "key": "pp",
+        "type": "number",
+        "label": "PP",
+        "min": 0,
+        "default": "@currency.pp",
+        "required": true
+      }
+    ],
+    "submit": {
+      "label": "Save",
+      "effects": [
+        {
+          "op": "set",
+          "path": "currency",
+          "value": "{cp: $input.cp, sp: $input.sp, ep: $input.ep, gp: $input.gp, pp: $input.pp}"
+        }
+      ]
+    }
+  }
+]

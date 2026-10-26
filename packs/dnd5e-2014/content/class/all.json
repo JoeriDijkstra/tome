@@ -1,0 +1,4185 @@
+[
+  {
+    "id": "barbarian",
+    "name": "Barbarian",
+    "summary": "d12 hit die · STR, CON saves",
+    "description": "Hit die d12. Saving throws: STR, CON.",
+    "data": {
+      "hit_die": 12,
+      "saves": [
+        "str",
+        "con"
+      ],
+      "skill_choices": [
+        "animal_handling",
+        "athletics",
+        "intimidation",
+        "nature",
+        "perception",
+        "survival"
+      ],
+      "skill_count": 2,
+      "armor": "Light Armor, Medium Armor, Shields",
+      "weapons": "Simple Weapons, Martial Weapons",
+      "tools": "",
+      "caster": "none",
+      "prepares": false,
+      "learns": false,
+      "subclass_level": 3,
+      "subclass_label": "Primal Path"
+    },
+    "features": [
+      {
+        "id": "rage",
+        "name": "Rage",
+        "when": "$owner.level >= 1",
+        "description": "In battle, you fight with primal ferocity. On your turn, you can enter a rage as a bonus action. While raging, you gain the following benefits if you aren't wearing heavy armor:\n\n- You have advantage on Strength checks and Strength saving throws.\n\n- When you make a melee weapon Attack using Strength, you gain a +2 bonus to the damage roll. This bonus increases as you level.\n\n- You have Resistance to bludgeoning, piercing, and slashing damage.\n\nIf you are able to cast Spells, you can't cast them or concentrate on them while raging.\n\nYour rage lasts for 1 minute. It ends early if you are knocked Unconscious or if Your Turn ends and you haven't attacked a hostile creature since your last turn or taken damage since then. You can also end your rage on Your Turn as a Bonus Action.\n\nOnce you have raged the maximum number of times for your barbarian level, you must finish a Long Rest before you can rage again. You may rage 2 times at 1st level, 3 at 3rd, 4 at 6th, 5 at 12th, and 6 at 17th.",
+        "summary": "{lookup('barbarian', $owner.level, 'rage_count') >= 9999 ? 'Unlimited' : lookup('barbarian', $owner.level, 'rage_count')} per long rest · +{lookup('barbarian', $owner.level, 'rage_damage_bonus')} damage",
+        "resource": "rage",
+        "actions": [
+          "use_rage"
+        ],
+        "resources": [
+          {
+            "id": "rage",
+            "label": "Rage",
+            "max": "lookup('barbarian', $owner.level, 'rage_count') >= 9999 ? 0 : lookup('barbarian', $owner.level, 'rage_count')",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "barbarian_unarmored_defense",
+        "name": "Unarmored Defense",
+        "when": "$owner.level >= 1",
+        "description": "While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.",
+        "summary": "AC 10 + Dex + Con without armor",
+        "modifiers": [
+          {
+            "target": "ac",
+            "op": "set",
+            "value": "10 + @mods.dex + @mods.con",
+            "when": "!@armor_worn"
+          }
+        ]
+      },
+      {
+        "id": "reckless_attack",
+        "name": "Reckless Attack",
+        "when": "$owner.level >= 2",
+        "description": "Starting at 2nd level, you can throw aside all concern for defense to attack with fierce desperation. When you make your first attack on your turn, you can decide to attack recklessly. Doing so gives you advantage on melee weapon attack rolls using Strength during this turn, but attack rolls against you have advantage until your next turn."
+      },
+      {
+        "id": "danger_sense",
+        "name": "Danger Sense",
+        "when": "$owner.level >= 2",
+        "description": "At 2nd level, you gain an uncanny sense of when things nearby aren't as they should be, giving you an edge when you dodge away from danger. You have advantage on Dexterity saving throws against effects that you can see, such as traps and spells. To gain this benefit, you can't be blinded, deafened, or incapacitated."
+      },
+      {
+        "id": "primal_path",
+        "name": "Primal Path",
+        "when": "$owner.level >= 3",
+        "description": "At 3rd level, you choose a path that shapes the nature of your rage. Choose the Path of the Berserker or the Path of the Totem Warrior, both detailed at the end of the class description. Your choice grants you features at 3rd level and again at 6th, 10th, and 14th levels."
+      },
+      {
+        "id": "barbarian_extra_attack",
+        "name": "Extra Attack",
+        "when": "$owner.level >= 5",
+        "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+      },
+      {
+        "id": "fast_movement",
+        "name": "Fast Movement",
+        "when": "$owner.level >= 5",
+        "description": "Starting at 5th level, your speed increases by 10 feet while you aren't wearing heavy armor.",
+        "summary": "+10 ft speed without heavy armor",
+        "modifiers": [
+          {
+            "target": "speed",
+            "op": "add",
+            "value": 10,
+            "when": "count(@inventory, $v.equipped && entity($v.item).data.category == 'Heavy') == 0"
+          }
+        ]
+      },
+      {
+        "id": "primal_path_improvement_1",
+        "name": "Path feature",
+        "when": "$owner.level >= 6",
+        "description": "At 3rd level, you choose a path that shapes the nature of your rage. Choose the Path of the Berserker or the Path of the Totem Warrior, both detailed at the end of the class description. Your choice grants you features at 3rd level and again at 6th, 10th, and 14th levels."
+      },
+      {
+        "id": "feral_instinct",
+        "name": "Feral Instinct",
+        "when": "$owner.level >= 7",
+        "description": "By 7th level, your instincts are so honed that you have advantage on initiative rolls.\n\nAdditionally, if you are surprised at the beginning of combat and aren't incapacitated, you can act normally on your first turn, but only if you enter your rage before doing anything else on that turn."
+      },
+      {
+        "id": "brutal_critical_1_die",
+        "name": "Brutal Critical (1 die)",
+        "when": "$owner.level >= 9",
+        "description": "Beginning at 9th level, you can roll one additional weapon damage die when determining the extra damage for a critical hit with a melee attack. This increases to two additional dice at 13th level and three additional dice at 17th level.",
+        "summary": "+{lookup('barbarian', $owner.level, 'brutal_critical_dice')} weapon damage die on a melee critical hit"
+      },
+      {
+        "id": "primal_path_improvement_2",
+        "name": "Path feature",
+        "when": "$owner.level >= 10",
+        "description": "At 3rd level, you choose a path that shapes the nature of your rage. Choose the Path of the Berserker or the Path of the Totem Warrior, both detailed at the end of the class description. Your choice grants you features at 3rd level and again at 6th, 10th, and 14th levels."
+      },
+      {
+        "id": "relentless_rage",
+        "name": "Relentless Rage",
+        "when": "$owner.level >= 11",
+        "description": "Starting at 11th level, your rage can keep you fighting despite grievous wounds. If you drop to 0 hit points while you're raging and don't die outright, you can make a DC 10 Constitution saving throw. If you succeed, you drop to 1 hit point instead.\n\nEach time you use this feature after the first, the DC increases by 5. When you finish a short or long rest, the DC resets to 10."
+      },
+      {
+        "id": "brutal_critical_2_dice",
+        "name": "Brutal Critical (2 dice)",
+        "when": "$owner.level >= 13",
+        "description": "Beginning at 9th level, you can roll one additional weapon damage die when determining the extra damage for a critical hit with a melee attack. This increases to two additional dice at 13th level and three additional dice at 17th level.",
+        "summary": "+{lookup('barbarian', $owner.level, 'brutal_critical_dice')} weapon damage dice on a melee critical hit"
+      },
+      {
+        "id": "primal_path_improvement_3",
+        "name": "Path feature",
+        "when": "$owner.level >= 14",
+        "description": "At 3rd level, you choose a path that shapes the nature of your rage. Choose the Path of the Berserker or the Path of the Totem Warrior, both detailed at the end of the class description. Your choice grants you features at 3rd level and again at 6th, 10th, and 14th levels."
+      },
+      {
+        "id": "persistent_rage",
+        "name": "Persistent Rage",
+        "when": "$owner.level >= 15",
+        "description": "Beginning at 15th level, your rage is so fierce that it ends early only if you fall unconscious or if you choose to end it."
+      },
+      {
+        "id": "brutal_critical_3_dice",
+        "name": "Brutal Critical (3 dice)",
+        "when": "$owner.level >= 17",
+        "description": "Beginning at 9th level, you can roll one additional weapon damage die when determining the extra damage for a critical hit with a melee attack. This increases to two additional dice at 13th level and three additional dice at 17th level.",
+        "summary": "+{lookup('barbarian', $owner.level, 'brutal_critical_dice')} weapon damage dice on a melee critical hit"
+      },
+      {
+        "id": "indomitable_might",
+        "name": "Indomitable Might",
+        "when": "$owner.level >= 18",
+        "description": "Beginning at 18th level, if your total for a Strength check is less than your Strength score, you can use that score in place of the total."
+      },
+      {
+        "id": "primal_champion",
+        "name": "Primal Champion",
+        "when": "$owner.level >= 20",
+        "description": "At 20th level, you embody the power of the wilds. Your Strength and Constitution scores increase by 4. Your maximum for those scores is now 24.",
+        "summary": "+4 Strength and Constitution",
+        "modifiers": [
+          {
+            "target": "abilities.str",
+            "op": "add",
+            "value": 4
+          },
+          {
+            "target": "abilities.con",
+            "op": "add",
+            "value": 4
+          }
+        ]
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.skills",
+            "title": "Choose 2 skills"
+          }
+        ],
+        "2": [],
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a primal path",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 3
+              }
+            ]
+          }
+        ],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "5": [],
+        "6": [],
+        "7": [],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "9": [],
+        "10": [],
+        "11": [],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "13": [],
+        "14": [],
+        "15": [],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "17": [],
+        "18": [],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "20": []
+      }
+    }
+  },
+  {
+    "id": "bard",
+    "name": "Bard",
+    "summary": "d8 hit die · DEX, CHA saves",
+    "description": "Hit die d8. Saving throws: DEX, CHA.",
+    "data": {
+      "hit_die": 8,
+      "saves": [
+        "dex",
+        "cha"
+      ],
+      "skill_choices": [
+        "acrobatics",
+        "animal_handling",
+        "arcana",
+        "athletics",
+        "deception",
+        "history",
+        "insight",
+        "intimidation",
+        "investigation",
+        "medicine",
+        "nature",
+        "perception",
+        "performance",
+        "persuasion",
+        "religion",
+        "sleight_of_hand",
+        "stealth",
+        "survival"
+      ],
+      "skill_count": 3,
+      "armor": "Light Armor",
+      "weapons": "Simple Weapons, Longswords, Rapiers, Shortswords, Hand crossbows",
+      "tools": "",
+      "caster": "full",
+      "cast_ability": "cha",
+      "prepares": false,
+      "learns": true,
+      "subclass_level": 3,
+      "subclass_label": "Bard College"
+    },
+    "features": [
+      {
+        "id": "spellcasting_bard",
+        "name": "Spellcasting: Bard",
+        "when": "$owner.level >= 1",
+        "description": "You have learned to untangle and reshape the fabric of reality in harmony with your wishes and music. Your spells are part of your vast repertoire, magic that you can tune to different situations."
+      },
+      {
+        "id": "bardic_inspiration_d6",
+        "name": "Bardic Inspiration (d6)",
+        "when": "$owner.level >= 1",
+        "description": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d6. Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait until after it rolls the d20 before deciding to use the Bardic Inspiration die, but must decide before the GM says whether the roll succeeds or fails. Once the Bardic Inspiration die is rolled, it is lost. A creature can have only one Bardic Inspiration die at a time.\n\nYou can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain any expended uses when you finish a long rest. \n\nYour Bardic Inspiration die changes when you reach certain levels in this class. The die becomes a d8 at 5th level, a d10 at 10th level, and a d12 at 15th level.",
+        "summary": "d{lookup('bard', $owner.level, 'bardic_inspiration_die')}, {max(1, @mods.cha)} per rest",
+        "resource": "bardic_inspiration",
+        "resources": [
+          {
+            "id": "bardic_inspiration",
+            "label": "Bardic Inspiration",
+            "max": "max(1, @mods.cha)",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "jack_of_all_trades",
+        "name": "Jack of All Trades",
+        "when": "$owner.level >= 2",
+        "description": "Starting at 2nd level, you can add half your proficiency bonus, rounded down, to any ability check you make that doesn't already include your proficiency bonus.",
+        "summary": "+{floor(@prof_bonus / 2)} to ability checks you aren't proficient in",
+        "modifiers": [
+          {
+            "target": "initiative",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)"
+          },
+          {
+            "target": "skills.acrobatics",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'acrobatics')"
+          },
+          {
+            "target": "skills.animal_handling",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'animal_handling')"
+          },
+          {
+            "target": "skills.arcana",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'arcana')"
+          },
+          {
+            "target": "skills.athletics",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'athletics')"
+          },
+          {
+            "target": "skills.deception",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'deception')"
+          },
+          {
+            "target": "skills.history",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'history')"
+          },
+          {
+            "target": "skills.insight",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'insight')"
+          },
+          {
+            "target": "skills.intimidation",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'intimidation')"
+          },
+          {
+            "target": "skills.investigation",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'investigation')"
+          },
+          {
+            "target": "skills.medicine",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'medicine')"
+          },
+          {
+            "target": "skills.nature",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'nature')"
+          },
+          {
+            "target": "skills.perception",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'perception')"
+          },
+          {
+            "target": "skills.performance",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'performance')"
+          },
+          {
+            "target": "skills.persuasion",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'persuasion')"
+          },
+          {
+            "target": "skills.religion",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'religion')"
+          },
+          {
+            "target": "skills.sleight_of_hand",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'sleight_of_hand')"
+          },
+          {
+            "target": "skills.stealth",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'stealth')"
+          },
+          {
+            "target": "skills.survival",
+            "op": "add",
+            "value": "floor(@prof_bonus / 2)",
+            "when": "!has(@prof.skills, 'survival')"
+          }
+        ]
+      },
+      {
+        "id": "song_of_rest_d6",
+        "name": "Song of Rest (d6)",
+        "when": "$owner.level >= 2",
+        "description": "Beginning at 2nd level, you can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points at the end of the short rest by spending one or more Hit Dice, each of those creatures regains an extra 1d6 hit points. \n\nThe extra hit points increase when you reach certain levels in this class: to 1d8 at 9th level, to 1d10 at 13th level, and to 1d12 at 17th level.",
+        "summary": "Allies who spend Hit Dice on a short rest regain +1d{lookup('bard', $owner.level, 'song_of_rest_die')} HP"
+      },
+      {
+        "id": "bard_college",
+        "name": "Bard College",
+        "when": "$owner.level >= 3",
+        "description": "At 3rd level, you delve into the advanced techniques of a bard college of your choice, such as the College of Lore. Your choice grants you features at 3rd level and again at 6th and 14th level."
+      },
+      {
+        "id": "bard_expertise_1",
+        "name": "Expertise",
+        "when": "$owner.level >= 3",
+        "description": "At 3rd level, choose two of your skill proficiencies. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies. At 10th level, you can choose another two skill proficiencies to gain this benefit."
+      },
+      {
+        "id": "bardic_inspiration_d8",
+        "name": "Bardic Inspiration (d8)",
+        "when": "$owner.level >= 5",
+        "description": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d6. Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait until after it rolls the d20 before deciding to use the Bardic Inspiration die, but must decide before the GM says whether the roll succeeds or fails. Once the Bardic Inspiration die is rolled, it is lost. A creature can have only one Bardic Inspiration die at a time.\n\nYou can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain any expended uses when you finish a long rest. \n\nYour Bardic Inspiration die changes when you reach certain levels in this class. The die becomes a d8 at 5th level, a d10 at 10th level, and a d12 at 15th level."
+      },
+      {
+        "id": "font_of_inspiration",
+        "name": "Font of Inspiration",
+        "when": "$owner.level >= 5",
+        "description": "Beginning when you reach 5th level, you regain all of your expended uses of Bardic Inspiration when you finish a short or long rest."
+      },
+      {
+        "id": "countercharm",
+        "name": "Countercharm",
+        "when": "$owner.level >= 6",
+        "description": "At 6th level, you gain the ability to use musical notes or words of power to disrupt mind-influencing effects. As an action, you can start a performance that lasts until the end of your next turn. During that time, you and any friendly creatures within 30 feet of you have advantage on saving throws against being frightened or charmed. A creature must be able to hear you to gain this benefit. The performance ends early if you are incapacitated or silenced or if you voluntarily end it (no action required)."
+      },
+      {
+        "id": "bard_college_improvement_1",
+        "name": "Bard College feature",
+        "when": "$owner.level >= 6",
+        "description": "At 3rd level, you delve into the advanced techniques of a bard college of your choice, such as the College of Lore. Your choice grants you features at 3rd level and again at 6th and 14th level."
+      },
+      {
+        "id": "song_of_rest_d8",
+        "name": "Song of Rest (d8)",
+        "when": "$owner.level >= 9",
+        "description": "Beginning at 2nd level, you can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points at the end of the short rest by spending one or more Hit Dice, each of those creatures regains an extra 1d6 hit points. \n\nThe extra hit points increase when you reach certain levels in this class: to 1d8 at 9th level, to 1d10 at 13th level, and to 1d12 at 17th level.",
+        "summary": "Allies who spend Hit Dice on a short rest regain +1d{lookup('bard', $owner.level, 'song_of_rest_die')} HP"
+      },
+      {
+        "id": "bardic_inspiration_d10",
+        "name": "Bardic Inspiration (d10)",
+        "when": "$owner.level >= 10",
+        "description": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d6. Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait until after it rolls the d20 before deciding to use the Bardic Inspiration die, but must decide before the GM says whether the roll succeeds or fails. Once the Bardic Inspiration die is rolled, it is lost. A creature can have only one Bardic Inspiration die at a time.\n\nYou can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain any expended uses when you finish a long rest. \n\nYour Bardic Inspiration die changes when you reach certain levels in this class. The die becomes a d8 at 5th level, a d10 at 10th level, and a d12 at 15th level."
+      },
+      {
+        "id": "bard_expertise_2",
+        "name": "Expertise",
+        "when": "$owner.level >= 10",
+        "description": "At 3rd level, choose two of your skill proficiencies. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies. At 10th level, you can choose another two skill proficiencies to gain this benefit."
+      },
+      {
+        "id": "magical_secrets_1",
+        "name": "Magical Secrets",
+        "when": "$owner.level >= 10",
+        "description": "By 10th level, you have plundered magical knowledge from a wide spectrum of disciplines. Choose two spells from any class, including this one. A spell you choose must be of a level you can cast, as shown on the Bard table, or a cantrip. \n\nThe chosen spells count as bard spells for you and are included in the number in the Spells Known column of the Bard table. \n\nYou learn two additional spells from any class at 14th level and again at 18th level."
+      },
+      {
+        "id": "song_of_rest_d10",
+        "name": "Song of Rest (d10)",
+        "when": "$owner.level >= 13",
+        "description": "Beginning at 2nd level, you can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points at the end of the short rest by spending one or more Hit Dice, each of those creatures regains an extra 1d6 hit points. \n\nThe extra hit points increase when you reach certain levels in this class: to 1d8 at 9th level, to 1d10 at 13th level, and to 1d12 at 17th level.",
+        "summary": "Allies who spend Hit Dice on a short rest regain +1d{lookup('bard', $owner.level, 'song_of_rest_die')} HP"
+      },
+      {
+        "id": "magical_secrets_2",
+        "name": "Magical Secrets",
+        "when": "$owner.level >= 14",
+        "description": "By 10th level, you have plundered magical knowledge from a wide spectrum of disciplines. Choose two spells from any class, including this one. A spell you choose must be of a level you can cast, as shown on the Bard table, or a cantrip. \n\nThe chosen spells count as bard spells for you and are included in the number in the Spells Known column of the Bard table. \n\nYou learn two additional spells from any class at 14th level and again at 18th level."
+      },
+      {
+        "id": "bard_college_improvement_2",
+        "name": "Bard College feature",
+        "when": "$owner.level >= 14",
+        "description": "At 3rd level, you delve into the advanced techniques of a bard college of your choice, such as the College of Lore. Your choice grants you features at 3rd level and again at 6th and 14th level."
+      },
+      {
+        "id": "bardic_inspiration_d12",
+        "name": "Bardic Inspiration (d12)",
+        "when": "$owner.level >= 15",
+        "description": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d6. Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait until after it rolls the d20 before deciding to use the Bardic Inspiration die, but must decide before the GM says whether the roll succeeds or fails. Once the Bardic Inspiration die is rolled, it is lost. A creature can have only one Bardic Inspiration die at a time.\n\nYou can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain any expended uses when you finish a long rest. \n\nYour Bardic Inspiration die changes when you reach certain levels in this class. The die becomes a d8 at 5th level, a d10 at 10th level, and a d12 at 15th level."
+      },
+      {
+        "id": "song_of_rest_d12",
+        "name": "Song of Rest (d12)",
+        "when": "$owner.level >= 17",
+        "description": "Beginning at 2nd level, you can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points at the end of the short rest by spending one or more Hit Dice, each of those creatures regains an extra 1d6 hit points. \n\nThe extra hit points increase when you reach certain levels in this class: to 1d8 at 9th level, to 1d10 at 13th level, and to 1d12 at 17th level.",
+        "summary": "Allies who spend Hit Dice on a short rest regain +1d{lookup('bard', $owner.level, 'song_of_rest_die')} HP"
+      },
+      {
+        "id": "magical_secrets_3",
+        "name": "Magical Secrets",
+        "when": "$owner.level >= 18",
+        "description": "By 10th level, you have plundered magical knowledge from a wide spectrum of disciplines. Choose two spells from any class, including this one. A spell you choose must be of a level you can cast, as shown on the Bard table, or a cantrip. \n\nThe chosen spells count as bard spells for you and are included in the number in the Spells Known column of the Bard table. \n\nYou learn two additional spells from any class at 14th level and again at 18th level."
+      },
+      {
+        "id": "superior_inspiration",
+        "name": "Superior Inspiration",
+        "when": "$owner.level >= 20",
+        "description": "At 20th level, when you roll initiative and have no uses of Bardic Inspiration left, you regain one use."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 3,
+            "into": "prof.skills",
+            "title": "Choose 3 skills"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 cantrips"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 4,
+            "into": "spells",
+            "title": "Learn 4 spells"
+          }
+        ],
+        "2": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has(@prof.skills, $v.id) && !has(@prof.expertise, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.expertise",
+            "title": "Expertise"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a bard college",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 3
+              }
+            ]
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "5": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "6": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "7": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "9": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "10": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has(@prof.skills, $v.id) && !has(@prof.expertise, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.expertise",
+            "title": "Expertise"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "11": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "13": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "14": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "15": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "17": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "18": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "20": []
+      },
+      "short_rest": {
+        "any": [
+          {
+            "op": "if",
+            "when": "@class_level >= 5",
+            "then": [
+              {
+                "op": "set",
+                "path": "res.bardic_inspiration.current",
+                "value": "@res.bardic_inspiration.max"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "cleric",
+    "name": "Cleric",
+    "summary": "d8 hit die · WIS, CHA saves",
+    "description": "Hit die d8. Saving throws: WIS, CHA.",
+    "data": {
+      "hit_die": 8,
+      "saves": [
+        "wis",
+        "cha"
+      ],
+      "skill_choices": [
+        "history",
+        "insight",
+        "medicine",
+        "persuasion",
+        "religion"
+      ],
+      "skill_count": 2,
+      "armor": "Light Armor, Medium Armor, Shields",
+      "weapons": "Simple Weapons",
+      "tools": "",
+      "caster": "full",
+      "cast_ability": "wis",
+      "prepares": true,
+      "learns": false,
+      "subclass_level": 1,
+      "subclass_label": "Divine Domain"
+    },
+    "features": [
+      {
+        "id": "spellcasting_cleric",
+        "name": "Spellcasting: Cleric",
+        "when": "$owner.level >= 1",
+        "description": "As a conduit for divine power, you can cast cleric spells."
+      },
+      {
+        "id": "divine_domain",
+        "name": "Divine Domain",
+        "when": "$owner.level >= 1",
+        "description": "Choose one domain related to your deity, such as Knowledge, Life, Light, Nature, Tempest, Trickery, or War. Only the Life domain is detailed in the Open Game Licensed SRD. Additional Domains are described in the official rulebooks or products from other publishers.\n\nYour domain grants you domain spells and other features when you choose it at 1st level. It also grants you additional ways to use Channel Divinity when you gain that feature at 2nd level, and additional benefits at 6th, 8th, and 17th levels."
+      },
+      {
+        "id": "domain_spells_1",
+        "name": "Domain Spells",
+        "when": "$owner.level >= 1",
+        "description": "Each domain has a list of spells--its domain spells--that you gain at the cleric levels noted in the domain description. Once you gain a domain spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day.\n\nIf you have a domain spell that doesn't appear on the cleric spell list, the spell is nonetheless a cleric spell for you."
+      },
+      {
+        "id": "channel_divinity_1_rest",
+        "name": "Channel Divinity (1/rest)",
+        "when": "$owner.level >= 2",
+        "description": "At 2nd level, you gain the ability to channel divine energy directly from your deity, using that energy to fuel magical effects. You start with two such effects: Turn Undead and an effect determined by your domain. Some domains grant you additional effects as you advance in levels, as noted in the domain description.\n\nWhen you use your Channel Divinity, you choose which effect to create. You must then finish a short or long rest to use your Channel Divinity again.\n\nSome Channel Divinity effects require saving throws. When you use such an effect from this class, the DC equals your cleric spell save DC.\n\nBeginning at 6th level, you can use your Channel Divinity twice between rests, and beginning at 18th level, you can use it three times between rests. When you finish a short or long rest, you regain your expended uses.",
+        "resource": "channel_divinity",
+        "summary": "{lookup('cleric', $owner.level, 'channel_divinity_charges')} per short rest",
+        "resources": [
+          {
+            "id": "channel_divinity",
+            "label": "Channel Divinity",
+            "max": "lookup('cleric', $owner.level, 'channel_divinity_charges')",
+            "reset": [
+              "short_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "channel_divinity_turn_undead",
+        "name": "Channel Divinity: Turn Undead",
+        "when": "$owner.level >= 2",
+        "description": "As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a Wisdom saving throw. If the creature fails its saving throw, it is turned for 1 minute or until it takes any damage.\n\nA turned creature must spend its turns trying to move as far away from you as it can, and it can't willingly move to a space within 30 feet of you. It also can't take reactions. For its action, it can use only the Dash action or try to escape from an effect that prevents it from moving. If there's nowhere to move, the creature can use the Dodge action."
+      },
+      {
+        "id": "divine_domain_improvement_1",
+        "name": "Divine Domain feature",
+        "when": "$owner.level >= 2",
+        "description": "Choose one domain related to your deity, such as Knowledge, Life, Light, Nature, Tempest, Trickery, or War. Only the Life domain is detailed in the Open Game Licensed SRD. Additional Domains are described in the official rulebooks or products from other publishers.\n\nYour domain grants you domain spells and other features when you choose it at 1st level. It also grants you additional ways to use Channel Divinity when you gain that feature at 2nd level, and additional benefits at 6th, 8th, and 17th levels."
+      },
+      {
+        "id": "domain_spells_2",
+        "name": "Domain Spells",
+        "when": "$owner.level >= 3",
+        "description": "Each domain has a list of spells--its domain spells--that you gain at the cleric levels noted in the domain description. Once you gain a domain spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day.\n\nIf you have a domain spell that doesn't appear on the cleric spell list, the spell is nonetheless a cleric spell for you."
+      },
+      {
+        "id": "domain_spells_3",
+        "name": "Domain Spells",
+        "when": "$owner.level >= 5",
+        "description": "Each domain has a list of spells--its domain spells--that you gain at the cleric levels noted in the domain description. Once you gain a domain spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day.\n\nIf you have a domain spell that doesn't appear on the cleric spell list, the spell is nonetheless a cleric spell for you."
+      },
+      {
+        "id": "destroy_undead_cr_1_2_or_below",
+        "name": "Destroy Undead (CR 1/2 or below)",
+        "when": "$owner.level >= 5",
+        "description": "Starting at 5th level, when an undead fails its saving throw against your Turn Undead feature, the creature is instantly destroyed if its challenge rating is at or below a certain threshold."
+      },
+      {
+        "id": "channel_divinity_2_rest",
+        "name": "Channel Divinity (2/rest)",
+        "when": "$owner.level >= 6",
+        "description": "Beginning at 6th level, you can use your Channel Divinity twice between rests, and beginning at 18th level, you can use it three times between rests. When you finish a short or long rest, you regain your expended uses."
+      },
+      {
+        "id": "divine_domain_improvement_2",
+        "name": "Divine Domain feature",
+        "when": "$owner.level >= 6",
+        "description": "Choose one domain related to your deity, such as Knowledge, Life, Light, Nature, Tempest, Trickery, or War. Only the Life domain is detailed in the Open Game Licensed SRD. Additional Domains are described in the official rulebooks or products from other publishers.\n\nYour domain grants you domain spells and other features when you choose it at 1st level. It also grants you additional ways to use Channel Divinity when you gain that feature at 2nd level, and additional benefits at 6th, 8th, and 17th levels."
+      },
+      {
+        "id": "domain_spells_4",
+        "name": "Domain Spells",
+        "when": "$owner.level >= 7",
+        "description": "Each domain has a list of spells--its domain spells--that you gain at the cleric levels noted in the domain description. Once you gain a domain spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day.\n\nIf you have a domain spell that doesn't appear on the cleric spell list, the spell is nonetheless a cleric spell for you."
+      },
+      {
+        "id": "destroy_undead_cr_1_or_below",
+        "name": "Destroy Undead (CR 1 or below)",
+        "when": "$owner.level >= 8",
+        "description": "Starting at 5th level, when an undead fails its saving throw against your Turn Undead feature, the creature is instantly destroyed if its challenge rating is at or below a certain threshold."
+      },
+      {
+        "id": "divine_domain_improvement_3",
+        "name": "Divine Domain feature",
+        "when": "$owner.level >= 8",
+        "description": "Choose one domain related to your deity, such as Knowledge, Life, Light, Nature, Tempest, Trickery, or War. Only the Life domain is detailed in the Open Game Licensed SRD. Additional Domains are described in the official rulebooks or products from other publishers.\n\nYour domain grants you domain spells and other features when you choose it at 1st level. It also grants you additional ways to use Channel Divinity when you gain that feature at 2nd level, and additional benefits at 6th, 8th, and 17th levels."
+      },
+      {
+        "id": "domain_spells_5",
+        "name": "Domain Spells",
+        "when": "$owner.level >= 9",
+        "description": "Each domain has a list of spells--its domain spells--that you gain at the cleric levels noted in the domain description. Once you gain a domain spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day.\n\nIf you have a domain spell that doesn't appear on the cleric spell list, the spell is nonetheless a cleric spell for you."
+      },
+      {
+        "id": "divine_intervention",
+        "name": "Divine Intervention",
+        "when": "$owner.level >= 10",
+        "description": "Beginning at 10th level, you can call on your deity to intervene on your behalf when your need is great.\n\nImploring your deity's aid requires you to use your action. Describe the assistance you seek, and roll percentile dice. If you roll a number equal to or lower than your cleric level, your deity intervenes. The GM chooses the nature of the intervention; the effect of any cleric spell or cleric domain spell would be appropriate.\n\nIf your deity intervenes, you can't use this feature again for 7 days. Otherwise, you can use it again after you finish a long rest.\n\nAt 20th level, your call for intervention succeeds automatically, no roll required."
+      },
+      {
+        "id": "destroy_undead_cr_2_or_below",
+        "name": "Destroy Undead (CR 2 or below)",
+        "when": "$owner.level >= 11",
+        "description": "Starting at 5th level, when an undead fails its saving throw against your Turn Undead feature, the creature is instantly destroyed if its challenge rating is at or below a certain threshold."
+      },
+      {
+        "id": "destroy_undead_cr_3_or_below",
+        "name": "Destroy Undead (CR 3 or below)",
+        "when": "$owner.level >= 14",
+        "description": "Starting at 5th level, when an undead fails its saving throw against your Turn Undead feature, the creature is instantly destroyed if its challenge rating is at or below a certain threshold."
+      },
+      {
+        "id": "destroy_undead_cr_4_or_below",
+        "name": "Destroy Undead (CR 4 or below)",
+        "when": "$owner.level >= 17",
+        "description": "Starting at 5th level, when an undead fails its saving throw against your Turn Undead feature, the creature is instantly destroyed if its challenge rating is at or below a certain threshold."
+      },
+      {
+        "id": "divine_domain_improvement_4",
+        "name": "Divine Domain feature",
+        "when": "$owner.level >= 17",
+        "description": "Choose one domain related to your deity, such as Knowledge, Life, Light, Nature, Tempest, Trickery, or War. Only the Life domain is detailed in the Open Game Licensed SRD. Additional Domains are described in the official rulebooks or products from other publishers.\n\nYour domain grants you domain spells and other features when you choose it at 1st level. It also grants you additional ways to use Channel Divinity when you gain that feature at 2nd level, and additional benefits at 6th, 8th, and 17th levels."
+      },
+      {
+        "id": "supreme_healing",
+        "name": "Supreme Healing",
+        "when": "$owner.level >= 17",
+        "description": "Starting at 17th level, when you would normally roll one or more dice to restore hit points with a spell, you instead use the highest number possible for each die. For example, instead of restoring 2d6 hit points to a creature, you restore 12."
+      },
+      {
+        "id": "channel_divinity_3_rest",
+        "name": "Channel Divinity (3/rest)",
+        "when": "$owner.level >= 18",
+        "description": "Beginning at 6th level, you can use your Channel Divinity twice between rests, and beginning at 18th level, you can use it three times between rests. When you finish a short or long rest, you regain your expended uses."
+      },
+      {
+        "id": "divine_intervention_improvement",
+        "name": "Divine Intervention Improvement",
+        "when": "$owner.level >= 20",
+        "description": "At 20th level, your call for intervention succeeds automatically, no roll required."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.skills",
+            "title": "Choose 2 skills"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a divine domain",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 1
+              }
+            ]
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 3,
+            "into": "spells",
+            "title": "Learn 3 cantrips"
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          }
+        ],
+        "5": [],
+        "6": [],
+        "7": [],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "9": [],
+        "10": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          }
+        ],
+        "11": [],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "14": [],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "17": [],
+        "18": [],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "20": []
+      }
+    }
+  },
+  {
+    "id": "druid",
+    "name": "Druid",
+    "summary": "d8 hit die · INT, WIS saves",
+    "description": "Hit die d8. Saving throws: INT, WIS.",
+    "data": {
+      "hit_die": 8,
+      "saves": [
+        "int",
+        "wis"
+      ],
+      "skill_choices": [
+        "arcana",
+        "animal_handling",
+        "insight",
+        "medicine",
+        "nature",
+        "perception",
+        "religion",
+        "survival"
+      ],
+      "skill_count": 2,
+      "armor": "Light Armor, Medium Armor, Shields",
+      "weapons": "Clubs, Daggers, Javelins, Maces, Quarterstaffs, Sickles, Spears, Darts, Slings, Scimitars",
+      "tools": "",
+      "caster": "full",
+      "cast_ability": "wis",
+      "prepares": true,
+      "learns": false,
+      "subclass_level": 2,
+      "subclass_label": "Druid Circle"
+    },
+    "features": [
+      {
+        "id": "spellcasting_druid",
+        "name": "Spellcasting: Druid",
+        "when": "$owner.level >= 1",
+        "description": "Drawing on the divine essence of nature itself, you can cast spells to shape that essence to your will."
+      },
+      {
+        "id": "druidic",
+        "name": "Druidic",
+        "when": "$owner.level >= 1",
+        "description": "You know Druidic, the secret language of druids. You can speak the language and use it to leave hidden messages. You and others who know this language automatically spot such a message. Others spot the message's presence with a successful DC 15 Wisdom (Perception) check but can't decipher it without magic."
+      },
+      {
+        "id": "wild_shape_cr_1_4_or_below_no_flying_or_swim_speed",
+        "name": "Wild Shape (CR 1/4 or below, no flying or swim speed)",
+        "when": "$owner.level >= 2",
+        "description": "Starting at 2nd level, you can use your action to magically assume the shape of a beast that you have seen before. You can use this feature twice. You regain expended uses when you finish a short or long rest.\n\nYour druid level determines the beasts you can transform into, as shown in the Beast Shapes table. At 2nd level, for example, you can transform into any beast that has a challenge rating of 1/4 or lower that doesn't have a flying or swimming speed.\n\nYou can stay in a beast shape for a number of hours equal to half your druid level (rounded down). You then revert to your normal form unless you expend another use of this feature. You can revert to your normal form earlier by using a bonus action on your turn. You automatically revert if you fall unconscious, drop to 0 hit points, or die.\n\nWhile you are transformed, the following rules apply:\n\n- Your game statistics are replaced by the statistics of the beast, but you retain your alignment, personality, and Intelligence, Wisdom, and Charisma scores. You also retain all of your skill and saving throw proficiencies, in addition to gaining those of the creature. If the creature has the same proficiency as you and the bonus in its stat block is higher than yours, use the creature's bonus instead of yours. If the creature has any legendary or lair actions, you can't use them.\n\n- When you transform, you assume the beast's hit points and Hit Dice. When you revert to your normal form, you return to the number of hit points you had before you transformed. However, if you revert as a result of dropping to 0 hit points, any excess damage carries over to your normal form. For example, if you take 10 damage in animal form and have only 1 hit point left, you revert and take 9 damage. As long as the excess damage doesn't reduce your normal form to 0 hit points, you aren't knocked unconscious.\n\n- You can't cast spells, and your ability to speak or take any action that requires hands is limited to the capabilities of your beast form. Transforming doesn't break your concentration on a spell you've already cast, however, or prevent you from taking actions that are part of a spell, such as call lightning, that you've already cast.\n\n- You retain the benefit of any features from your class, race, or other source and can use them if the new form is physically capable of doing so. However, you can't use any of your special senses, such as darkvision, unless your new form also has that sense.\n\n- You choose whether your equipment falls to the ground in your space, merges into your new form, or is worn by it. Worn equipment functions as normal, but the GM decides whether it is practical for the new form to wear a piece of equipment, based on the creature's shape and size. Your equipment doesn't change size or shape to match the new form, and any equipment that the new form can't wear must either fall to the ground or merge with it. Equipment that merges with the form has no effect until you leave the form.",
+        "resource": "wild_shape",
+        "summary": "2 per short rest · max CR {lookup('druid', $owner.level, 'wild_shape_max_cr')}",
+        "resources": [
+          {
+            "id": "wild_shape",
+            "label": "Wild Shape",
+            "max": 2,
+            "reset": [
+              "short_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "druid_circle",
+        "name": "Druid Circle",
+        "when": "$owner.level >= 2",
+        "description": "At 2nd level, you choose to identify with a circle of druids, such as the Circle of the Land. Your choice grants you features at 2nd level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "wild_shape_cr_1_2_or_below_no_flying_speed",
+        "name": "Wild Shape (CR 1/2 or below, no flying speed)",
+        "when": "$owner.level >= 4",
+        "description": "Starting at 2nd level, you can use your action to magically assume the shape of a beast that you have seen before. You can use this feature twice. You regain expended uses when you finish a short or long rest.\n\nYour druid level determines the beasts you can transform into, as shown in the Beast Shapes table. At 2nd level, for example, you can transform into any beast that has a challenge rating of 1/4 or lower that doesn't have a flying or swimming speed.\n\nYou can stay in a beast shape for a number of hours equal to half your druid level (rounded down). You then revert to your normal form unless you expend another use of this feature. You can revert to your normal form earlier by using a bonus action on your turn. You automatically revert if you fall unconscious, drop to 0 hit points, or die.\n\nWhile you are transformed, the following rules apply:\n\n- Your game statistics are replaced by the statistics of the beast, but you retain your alignment, personality, and Intelligence, Wisdom, and Charisma scores. You also retain all of your skill and saving throw proficiencies, in addition to gaining those of the creature. If the creature has the same proficiency as you and the bonus in its stat block is higher than yours, use the creature's bonus instead of yours. If the creature has any legendary or lair actions, you can't use them.\n\n- When you transform, you assume the beast's hit points and Hit Dice. When you revert to your normal form, you return to the number of hit points you had before you transformed. However, if you revert as a result of dropping to 0 hit points, any excess damage carries over to your normal form. For example, if you take 10 damage in animal form and have only 1 hit point left, you revert and take 9 damage. As long as the excess damage doesn't reduce your normal form to 0 hit points, you aren't knocked unconscious.\n\n- You can't cast spells, and your ability to speak or take any action that requires hands is limited to the capabilities of your beast form. Transforming doesn't break your concentration on a spell you've already cast, however, or prevent you from taking actions that are part of a spell, such as call lightning, that you've already cast.\n\n- You retain the benefit of any features from your class, race, or other source and can use them if the new form is physically capable of doing so. However, you can't use any of your special senses, such as darkvision, unless your new form also has that sense.\n\n- You choose whether your equipment falls to the ground in your space, merges into your new form, or is worn by it. Worn equipment functions as normal, but the GM decides whether it is practical for the new form to wear a piece of equipment, based on the creature's shape and size. Your equipment doesn't change size or shape to match the new form, and any equipment that the new form can't wear must either fall to the ground or merge with it. Equipment that merges with the form has no effect until you leave the form."
+      },
+      {
+        "id": "druid_circle_improvement_1",
+        "name": "Druid Circle feature",
+        "when": "$owner.level >= 6",
+        "description": "At 2nd level, you choose to identify with a circle of druids, such as the Circle of the Land. Your choice grants you features at 2nd level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "wild_shape_cr_1_or_below",
+        "name": "Wild Shape (CR 1 or below)",
+        "when": "$owner.level >= 8",
+        "description": "Starting at 2nd level, you can use your action to magically assume the shape of a beast that you have seen before. You can use this feature twice. You regain expended uses when you finish a short or long rest.\n\nYour druid level determines the beasts you can transform into, as shown in the Beast Shapes table. At 2nd level, for example, you can transform into any beast that has a challenge rating of 1/4 or lower that doesn't have a flying or swimming speed.\n\nYou can stay in a beast shape for a number of hours equal to half your druid level (rounded down). You then revert to your normal form unless you expend another use of this feature. You can revert to your normal form earlier by using a bonus action on your turn. You automatically revert if you fall unconscious, drop to 0 hit points, or die.\n\nWhile you are transformed, the following rules apply:\n\n- Your game statistics are replaced by the statistics of the beast, but you retain your alignment, personality, and Intelligence, Wisdom, and Charisma scores. You also retain all of your skill and saving throw proficiencies, in addition to gaining those of the creature. If the creature has the same proficiency as you and the bonus in its stat block is higher than yours, use the creature's bonus instead of yours. If the creature has any legendary or lair actions, you can't use them.\n\n- When you transform, you assume the beast's hit points and Hit Dice. When you revert to your normal form, you return to the number of hit points you had before you transformed. However, if you revert as a result of dropping to 0 hit points, any excess damage carries over to your normal form. For example, if you take 10 damage in animal form and have only 1 hit point left, you revert and take 9 damage. As long as the excess damage doesn't reduce your normal form to 0 hit points, you aren't knocked unconscious.\n\n- You can't cast spells, and your ability to speak or take any action that requires hands is limited to the capabilities of your beast form. Transforming doesn't break your concentration on a spell you've already cast, however, or prevent you from taking actions that are part of a spell, such as call lightning, that you've already cast.\n\n- You retain the benefit of any features from your class, race, or other source and can use them if the new form is physically capable of doing so. However, you can't use any of your special senses, such as darkvision, unless your new form also has that sense.\n\n- You choose whether your equipment falls to the ground in your space, merges into your new form, or is worn by it. Worn equipment functions as normal, but the GM decides whether it is practical for the new form to wear a piece of equipment, based on the creature's shape and size. Your equipment doesn't change size or shape to match the new form, and any equipment that the new form can't wear must either fall to the ground or merge with it. Equipment that merges with the form has no effect until you leave the form."
+      },
+      {
+        "id": "druid_circle_improvement_2",
+        "name": "Druid Circle feature",
+        "when": "$owner.level >= 10",
+        "description": "At 2nd level, you choose to identify with a circle of druids, such as the Circle of the Land. Your choice grants you features at 2nd level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "druid_circle_improvement_3",
+        "name": "Druid Circle feature",
+        "when": "$owner.level >= 14",
+        "description": "At 2nd level, you choose to identify with a circle of druids, such as the Circle of the Land. Your choice grants you features at 2nd level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "druid_timeless_body",
+        "name": "Timeless Body",
+        "when": "$owner.level >= 18",
+        "description": "Starting at 18th level, the primal magic that you wield causes you to age more slowly. For every 10 years that pass, your body ages only 1 year."
+      },
+      {
+        "id": "beast_spells",
+        "name": "Beast Spells",
+        "when": "$owner.level >= 18",
+        "description": "Beginning at 18th level, you can cast many of your druid spells in any shape you assume using Wild Shape. You can perform the somatic and verbal components of a druid spell while in a beast shape, but you aren't able to provide material components."
+      },
+      {
+        "id": "archdruid",
+        "name": "Archdruid",
+        "when": "$owner.level >= 20",
+        "description": "At 20th level, you can use your Wild Shape an unlimited number of times.\n\nAdditionally, you can ignore the verbal and somatic components of your druid spells, as well as any material components that lack a cost and aren't consumed by a spell. You gain this benefit in both your normal shape and your beast shape from Wild Shape."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.skills",
+            "title": "Choose 2 skills"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 cantrips"
+          }
+        ],
+        "2": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a druid circle",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 2
+              }
+            ]
+          }
+        ],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          }
+        ],
+        "6": [],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "10": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          }
+        ],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "14": [],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "18": [],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "20": []
+      }
+    }
+  },
+  {
+    "id": "fighter",
+    "name": "Fighter",
+    "summary": "d10 hit die · STR, CON saves",
+    "description": "Hit die d10. Saving throws: STR, CON.",
+    "data": {
+      "hit_die": 10,
+      "saves": [
+        "str",
+        "con"
+      ],
+      "skill_choices": [
+        "acrobatics",
+        "animal_handling",
+        "athletics",
+        "history",
+        "insight",
+        "intimidation",
+        "perception",
+        "survival"
+      ],
+      "skill_count": 2,
+      "armor": "All armor, Shields",
+      "weapons": "Simple Weapons, Martial Weapons",
+      "tools": "",
+      "caster": "none",
+      "prepares": false,
+      "learns": false,
+      "subclass_level": 3,
+      "subclass_label": "Martial Archetype"
+    },
+    "features": [
+      {
+        "id": "fighter_fighting_style",
+        "name": "Fighting Style",
+        "when": "$owner.level >= 1",
+        "description": "You adopt a particular style of fighting as your specialty. Choose one of the following options. You can't take a Fighting Style option more than once, even if you later get to choose again."
+      },
+      {
+        "id": "second_wind",
+        "name": "Second Wind",
+        "when": "$owner.level >= 1",
+        "description": "You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level. Once you use this feature, you must finish a short or long rest before you can use it again.",
+        "summary": "Bonus action: regain 1d10 + {$owner.level} HP",
+        "resource": "second_wind",
+        "actions": [
+          "use_second_wind"
+        ],
+        "resources": [
+          {
+            "id": "second_wind",
+            "label": "Second Wind",
+            "max": 1,
+            "reset": [
+              "short_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "action_surge_1_use",
+        "name": "Action Surge (1 use)",
+        "when": "$owner.level >= 2",
+        "description": "Starting at 2nd level, you can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action on top of your regular action and a possible bonus action.\n\nOnce you use this feature, you must finish a short or long rest before you can use it again. Starting at 17th level, you can use it twice before a rest, but only once on the same turn.",
+        "summary": "{lookup('fighter', $owner.level, 'action_surges')} per short rest",
+        "resource": "action_surge",
+        "actions": [
+          "use_action_surge"
+        ],
+        "resources": [
+          {
+            "id": "action_surge",
+            "label": "Action Surge",
+            "max": "lookup('fighter', $owner.level, 'action_surges')",
+            "reset": [
+              "short_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "martial_archetype",
+        "name": "Martial Archetype",
+        "when": "$owner.level >= 3",
+        "description": "At 3rd level, you choose an archetype that you strive to emulate in your combat styles and techniques, such as Champion. The archetype you choose grants you features at 3rd level and again at 7th, 10th, 15th, and 18th level."
+      },
+      {
+        "id": "extra_attack_1",
+        "name": "Extra Attack",
+        "when": "$owner.level >= 5",
+        "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn. The number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class."
+      },
+      {
+        "id": "martial_archetype_improvement_1",
+        "name": "Martial Archetype feature",
+        "when": "$owner.level >= 7",
+        "description": "At 3rd level, you choose an archetype that you strive to emulate in your combat styles and techniques, such as Champion. The archetype you choose grants you features at 3rd level and again at 7th, 10th, 15th, and 18th level."
+      },
+      {
+        "id": "indomitable_1_use",
+        "name": "Indomitable (1 use)",
+        "when": "$owner.level >= 9",
+        "description": "Beginning at 9th level, you can reroll a saving throw that you fail. If you do so, you must use the new roll, and you can't use this feature again until you finish a long rest. You can use this feature twice between long rests starting at 13th level and three times between long rests starting at 17th level.",
+        "summary": "{lookup('fighter', $owner.level, 'indomitable_uses')} per long rest",
+        "resource": "indomitable",
+        "resources": [
+          {
+            "id": "indomitable",
+            "label": "Indomitable",
+            "max": "lookup('fighter', $owner.level, 'indomitable_uses')",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "martial_archetype_improvement_2",
+        "name": "Martial Archetype feature",
+        "when": "$owner.level >= 10",
+        "description": "At 3rd level, you choose an archetype that you strive to emulate in your combat styles and techniques, such as Champion. The archetype you choose grants you features at 3rd level and again at 7th, 10th, 15th, and 18th level."
+      },
+      {
+        "id": "extra_attack_2",
+        "name": "Extra Attack (2)",
+        "when": "$owner.level >= 11",
+        "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn. The number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class."
+      },
+      {
+        "id": "indomitable_2_uses",
+        "name": "Indomitable (2 uses)",
+        "when": "$owner.level >= 13",
+        "description": "Beginning at 9th level, you can reroll a saving throw that you fail. If you do so, you must use the new roll, and you can't use this feature again until you finish a long rest. You can use this feature twice between long rests starting at 13th level and three times between long rests starting at 17th level."
+      },
+      {
+        "id": "martial_archetype_improvement_3",
+        "name": "Martial Archetype feature",
+        "when": "$owner.level >= 15",
+        "description": "At 3rd level, you choose an archetype that you strive to emulate in your combat styles and techniques, such as Champion. The archetype you choose grants you features at 3rd level and again at 7th, 10th, 15th, and 18th level."
+      },
+      {
+        "id": "action_surge_2_uses",
+        "name": "Action Surge (2 uses)",
+        "when": "$owner.level >= 17",
+        "description": "Starting at 2nd level, you can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action on top of your regular action and a possible bonus action.\n\nOnce you use this feature, you must finish a short or long rest before you can use it again. Starting at 17th level, you can use it twice before a rest, but only once on the same turn."
+      },
+      {
+        "id": "indomitable_3_uses",
+        "name": "Indomitable (3 uses)",
+        "when": "$owner.level >= 17",
+        "description": "Beginning at 9th level, you can reroll a saving throw that you fail. If you do so, you must use the new roll, and you can't use this feature again until you finish a long rest. You can use this feature twice between long rests starting at 13th level and three times between long rests starting at 17th level."
+      },
+      {
+        "id": "martial_archetype_improvement_4",
+        "name": "Martial Archetype feature",
+        "when": "$owner.level >= 18",
+        "description": "At 3rd level, you choose an archetype that you strive to emulate in your combat styles and techniques, such as Champion. The archetype you choose grants you features at 3rd level and again at 7th, 10th, 15th, and 18th level."
+      },
+      {
+        "id": "extra_attack_3",
+        "name": "Extra Attack (3)",
+        "when": "$owner.level >= 20",
+        "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn. The number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.skills",
+            "title": "Choose 2 skills"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'fighter_fighting_style') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Fighting Style"
+          }
+        ],
+        "2": [],
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a martial archetype",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 3
+              }
+            ]
+          }
+        ],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "5": [],
+        "6": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "7": [],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "9": [],
+        "10": [],
+        "11": [],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "13": [],
+        "14": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "15": [],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "17": [],
+        "18": [],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "20": []
+      }
+    }
+  },
+  {
+    "id": "monk",
+    "name": "Monk",
+    "summary": "d8 hit die · STR, DEX saves",
+    "description": "Hit die d8. Saving throws: STR, DEX.",
+    "data": {
+      "hit_die": 8,
+      "saves": [
+        "str",
+        "dex"
+      ],
+      "skill_choices": [
+        "acrobatics",
+        "athletics",
+        "history",
+        "insight",
+        "religion",
+        "stealth"
+      ],
+      "skill_count": 2,
+      "armor": "",
+      "weapons": "Simple Weapons, Shortswords",
+      "tools": "",
+      "caster": "none",
+      "prepares": false,
+      "learns": false,
+      "subclass_level": 3,
+      "subclass_label": "Monastic Tradition"
+    },
+    "features": [
+      {
+        "id": "monk_unarmored_defense",
+        "name": "Unarmored Defense",
+        "when": "$owner.level >= 1",
+        "description": "Beginning at 1st level, while you are wearing no armor and not wielding a shield, your AC equals 10 + your Dexterity modifier + your Wisdom modifier.",
+        "summary": "AC 10 + Dex + Wis without armor or shield",
+        "modifiers": [
+          {
+            "target": "ac",
+            "op": "set",
+            "value": "10 + @mods.dex + @mods.wis",
+            "when": "!@armor_worn && !@shield_worn"
+          }
+        ]
+      },
+      {
+        "id": "martial_arts",
+        "name": "Martial Arts",
+        "when": "$owner.level >= 1",
+        "description": "At 1st level, your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are shortswords and any simple melee weapons that don't have the two- handed or heavy property.\n\nYou gain the following benefits while you are unarmed or wielding only monk weapons and you aren't wearing armor or wielding a shield:\n\n- You can use Dexterity instead of Strength for the attack and damage rolls of your unarmed strikes and monk weapons.\n\n- You can roll a d4 in place of the normal damage of your unarmed strike or monk weapon. This die changes as you gain monk levels, as shown in the Martial Arts column of Table: The Monk.\n\n- When you use the Attack action with an unarmed strike or a monk weapon on your turn, you can make one unarmed strike as a bonus action. For example, if you take the Attack action and attack with a quarterstaff, you can also make an unarmed strike as a bonus action, assuming you haven't already taken a bonus action this turn.\n\nCertain monasteries use specialized forms of the monk weapons. For example, you might use a club that is two lengths of wood connected by a short chain (called a nunchaku) or a sickle with a shorter, straighter blade (called a kama). Whatever name you use for a monk weapon, you can use the game statistics provided for the weapon.",
+        "summary": "Martial arts die {lookup('monk', $owner.level, 'martial_arts')}"
+      },
+      {
+        "id": "ki",
+        "name": "Ki",
+        "when": "$owner.level >= 2",
+        "description": "Starting at 2nd level, your training allows you to harness the mystic energy of ki. Your access to this energy is represented by a number of ki points. Your monk level determines the number of points you have, as shown in the Ki Points column of Table: The Monk.\n\nYou can spend these points to fuel various ki features. You start knowing three such features: Flurry of Blows, Patient Defense, and Step of the Wind. You learn more ki features as you gain levels in this class.\n\nWhen you spend a ki point, it is unavailable until you finish a short or long rest, at the end of which you draw all of your expended ki back into yourself. You must spend at least 30 minutes of the rest meditating to regain your ki points.\n\nSome of your ki features require your target to make a saving throw to resist the feature's effects. The saving throw DC is calculated as follows:\n\nKi save DC = 8 + your proficiency bonus + your Wisdom modifier",
+        "summary": "{lookup('monk', $owner.level, 'ki_points')} points per short rest · save DC {8 + @prof_bonus + @mods.wis}",
+        "resource": "ki",
+        "resources": [
+          {
+            "id": "ki",
+            "label": "Ki",
+            "max": "lookup('monk', $owner.level, 'ki_points')",
+            "reset": [
+              "short_rest"
+            ],
+            "style": "counter"
+          }
+        ]
+      },
+      {
+        "id": "flurry_of_blows",
+        "name": "Flurry of Blows",
+        "when": "$owner.level >= 2",
+        "description": "Immediately after you take the Attack action on your turn, you can spend 1 ki point to make two unarmed strikes as a bonus action."
+      },
+      {
+        "id": "patient_defense",
+        "name": "Patient Defense",
+        "when": "$owner.level >= 2",
+        "description": "You can spend 1 ki point to take the Dodge action as a bonus action on your turn."
+      },
+      {
+        "id": "step_of_the_wind",
+        "name": "Step of the Wind",
+        "when": "$owner.level >= 2",
+        "description": "You can spend 1 ki point to take the Disengage or Dash action as a bonus action on your turn, and your jump distance is doubled for the turn."
+      },
+      {
+        "id": "unarmored_movement_1",
+        "name": "Unarmored Movement",
+        "when": "$owner.level >= 2",
+        "description": "Starting at 2nd level, your speed increases by 10 feet while you are not wearing armor or wielding a shield. This bonus increases when you reach certain monk levels, as shown in Table: The Monk.\n\nAt 9th level, you gain the ability to move along vertical surfaces and across liquids on your turn without falling during the move.",
+        "summary": "+{lookup('monk', $owner.level, 'unarmored_movement')} ft speed without armor or shield",
+        "modifiers": [
+          {
+            "target": "speed",
+            "op": "add",
+            "value": "lookup('monk', $owner.level, 'unarmored_movement')",
+            "when": "!@armor_worn && !@shield_worn"
+          }
+        ]
+      },
+      {
+        "id": "monastic_tradition",
+        "name": "Monastic Tradition",
+        "when": "$owner.level >= 3",
+        "description": "When you reach 3rd level, you commit yourself to a monastic tradition, such as the Way of the Open Hand. Your tradition grants you features at 3rd level and again at 6th, 11th, and 17th level."
+      },
+      {
+        "id": "deflect_missiles",
+        "name": "Deflect Missiles",
+        "when": "$owner.level >= 3",
+        "description": "Starting at 3rd level, you can use your reaction to deflect or catch the missile when you are hit by a ranged weapon attack. When you do so, the damage you take from the attack is reduced by 1d10 + your Dexterity modifier + your monk level.\n\nIf you reduce the damage to 0, you can catch the missile if it is small enough for you to hold in one hand and you have at least one hand free. If you catch a missile in this way, you can spend 1 ki point to make a ranged attack with the weapon or piece of ammunition you just caught, as part of the same reaction. You make this attack with proficiency, regardless of your weapon proficiencies, and the missile counts as a monk weapon for the attack, which has a normal range of 20 feet and a long range of 60 feet."
+      },
+      {
+        "id": "slow_fall",
+        "name": "Slow Fall",
+        "when": "$owner.level >= 4",
+        "description": "Beginning at 4th level, you can use your reaction when you fall to reduce any falling damage you take by an amount equal to five times your monk level."
+      },
+      {
+        "id": "monk_extra_attack",
+        "name": "Extra Attack",
+        "when": "$owner.level >= 5",
+        "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+      },
+      {
+        "id": "stunning_strike",
+        "name": "Stunning Strike",
+        "when": "$owner.level >= 5",
+        "description": "Starting at 5th level, you can interfere with the flow of ki in an opponent's body. When you hit another creature with a melee weapon attack, you can spend 1 ki point to attempt a stunning strike. The target must succeed on a Constitution saving throw or be stunned until the end of your next turn."
+      },
+      {
+        "id": "ki_empowered_strikes",
+        "name": "Ki Empowered Strikes",
+        "when": "$owner.level >= 6",
+        "description": "Starting at 6th level, your unarmed strikes count as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage."
+      },
+      {
+        "id": "monastic_tradition_improvement_1",
+        "name": "Monastic Tradition feature",
+        "when": "$owner.level >= 6",
+        "description": "When you reach 3rd level, you commit yourself to a monastic tradition, such as the Way of the Open Hand. Your tradition grants you features at 3rd level and again at 6th, 11th, and 17th level."
+      },
+      {
+        "id": "monk_evasion",
+        "name": "Evasion",
+        "when": "$owner.level >= 7",
+        "description": "At 7th level, your instinctive agility lets you dodge out of the way of certain area effects, such as a blue dragon's lightning breath or a fireball spell. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail."
+      },
+      {
+        "id": "stillness_of_mind",
+        "name": "Stillness of Mind",
+        "when": "$owner.level >= 7",
+        "description": "Starting at 7th level, you can use your action to end one effect on yourself that is causing you to be charmed or frightened."
+      },
+      {
+        "id": "unarmored_movement_2",
+        "name": "Unarmored Movement",
+        "when": "$owner.level >= 9",
+        "description": "Starting at 2nd level, your speed increases by 10 feet while you are not wearing armor or wielding a shield. This bonus increases when you reach certain monk levels, as shown in Table: The Monk.\n\nAt 9th level, you gain the ability to move along vertical surfaces and across liquids on your turn without falling during the move.",
+        "summary": "Move along vertical surfaces and across liquids on your turn"
+      },
+      {
+        "id": "purity_of_body",
+        "name": "Purity of Body",
+        "when": "$owner.level >= 10",
+        "description": "At 10th level, your mastery of the ki flowing through you makes you immune to disease and poison."
+      },
+      {
+        "id": "monastic_tradition_improvement_2",
+        "name": "Monastic Tradition feature",
+        "when": "$owner.level >= 11",
+        "description": "When you reach 3rd level, you commit yourself to a monastic tradition, such as the Way of the Open Hand. Your tradition grants you features at 3rd level and again at 6th, 11th, and 17th level."
+      },
+      {
+        "id": "tongue_of_the_sun_and_moon",
+        "name": "Tongue of the Sun and Moon",
+        "when": "$owner.level >= 13",
+        "description": "Starting at 13th level, you learn to touch the ki of other minds so that you understand all spoken languages. Moreover, any creature that can understand a language can understand what you say."
+      },
+      {
+        "id": "diamond_soul",
+        "name": "Diamond Soul",
+        "when": "$owner.level >= 14",
+        "description": "Beginning at 14th level, your mastery of ki grants you proficiency in all saving throws.\n\nAdditionally, whenever you make a saving throw and fail, you can spend 1 ki point to reroll it and take the second result.",
+        "summary": "Proficient in all saving throws",
+        "modifiers": [
+          {
+            "target": "saves.str",
+            "op": "add",
+            "value": "@prof_bonus",
+            "when": "!has(@save_profs, 'str')"
+          },
+          {
+            "target": "saves.dex",
+            "op": "add",
+            "value": "@prof_bonus",
+            "when": "!has(@save_profs, 'dex')"
+          },
+          {
+            "target": "saves.con",
+            "op": "add",
+            "value": "@prof_bonus",
+            "when": "!has(@save_profs, 'con')"
+          },
+          {
+            "target": "saves.int",
+            "op": "add",
+            "value": "@prof_bonus",
+            "when": "!has(@save_profs, 'int')"
+          },
+          {
+            "target": "saves.wis",
+            "op": "add",
+            "value": "@prof_bonus",
+            "when": "!has(@save_profs, 'wis')"
+          },
+          {
+            "target": "saves.cha",
+            "op": "add",
+            "value": "@prof_bonus",
+            "when": "!has(@save_profs, 'cha')"
+          }
+        ]
+      },
+      {
+        "id": "monk_timeless_body",
+        "name": "Timeless Body",
+        "when": "$owner.level >= 15",
+        "description": "At 15th level, your ki sustains you so that you suffer none of the frailty of old age, and you can't be aged magically. You can still die of old age, however. In addition, you no longer need food or water."
+      },
+      {
+        "id": "monastic_tradition_improvement_3",
+        "name": "Monastic Tradition feature",
+        "when": "$owner.level >= 17",
+        "description": "When you reach 3rd level, you commit yourself to a monastic tradition, such as the Way of the Open Hand. Your tradition grants you features at 3rd level and again at 6th, 11th, and 17th level."
+      },
+      {
+        "id": "empty_body",
+        "name": "Empty Body",
+        "when": "$owner.level >= 18",
+        "description": "Beginning at 18th level, you can use your action to spend 4 ki points to become invisible for 1 minute. During that time, you also have resistance to all damage but force damage.\n\nAdditionally, you can spend 8 ki points to cast the astral projection spell, without needing material components. When you do so, you can't take any other creatures with you."
+      },
+      {
+        "id": "perfect_self",
+        "name": "Perfect Self",
+        "when": "$owner.level >= 20",
+        "description": "At 20th level, when you roll for initiative and have no ki points remaining, you regain 4 ki points."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.skills",
+            "title": "Choose 2 skills"
+          }
+        ],
+        "2": [],
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a monastic tradition",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 3
+              }
+            ]
+          }
+        ],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "5": [],
+        "6": [],
+        "7": [],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "9": [],
+        "10": [],
+        "11": [],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "13": [],
+        "14": [],
+        "15": [],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "17": [],
+        "18": [],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "20": []
+      }
+    }
+  },
+  {
+    "id": "paladin",
+    "name": "Paladin",
+    "summary": "d10 hit die · WIS, CHA saves",
+    "description": "Hit die d10. Saving throws: WIS, CHA.",
+    "data": {
+      "hit_die": 10,
+      "saves": [
+        "wis",
+        "cha"
+      ],
+      "skill_choices": [
+        "athletics",
+        "insight",
+        "intimidation",
+        "medicine",
+        "persuasion",
+        "religion"
+      ],
+      "skill_count": 2,
+      "armor": "All armor, Shields",
+      "weapons": "Simple Weapons, Martial Weapons",
+      "tools": "",
+      "caster": "half",
+      "cast_ability": "cha",
+      "prepares": true,
+      "learns": false,
+      "subclass_level": 3,
+      "subclass_label": "Sacred Oath"
+    },
+    "features": [
+      {
+        "id": "divine_sense",
+        "name": "Divine Sense",
+        "when": "$owner.level >= 1",
+        "description": "The presence of strong evil registers on your senses like a noxious odor, and powerful good rings like heavenly music in your ears. As an action, you can open your awareness to detect such forces. Until the end of your next turn, you know the location of any celestial, fiend, or undead within 60 feet of you that is not behind total cover. You know the type (celestial, fiend, or undead) of any being whose presence you sense, but not its identity. Within the same radius, you also detect the presence of any place or object that has been consecrated or desecrated, as with the hallow spell.\n\nYou can use this feature a number of times equal to 1 + your Charisma modifier. When you finish a long rest, you regain all expended uses.",
+        "summary": "{1 + max(0, @mods.cha)} per long rest",
+        "resource": "divine_sense",
+        "resources": [
+          {
+            "id": "divine_sense",
+            "label": "Divine Sense",
+            "max": "1 + max(0, @mods.cha)",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "lay_on_hands",
+        "name": "Lay on Hands",
+        "when": "$owner.level >= 1",
+        "description": "Your blessed touch can heal wounds. You have a pool of healing power that replenishes when you take a long rest. With that pool, you can restore a total number of hit points equal to your paladin level x 5.\n\nAs an action, you can touch a creature and draw power from the pool to restore a number of hit points to that creature, up to the maximum amount remaining in your pool.\n\nAlternatively, you can expend 5 hit points from your pool of healing to cure the target of one disease or neutralize one poison affecting it. You can cure multiple diseases and neutralize multiple poisons with a single use of Lay on Hands, expending hit points separately for each one.\n\nThis feature has no effect on undead and constructs.",
+        "summary": "Pool of {5 * $owner.level} HP per long rest",
+        "resource": "lay_on_hands",
+        "resources": [
+          {
+            "id": "lay_on_hands",
+            "label": "Lay on Hands",
+            "max": "5 * $owner.level",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "counter"
+          }
+        ]
+      },
+      {
+        "id": "paladin_fighting_style",
+        "name": "Fighting Style",
+        "when": "$owner.level >= 2",
+        "description": "At 2nd level, you adopt a style of fighting as your specialty. Choose one of the following options. You can't take a Fighting Style option more than once, even if you later get to choose again."
+      },
+      {
+        "id": "spellcasting_paladin",
+        "name": "Spellcasting: Paladin",
+        "when": "$owner.level >= 2",
+        "description": "By 2nd level, you have learned to draw on divine magic through meditation and prayer to cast spells as a cleric does."
+      },
+      {
+        "id": "divine_smite",
+        "name": "Divine Smite",
+        "when": "$owner.level >= 2",
+        "description": "Starting at 2nd level, when you hit a creature with a melee weapon attack, you can expend one spell slot to deal radiant damage to the target, in addition to the weapon's damage. The extra damage is 2d8 for a 1st-level spell slot, plus 1d8 for each spell level higher than 1st, to a maximum of 5d8. The damage increases by 1d8 if the target is an undead or a fiend."
+      },
+      {
+        "id": "divine_health",
+        "name": "Divine Health",
+        "when": "$owner.level >= 3",
+        "description": "By 3rd level, the divine magic flowing through you makes you immune to disease."
+      },
+      {
+        "id": "sacred_oath",
+        "name": "Sacred Oath",
+        "when": "$owner.level >= 3",
+        "description": "When you reach 3rd level, you swear the oath that binds you as a paladin forever. Up to this time you have been in a preparatory stage, committed to the path but not yet sworn to it. Now you choose an oath, such as the Oath of Devotion.\n\nYour choice grants you features at 3rd level and again at 7th, 15th, and 20th level. Those features include oath spells and the Channel Divinity feature."
+      },
+      {
+        "id": "oath_spells",
+        "name": "Oath Spells",
+        "when": "$owner.level >= 3",
+        "description": "Each oath has a list of associated spells. You gain access to these spells at the levels specified in the oath description. Once you gain access to an oath spell, you always have it prepared. Oath spells don't count against the number of spells you can prepare each day.\n\nIf you gain an oath spell that doesn't appear on the paladin spell list, the spell is nonetheless a paladin spell for you."
+      },
+      {
+        "id": "channel_divinity",
+        "name": "Channel Divinity",
+        "when": "$owner.level >= 3",
+        "description": "Your oath allows you to channel divine energy to fuel magical effects. Each Channel Divinity option provided by your oath explains how to use it.\n\nWhen you use your Channel Divinity, you choose which option to use. You must then finish a short or long rest to use your Channel Divinity again.\n\nSome Channel Divinity effects require saving throws. When you use such an effect from this class, the DC equals your paladin spell save DC.",
+        "summary": "1 per short rest",
+        "resource": "oath_channel",
+        "resources": [
+          {
+            "id": "oath_channel",
+            "label": "Channel Divinity",
+            "max": 1,
+            "reset": [
+              "short_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "paladin_extra_attack",
+        "name": "Extra Attack",
+        "when": "$owner.level >= 5",
+        "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+      },
+      {
+        "id": "aura_of_protection",
+        "name": "Aura of Protection",
+        "when": "$owner.level >= 6",
+        "description": "Starting at 6th level, whenever you or a friendly creature within 10 feet of you must make a saving throw, the creature gains a bonus to the saving throw equal to your Charisma modifier (with a minimum bonus of +1). You must be conscious to grant this bonus.\n\nAt 18th level, the range of this aura increases to 30 feet.",
+        "summary": "+{max(1, @mods.cha)} to saves for you and allies within {$owner.level >= 18 ? 30 : 10} ft",
+        "modifiers": [
+          {
+            "target": "saves",
+            "op": "add",
+            "value": "max(1, @mods.cha)"
+          }
+        ]
+      },
+      {
+        "id": "sacred_oath_improvement_1",
+        "name": "Sacred Oath feature",
+        "when": "$owner.level >= 7",
+        "description": "When you reach 3rd level, you swear the oath that binds you as a paladin forever. Up to this time you have been in a preparatory stage, committed to the path but not yet sworn to it. Now you choose an oath, such as the Oath of Devotion.\n\nYour choice grants you features at 3rd level and again at 7th, 15th, and 20th level. Those features include oath spells and the Channel Divinity feature."
+      },
+      {
+        "id": "aura_of_courage",
+        "name": "Aura of Courage",
+        "when": "$owner.level >= 10",
+        "description": "Starting at 10th level, you and friendly creatures within 10 feet of you can't be frightened while you are conscious.\n\nAt 18th level, the range of this aura increases to 30 feet."
+      },
+      {
+        "id": "improved_divine_smite",
+        "name": "Improved Divine Smite",
+        "when": "$owner.level >= 11",
+        "description": "By 11th level, you are so suffused with righteous might that all your melee weapon strikes carry divine power with them. Whenever you hit a creature with a melee weapon, the creature takes an extra 1d8 radiant damage. If you also use your Divine Smite with an attack, you add this damage to the extra damage of your Divine Smite."
+      },
+      {
+        "id": "cleansing_touch",
+        "name": "Cleansing Touch",
+        "when": "$owner.level >= 14",
+        "description": "Beginning at 14th level, you can use your action to end one spell on yourself or on one willing creature that you touch.\n\nYou can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain expended uses when you finish a long rest."
+      },
+      {
+        "id": "sacred_oath_improvement_2",
+        "name": "Sacred Oath feature",
+        "when": "$owner.level >= 15",
+        "description": "When you reach 3rd level, you swear the oath that binds you as a paladin forever. Up to this time you have been in a preparatory stage, committed to the path but not yet sworn to it. Now you choose an oath, such as the Oath of Devotion.\n\nYour choice grants you features at 3rd level and again at 7th, 15th, and 20th level. Those features include oath spells and the Channel Divinity feature."
+      },
+      {
+        "id": "aura_improvements",
+        "name": "Aura improvements",
+        "when": "$owner.level >= 18",
+        "description": "At 18th level, the range of your auras increase to 30 feet."
+      },
+      {
+        "id": "sacred_oath_improvement_3",
+        "name": "Sacred Oath feature",
+        "when": "$owner.level >= 20",
+        "description": "When you reach 3rd level, you swear the oath that binds you as a paladin forever. Up to this time you have been in a preparatory stage, committed to the path but not yet sworn to it. Now you choose an oath, such as the Oath of Devotion.\n\nYour choice grants you features at 3rd level and again at 7th, 15th, and 20th level. Those features include oath spells and the Channel Divinity feature."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.skills",
+            "title": "Choose 2 skills"
+          }
+        ],
+        "2": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'paladin_fighting_style') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Fighting Style"
+          }
+        ],
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a sacred oath",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 3
+              }
+            ]
+          }
+        ],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "5": [],
+        "6": [],
+        "7": [],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "10": [],
+        "11": [],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "14": [],
+        "15": [],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "18": [],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "20": []
+      }
+    }
+  },
+  {
+    "id": "ranger",
+    "name": "Ranger",
+    "summary": "d10 hit die · STR, DEX saves",
+    "description": "Hit die d10. Saving throws: STR, DEX.",
+    "data": {
+      "hit_die": 10,
+      "saves": [
+        "str",
+        "dex"
+      ],
+      "skill_choices": [
+        "animal_handling",
+        "athletics",
+        "insight",
+        "investigation",
+        "nature",
+        "perception",
+        "stealth",
+        "survival"
+      ],
+      "skill_count": 3,
+      "armor": "Light Armor, Medium Armor, Shields",
+      "weapons": "Simple Weapons, Martial Weapons",
+      "tools": "",
+      "caster": "half",
+      "cast_ability": "wis",
+      "prepares": false,
+      "learns": true,
+      "subclass_level": 3,
+      "subclass_label": "Ranger Archetype"
+    },
+    "features": [
+      {
+        "id": "favored_enemy_1_type",
+        "name": "Favored Enemy (1 type)",
+        "when": "$owner.level >= 1",
+        "description": "Beginning at 1st level, you have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.\n\nChoose a type of favored enemy: aberrations, beasts, celestials, constructs, dragons, elementals, fey, fiends, giants, monstrosities, oozes, plants, or undead. Alternatively, you can select two races of humanoid (such as gnolls and orcs) as favored enemies.\n\nYou have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.\n\nWhen you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.\n\nYou choose one additional favored enemy, as well as an associated language, at 6th and 14th level. As you gain levels, your choices should reflect the types of monsters you have encountered on your adventures."
+      },
+      {
+        "id": "natural_explorer_1_terrain_type",
+        "name": "Natural Explorer (1 terrain type)",
+        "when": "$owner.level >= 1",
+        "description": "You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions. Choose one type of favored terrain: arctic, coast, desert, forest, grassland, mountain, or swamp. When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you're proficient in.\n\nWhile traveling for an hour or more in your favored terrain, you gain the following benefits:\n\n- Difficult terrain doesn't slow your group's travel.\n\n- Your group can't become lost except by magical means.\n\n- Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.\n\n- If you are traveling alone, you can move stealthily at a normal pace.\n\n- When you forage, you find twice as much food as you normally would.\n\n- While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.\n\nYou choose additional favored terrain types at 6th and 10th level."
+      },
+      {
+        "id": "ranger_fighting_style",
+        "name": "Fighting Style",
+        "when": "$owner.level >= 2",
+        "description": "At 2nd level, you adopt a particular style of fighting as your specialty. Choose one of the following options. You can't take a Fighting Style option more than once, even if you later get to choose again."
+      },
+      {
+        "id": "spellcasting_ranger",
+        "name": "Spellcasting: Ranger",
+        "when": "$owner.level >= 2",
+        "description": "By the time you reach 2nd level, you have learned to use the magical essence of nature to cast spells, much as a druid does."
+      },
+      {
+        "id": "ranger_archetype",
+        "name": "Ranger Archetype",
+        "when": "$owner.level >= 3",
+        "description": "At 3rd level, you choose an archetype that you strive to emulate, such as the Hunter. Your choice grants you features at 3rd level and again at 7th, 11th, and 15th level."
+      },
+      {
+        "id": "primeval_awareness",
+        "name": "Primeval Awareness",
+        "when": "$owner.level >= 3",
+        "description": "Beginning at 3rd level, you can use your action and expend one ranger spell slot to focus your awareness on the region around you. For 1 minute per level of the spell slot you expend, you can sense whether the following types of creatures are present within 1 mile of you (or within up to 6 miles if you are in your favored terrain): aberrations, celestials, dragons, elementals, fey, fiends, and undead. This feature doesn't reveal the creatures' location or number."
+      },
+      {
+        "id": "ranger_extra_attack",
+        "name": "Extra Attack",
+        "when": "$owner.level >= 5",
+        "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+      },
+      {
+        "id": "favored_enemy_2_types",
+        "name": "Favored Enemy (2 types)",
+        "when": "$owner.level >= 6",
+        "description": "Beginning at 1st level, you have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.\n\nChoose a type of favored enemy: aberrations, beasts, celestials, constructs, dragons, elementals, fey, fiends, giants, monstrosities, oozes, plants, or undead. Alternatively, you can select two races of humanoid (such as gnolls and orcs) as favored enemies.\n\nYou have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.\n\nWhen you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.\n\nYou choose one additional favored enemy, as well as an associated language, at 6th and 14th level. As you gain levels, your choices should reflect the types of monsters you have encountered on your adventures."
+      },
+      {
+        "id": "natural_explorer_2_terrain_types",
+        "name": "Natural Explorer (2 terrain types)",
+        "when": "$owner.level >= 6",
+        "description": "You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions. Choose one type of favored terrain: arctic, coast, desert, forest, grassland, mountain, or swamp. When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you're proficient in.\n\nWhile traveling for an hour or more in your favored terrain, you gain the following benefits:\n\n- Difficult terrain doesn't slow your group's travel.\n\n- Your group can't become lost except by magical means.\n\n- Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.\n\n- If you are traveling alone, you can move stealthily at a normal pace.\n\n- When you forage, you find twice as much food as you normally would.\n\n- While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.\n\nYou choose additional favored terrain types at 6th and 10th level."
+      },
+      {
+        "id": "ranger_archetype_improvement_1",
+        "name": "Ranger Archetype feature",
+        "when": "$owner.level >= 7",
+        "description": "At 3rd level, you choose an archetype that you strive to emulate, such as the Hunter. Your choice grants you features at 3rd level and again at 7th, 11th, and 15th level."
+      },
+      {
+        "id": "ranger_lands_stride",
+        "name": "Land's Stride",
+        "when": "$owner.level >= 8",
+        "description": "Starting at 8th level, moving through nonmagical difficult terrain costs you no extra movement. You can also pass through nonmagical plants without being slowed by them and without taking damage from them if they have thorns, spines, or a similar hazard.\n\nIn addition, you have advantage on saving throws against plants that are magically created or manipulated to impede movement, such those created by the entangle spell."
+      },
+      {
+        "id": "natural_explorer_3_terrain_types",
+        "name": "Natural Explorer (3 terrain types)",
+        "when": "$owner.level >= 10",
+        "description": "You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions. Choose one type of favored terrain: arctic, coast, desert, forest, grassland, mountain, or swamp. When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you're proficient in.\n\nWhile traveling for an hour or more in your favored terrain, you gain the following benefits:\n\n- Difficult terrain doesn't slow your group's travel.\n\n- Your group can't become lost except by magical means.\n\n- Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.\n\n- If you are traveling alone, you can move stealthily at a normal pace.\n\n- When you forage, you find twice as much food as you normally would.\n\n- While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.\n\nYou choose additional favored terrain types at 6th and 10th level."
+      },
+      {
+        "id": "hide_in_plain_sight",
+        "name": "Hide in Plain Sight",
+        "when": "$owner.level >= 10",
+        "description": "Starting at 10th level, you can spend 1 minute creating camouflage for yourself. You must have access to fresh mud, dirt, plants, soot, and other naturally occurring materials with which to create your camouflage.\n\nOnce you are camouflaged in this way, you can try to hide by pressing yourself up against a solid surface, such as a tree or wall, that is at least as tall and wide as you are. You gain a +10 bonus to Dexterity (Stealth) checks as long as you remain there without moving or taking actions. Once you move or take an action or a reaction, you must camouflage yourself again to gain this benefit."
+      },
+      {
+        "id": "ranger_archetype_improvement_2",
+        "name": "Ranger Archetype feature",
+        "when": "$owner.level >= 11",
+        "description": "At 3rd level, you choose an archetype that you strive to emulate, such as the Hunter. Your choice grants you features at 3rd level and again at 7th, 11th, and 15th level."
+      },
+      {
+        "id": "favored_enemy_3_enemies",
+        "name": "Favored Enemy (3 enemies)",
+        "when": "$owner.level >= 14",
+        "description": "Beginning at 1st level, you have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.\n\nChoose a type of favored enemy: aberrations, beasts, celestials, constructs, dragons, elementals, fey, fiends, giants, monstrosities, oozes, plants, or undead. Alternatively, you can select two races of humanoid (such as gnolls and orcs) as favored enemies.\n\nYou have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.\n\nWhen you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.\n\nYou choose one additional favored enemy, as well as an associated language, at 6th and 14th level. As you gain levels, your choices should reflect the types of monsters you have encountered on your adventures."
+      },
+      {
+        "id": "vanish",
+        "name": "Vanish",
+        "when": "$owner.level >= 14",
+        "description": "Starting at 14th level, you can use the Hide action as a bonus action on your turn. Also, you can't be tracked by nonmagical means, unless you choose to leave a trail."
+      },
+      {
+        "id": "ranger_archetype_improvement_3",
+        "name": "Ranger Archetype feature",
+        "when": "$owner.level >= 15",
+        "description": "At 3rd level, you choose an archetype that you strive to emulate, such as the Hunter. Your choice grants you features at 3rd level and again at 7th, 11th, and 15th level."
+      },
+      {
+        "id": "feral_senses",
+        "name": "Feral Senses",
+        "when": "$owner.level >= 18",
+        "description": "At 18th level, you gain preternatural senses that help you fight creatures you can't see. When you attack a creature you can't see, your inability to see it doesn't impose disadvantage on your attack rolls against it.\n\nYou are also aware of the location of any invisible creature within 30 feet of you, provided that the creature isn't hidden from you and you aren't blinded or deafened."
+      },
+      {
+        "id": "foe_slayer",
+        "name": "Foe Slayer",
+        "when": "$owner.level >= 20",
+        "description": "At 20th level, you become an unparalleled hunter of your enemies. Once on each of your turns, you can add your Wisdom modifier to the attack roll or the damage roll of an attack you make against one of your favored enemies. You can choose to use this feature before or after the roll, but before any effects of the roll are applied."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 3,
+            "into": "prof.skills",
+            "title": "Choose 3 skills"
+          }
+        ],
+        "2": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'ranger_fighting_style') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Fighting Style"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a ranger archetype",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 3
+              }
+            ]
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "5": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "6": [],
+        "7": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "9": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "10": [],
+        "11": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "13": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "14": [],
+        "15": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "17": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "18": [],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "20": []
+      }
+    }
+  },
+  {
+    "id": "rogue",
+    "name": "Rogue",
+    "summary": "d8 hit die · DEX, INT saves",
+    "description": "Hit die d8. Saving throws: DEX, INT.",
+    "data": {
+      "hit_die": 8,
+      "saves": [
+        "dex",
+        "int"
+      ],
+      "skill_choices": [
+        "acrobatics",
+        "athletics",
+        "deception",
+        "insight",
+        "intimidation",
+        "investigation",
+        "perception",
+        "performance",
+        "persuasion",
+        "sleight_of_hand",
+        "stealth"
+      ],
+      "skill_count": 4,
+      "armor": "Light Armor",
+      "weapons": "Simple Weapons, Longswords, Rapiers, Shortswords, Hand crossbows",
+      "tools": "",
+      "caster": "none",
+      "prepares": false,
+      "learns": false,
+      "subclass_level": 3,
+      "subclass_label": "Roguish Archetype"
+    },
+    "features": [
+      {
+        "id": "rogue_expertise_1",
+        "name": "Expertise",
+        "when": "$owner.level >= 1",
+        "description": "At 1st level, choose two of your skill proficiencies, or one of your skill proficiencies and your proficiency with thieves' tools. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies.\n\nAt 6th level, you can choose two more of your proficiencies (in skills or with thieves' tools) to gain this benefit"
+      },
+      {
+        "id": "sneak_attack",
+        "name": "Sneak Attack",
+        "when": "$owner.level >= 1",
+        "description": "Beginning at 1st level, you know how to strike subtly and exploit a foe's distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.\n\nYou don't need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn't incapacitated, and you don't have disadvantage on the attack roll.\n\nThe amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.",
+        "summary": "Extra {lookup('rogue', $owner.level, 'sneak_attack')} damage once per turn"
+      },
+      {
+        "id": "thieves_cant",
+        "name": "Thieves' Cant",
+        "when": "$owner.level >= 1",
+        "description": "During your rogue training you learned thieves' cant, a secret mix of dialect, jargon, and code that allows you to hide messages in seemingly normal conversation. Only another creature that knows thieves' cant understands such messages. It takes four times longer to convey such a message than it does to speak the same idea plainly.\n\nIn addition, you understand a set of secret signs and symbols used to convey short, simple messages, such as whether an area is dangerous or the territory of a thieves' guild, whether loot is nearby, or whether the people in an area are easy marks or will provide a safe house for thieves on the run."
+      },
+      {
+        "id": "cunning_action",
+        "name": "Cunning Action",
+        "when": "$owner.level >= 2",
+        "description": "Starting at 2nd level, your quick thinking and agility allow you to move and act quickly. You can take a bonus action on each of your turns in combat. This action can be used only to take the Dash, Disengage, or Hide action."
+      },
+      {
+        "id": "roguish_archetype",
+        "name": "Roguish Archetype",
+        "when": "$owner.level >= 3",
+        "description": "At 3rd level, you choose an archetype that you emulate in the exercise of your rogue abilities, such as Thief. Additional archetypes are available in the original source material. Your archetype choice grants you features at 3rd level and then again at 9th, 13th, and 17th level."
+      },
+      {
+        "id": "uncanny_dodge",
+        "name": "Uncanny Dodge",
+        "when": "$owner.level >= 5",
+        "description": "Starting at 5th level, when an attacker that you can see hits you with an attack, you can use your reaction to halve the attack's damage against you."
+      },
+      {
+        "id": "rogue_expertise_2",
+        "name": "Expertise",
+        "when": "$owner.level >= 6",
+        "description": "At 1st level, choose two of your skill proficiencies, or one of your skill proficiencies and your proficiency with thieves' tools. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies.\n\nAt 6th level, you can choose two more of your proficiencies (in skills or with thieves' tools) to gain this benefit"
+      },
+      {
+        "id": "rogue_evasion",
+        "name": "Evasion",
+        "when": "$owner.level >= 7",
+        "description": "Beginning at 7th level, you can nimbly dodge out of the way of certain area effects, such as a red dragon's fiery breath or an ice storm spell. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail."
+      },
+      {
+        "id": "roguish_archetype_improvement_1",
+        "name": "Roguish Archetype feature",
+        "when": "$owner.level >= 9",
+        "description": "At 3rd level, you choose an archetype that you emulate in the exercise of your rogue abilities, such as Thief. Additional archetypes are available in the original source material. Your archetype choice grants you features at 3rd level and then again at 9th, 13th, and 17th level."
+      },
+      {
+        "id": "reliable_talent",
+        "name": "Reliable Talent",
+        "when": "$owner.level >= 11",
+        "description": "By 11th level, you have refined your chosen skills until they approach perfection. Whenever you make an ability check that lets you add your proficiency bonus, you can treat a d20 roll of 9 or lower as a 10."
+      },
+      {
+        "id": "roguish_archetype_improvement_2",
+        "name": "Roguish Archetype feature",
+        "when": "$owner.level >= 13",
+        "description": "At 3rd level, you choose an archetype that you emulate in the exercise of your rogue abilities, such as Thief. Additional archetypes are available in the original source material. Your archetype choice grants you features at 3rd level and then again at 9th, 13th, and 17th level."
+      },
+      {
+        "id": "blindsense",
+        "name": "Blindsense",
+        "when": "$owner.level >= 14",
+        "description": "Starting at 14th level, if you are able to hear, you are aware of the location of any hidden or invisible creature within 10 feet of you."
+      },
+      {
+        "id": "slippery_mind",
+        "name": "Slippery Mind",
+        "when": "$owner.level >= 15",
+        "description": "By 15th level, you have acquired greater mental strength. You gain proficiency in Wisdom saving throws.",
+        "summary": "Proficient in Wisdom saving throws",
+        "modifiers": [
+          {
+            "target": "saves.wis",
+            "op": "add",
+            "value": "@prof_bonus",
+            "when": "!has(@save_profs, 'wis')"
+          }
+        ]
+      },
+      {
+        "id": "roguish_archetype_improvement_3",
+        "name": "Roguish Archetype feature",
+        "when": "$owner.level >= 17",
+        "description": "At 3rd level, you choose an archetype that you emulate in the exercise of your rogue abilities, such as Thief. Additional archetypes are available in the original source material. Your archetype choice grants you features at 3rd level and then again at 9th, 13th, and 17th level."
+      },
+      {
+        "id": "elusive",
+        "name": "Elusive",
+        "when": "$owner.level >= 18",
+        "description": "Beginning at 18th level, you are so evasive that attackers rarely gain the upper hand against you. No attack roll has advantage against you while you aren't incapacitated."
+      },
+      {
+        "id": "stroke_of_luck",
+        "name": "Stroke of Luck",
+        "when": "$owner.level >= 20",
+        "description": "At 20th level, you have an uncanny knack for succeeding when you need to. If your attack misses a target within range, you can turn the miss into a hit. Alternatively, if you fail an ability check, you can treat the d20 roll as a 20.\n\nOnce you use this feature, you can't use it again until you finish a short or long rest."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 4,
+            "into": "prof.skills",
+            "title": "Choose 4 skills"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has(@prof.skills, $v.id) && !has(@prof.expertise, $v.id)"
+            },
+            "count": 1,
+            "into": "prof.expertise",
+            "title": "Expertise"
+          }
+        ],
+        "2": [],
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a roguish archetype",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 3
+              }
+            ]
+          }
+        ],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "5": [],
+        "6": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has(@prof.skills, $v.id) && !has(@prof.expertise, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.expertise",
+            "title": "Expertise"
+          }
+        ],
+        "7": [],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "9": [],
+        "10": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "11": [],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "13": [],
+        "14": [],
+        "15": [],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "17": [],
+        "18": [],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "20": []
+      }
+    }
+  },
+  {
+    "id": "sorcerer",
+    "name": "Sorcerer",
+    "summary": "d6 hit die · CON, CHA saves",
+    "description": "Hit die d6. Saving throws: CON, CHA.",
+    "data": {
+      "hit_die": 6,
+      "saves": [
+        "con",
+        "cha"
+      ],
+      "skill_choices": [
+        "arcana",
+        "deception",
+        "insight",
+        "intimidation",
+        "persuasion",
+        "religion"
+      ],
+      "skill_count": 2,
+      "armor": "",
+      "weapons": "Daggers, Darts, Slings, Quarterstaffs, Crossbows, light",
+      "tools": "",
+      "caster": "full",
+      "cast_ability": "cha",
+      "prepares": false,
+      "learns": true,
+      "subclass_level": 1,
+      "subclass_label": "Sorcerous Origin"
+    },
+    "features": [
+      {
+        "id": "spellcasting_sorcerer",
+        "name": "Spellcasting: Sorcerer",
+        "when": "$owner.level >= 1",
+        "description": "An event in your past, or in the life of a parent or ancestor, left an indelible mark on you, infusing you with arcane magic. This font of magic, whatever its origin, fuels your spells."
+      },
+      {
+        "id": "sorcerous_origin",
+        "name": "Sorcerous Origin",
+        "when": "$owner.level >= 1",
+        "description": "Choose a sorcerous origin, which describes the source of your innate magical power, such as Draconic Bloodline.\n\nYour choice grants you features when you choose it at 1st level and again at 6th, 14th, and 18th level."
+      },
+      {
+        "id": "font_of_magic",
+        "name": "Font of Magic",
+        "when": "$owner.level >= 2",
+        "description": "At 2nd level, you tap into a deep wellspring of magic within yourself. This wellspring is represented by sorcery points, which allow you to create a variety of magical effects.\n\nSorcery Points\n\nYou have 2 sorcery points, and you gain more as you reach higher levels, as shown in the Sorcery Points column of the Sorcerer table. You can never have more sorcery points than shown on the table for your level. You regain all spent sorcery points when you finish a long rest.",
+        "summary": "{$owner.level} sorcery points per long rest",
+        "resource": "sorcery_points",
+        "resources": [
+          {
+            "id": "sorcery_points",
+            "label": "Sorcery Points",
+            "max": "$owner.level",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "counter"
+          }
+        ]
+      },
+      {
+        "id": "flexible_casting_creating_spell_slots",
+        "name": "Flexible Casting: Creating Spell Slots",
+        "when": "$owner.level >= 2",
+        "description": "You can transform unexpended sorcery points into one spell slot as a bonus action on your turn. The Creating Spell Slots table shows the cost of creating a spell slot of a given level. You can create spell slots no higher in level than 5th. \n\nAny spell slot you create with this feature vanishes when you finish a long rest."
+      },
+      {
+        "id": "flexible_casting_converting_spell_slot",
+        "name": "Flexible Casting: Converting Spell Slot",
+        "when": "$owner.level >= 2",
+        "description": "As a bonus action on your turn, you can expend one spell slot and gain a number of sorcery points equal to the slot's level.."
+      },
+      {
+        "id": "metamagic_1",
+        "name": "Metamagic",
+        "when": "$owner.level >= 3",
+        "description": "At 3rd level, you gain the ability to twist your spells to suit your needs. You gain two of the following Metamagic options of your choice. You gain another one at 10th and 17th level.\n\nYou can use only one Metamagic option on a spell when you cast it, unless otherwise noted."
+      },
+      {
+        "id": "sorcerous_origin_improvement_1",
+        "name": "Sorcerous Origin feature",
+        "when": "$owner.level >= 6",
+        "description": "Choose a sorcerous origin, which describes the source of your innate magical power, such as Draconic Bloodline.\n\nYour choice grants you features when you choose it at 1st level and again at 6th, 14th, and 18th level."
+      },
+      {
+        "id": "metamagic_2",
+        "name": "Metamagic",
+        "when": "$owner.level >= 10",
+        "description": "At 3rd level, you gain the ability to twist your spells to suit your needs. You gain two of the following Metamagic options of your choice. You gain another one at 10th and 17th level.\n\nYou can use only one Metamagic option on a spell when you cast it, unless otherwise noted."
+      },
+      {
+        "id": "sorcerous_origin_improvement_2",
+        "name": "Sorcerous Origin feature",
+        "when": "$owner.level >= 14",
+        "description": "Choose a sorcerous origin, which describes the source of your innate magical power, such as Draconic Bloodline.\n\nYour choice grants you features when you choose it at 1st level and again at 6th, 14th, and 18th level."
+      },
+      {
+        "id": "metamagic_3",
+        "name": "Metamagic",
+        "when": "$owner.level >= 17",
+        "description": "At 3rd level, you gain the ability to twist your spells to suit your needs. You gain two of the following Metamagic options of your choice. You gain another one at 10th and 17th level.\n\nYou can use only one Metamagic option on a spell when you cast it, unless otherwise noted."
+      },
+      {
+        "id": "sorcerous_origin_improvement_3",
+        "name": "Sorcerous Origin feature",
+        "when": "$owner.level >= 18",
+        "description": "Choose a sorcerous origin, which describes the source of your innate magical power, such as Draconic Bloodline.\n\nYour choice grants you features when you choose it at 1st level and again at 6th, 14th, and 18th level."
+      },
+      {
+        "id": "sorcerous_restoration",
+        "name": "Sorcerous Restoration",
+        "when": "$owner.level >= 20",
+        "description": "At 20th level, you regain 4 expended sorcery points whenever you finish a short rest."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.skills",
+            "title": "Choose 2 skills"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a sorcerous origin",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 1
+              }
+            ]
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 4,
+            "into": "spells",
+            "title": "Learn 4 cantrips"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "2": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'metamagic_1') && !has(@options, $v.id)"
+            },
+            "count": 2,
+            "into": "options",
+            "title": "Metamagic"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'metamagic') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+            },
+            "count": 2,
+            "into": "options",
+            "title": "Choose 2 × metamagic option"
+          }
+        ],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "5": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "6": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "7": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "9": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "10": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'metamagic_2') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Metamagic"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'metamagic') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Choose an metamagic option"
+          }
+        ],
+        "11": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "13": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "14": [],
+        "15": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'metamagic') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Choose an metamagic option"
+          }
+        ],
+        "17": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'metamagic_3') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Metamagic"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "18": [],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "20": []
+      }
+    }
+  },
+  {
+    "id": "warlock",
+    "name": "Warlock",
+    "summary": "d8 hit die · WIS, CHA saves",
+    "description": "Hit die d8. Saving throws: WIS, CHA.",
+    "data": {
+      "hit_die": 8,
+      "saves": [
+        "wis",
+        "cha"
+      ],
+      "skill_choices": [
+        "arcana",
+        "deception",
+        "history",
+        "intimidation",
+        "investigation",
+        "nature",
+        "religion"
+      ],
+      "skill_count": 2,
+      "armor": "Light Armor",
+      "weapons": "Simple Weapons",
+      "tools": "",
+      "caster": "pact",
+      "cast_ability": "cha",
+      "prepares": false,
+      "learns": true,
+      "subclass_level": 1,
+      "subclass_label": "Otherworldly Patron"
+    },
+    "features": [
+      {
+        "id": "otherworldly_patron",
+        "name": "Otherworldly Patron",
+        "when": "$owner.level >= 1",
+        "description": "At 1st level, you have struck a bargain with an otherworldly being of your choice, such as the Fiend. Your choice grants you features at 1st level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "pact_magic",
+        "name": "Pact Magic",
+        "when": "$owner.level >= 1",
+        "description": "Your arcane research and the magic bestowed on you by your patron have given you facility with spells.",
+        "summary": "{lookup('warlock', $owner.level, 'pact_slots')} slots of level {lookup('warlock', $owner.level, 'pact_level')}, back on a short rest",
+        "resource": "pact_slots",
+        "resources": [
+          {
+            "id": "pact_slots",
+            "label": "Pact slots",
+            "max": "lookup('warlock', $owner.level, 'pact_slots')",
+            "reset": [
+              "short_rest"
+            ],
+            "style": "slots"
+          }
+        ]
+      },
+      {
+        "id": "eldritch_invocations",
+        "name": "Eldritch Invocations",
+        "when": "$owner.level >= 2",
+        "description": "In your study of occult lore, you have unearthed eldritch invocations, fragments of forbidden knowledge that imbue you with an abiding magical ability.\n\nAt 2nd level, you gain two eldritch invocations of your choice. Your invocation options are detailed at the end of the class description. When you gain certain warlock levels, you gain additional invocations of your choice, as shown in the Invocations Known column of the Warlock table.\n\nAdditionally, when you gain a level in this class, you can choose one of the invocations you know and replace it with another invocation that you could learn at that level."
+      },
+      {
+        "id": "otherworldly_patron_improvement_1",
+        "name": "Otherworldly Patron feature",
+        "when": "$owner.level >= 6",
+        "description": "At 1st level, you have struck a bargain with an otherworldly being of your choice, such as the Fiend. Your choice grants you features at 1st level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "otherworldly_patron_improvement_2",
+        "name": "Otherworldly Patron feature",
+        "when": "$owner.level >= 10",
+        "description": "At 1st level, you have struck a bargain with an otherworldly being of your choice, such as the Fiend. Your choice grants you features at 1st level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "otherworldly_patron_improvement_3",
+        "name": "Otherworldly Patron feature",
+        "when": "$owner.level >= 14",
+        "description": "At 1st level, you have struck a bargain with an otherworldly being of your choice, such as the Fiend. Your choice grants you features at 1st level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "pact_boon",
+        "name": "Pact Boon",
+        "when": "$owner.level >= 3",
+        "description": "At 3rd level, your otherworldly patron bestows a gift upon you for your loyal service. You gain one of the following features of your choice."
+      },
+      {
+        "id": "mystic_arcanum_6th_level",
+        "name": "Mystic Arcanum (6th level)",
+        "when": "$owner.level >= 11",
+        "description": "At 11th level, your patron bestows upon you a magical secret called an arcanum. Choose one 6th- level spell from the warlock spell list as this arcanum.\n\nYou can cast your arcanum spell once without expending a spell slot. You must finish a long rest before you can do so again.\n\nAt higher levels, you gain more warlock spells of your choice that can be cast in this way: one 7th- level spell at 13th level, one 8th-level spell at 15th level, and one 9th-level spell at 17th level. You regain all uses of your Mystic Arcanum when you finish a long rest."
+      },
+      {
+        "id": "mystic_arcanum_7th_level",
+        "name": "Mystic Arcanum (7th level)",
+        "when": "$owner.level >= 13",
+        "description": "At 11th level, your patron bestows upon you a magical secret called an arcanum. Choose one 6th- level spell from the warlock spell list as this arcanum.\n\nYou can cast your arcanum spell once without expending a spell slot. You must finish a long rest before you can do so again.\n\nAt higher levels, you gain more warlock spells of your choice that can be cast in this way: one 7th- level spell at 13th level, one 8th-level spell at 15th level, and one 9th-level spell at 17th level. You regain all uses of your Mystic Arcanum when you finish a long rest."
+      },
+      {
+        "id": "mystic_arcanum_8th_level",
+        "name": "Mystic Arcanum (8th level)",
+        "when": "$owner.level >= 15",
+        "description": "At 11th level, your patron bestows upon you a magical secret called an arcanum. Choose one 6th- level spell from the warlock spell list as this arcanum.\n\nYou can cast your arcanum spell once without expending a spell slot. You must finish a long rest before you can do so again.\n\nAt higher levels, you gain more warlock spells of your choice that can be cast in this way: one 7th- level spell at 13th level, one 8th-level spell at 15th level, and one 9th-level spell at 17th level. You regain all uses of your Mystic Arcanum when you finish a long rest."
+      },
+      {
+        "id": "mystic_arcanum_9th_level",
+        "name": "Mystic Arcanum (9th level)",
+        "when": "$owner.level >= 17",
+        "description": "At 11th level, your patron bestows upon you a magical secret called an arcanum. Choose one 6th- level spell from the warlock spell list as this arcanum.\n\nYou can cast your arcanum spell once without expending a spell slot. You must finish a long rest before you can do so again.\n\nAt higher levels, you gain more warlock spells of your choice that can be cast in this way: one 7th- level spell at 13th level, one 8th-level spell at 15th level, and one 9th-level spell at 17th level. You regain all uses of your Mystic Arcanum when you finish a long rest."
+      },
+      {
+        "id": "eldritch_master",
+        "name": "Eldritch Master",
+        "when": "$owner.level >= 20",
+        "description": "At 20th level, you can draw on your inner reserve of mystical power while entreating your patron to regain expended spell slots. You can spend 1 minute entreating your patron for aid to regain all your expended spell slots from your Pact Magic feature.\n\nOnce you regain spell slots with this feature, you must finish a long rest before you can do so again."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.skills",
+            "title": "Choose 2 skills"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a otherworldly patron",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 1
+              }
+            ]
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 cantrips"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "2": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+            },
+            "count": 2,
+            "into": "options",
+            "title": "Choose 2 × eldritch invocation"
+          }
+        ],
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'pact_boon') && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Pact Boon"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Choose an eldritch invocation"
+          }
+        ],
+        "5": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "6": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Choose an eldritch invocation"
+          }
+        ],
+        "7": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "9": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Choose an eldritch invocation"
+          }
+        ],
+        "10": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          }
+        ],
+        "11": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Choose an eldritch invocation"
+          }
+        ],
+        "13": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "14": [],
+        "15": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Choose an eldritch invocation"
+          }
+        ],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          }
+        ],
+        "17": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "18": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Choose an eldritch invocation"
+          }
+        ],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "20": []
+      }
+    }
+  },
+  {
+    "id": "wizard",
+    "name": "Wizard",
+    "summary": "d6 hit die · INT, WIS saves",
+    "description": "Hit die d6. Saving throws: INT, WIS.",
+    "data": {
+      "hit_die": 6,
+      "saves": [
+        "int",
+        "wis"
+      ],
+      "skill_choices": [
+        "arcana",
+        "history",
+        "insight",
+        "investigation",
+        "medicine",
+        "religion"
+      ],
+      "skill_count": 2,
+      "armor": "",
+      "weapons": "Daggers, Darts, Slings, Quarterstaffs, Crossbows, light",
+      "tools": "",
+      "caster": "full",
+      "cast_ability": "int",
+      "prepares": true,
+      "learns": true,
+      "subclass_level": 2,
+      "subclass_label": "Arcane Tradition"
+    },
+    "features": [
+      {
+        "id": "spellcasting_wizard",
+        "name": "Spellcasting: Wizard",
+        "when": "$owner.level >= 1",
+        "description": "As a student of arcane magic, you have a spellbook containing spells that show the first glimmerings of your true power."
+      },
+      {
+        "id": "arcane_recovery",
+        "name": "Arcane Recovery",
+        "when": "$owner.level >= 1",
+        "description": "You have learned to regain some of your magical energy by studying your spellbook. Once per day when you finish a short rest, you can choose expended spell slots to recover. The spell slots can have a combined level that is equal to or less than half your wizard level (rounded up), and none of the slots can be 6th level or higher.\n\nFor example, if you're a 4th-level wizard, you can recover up to two levels worth of spell slots. You can recover either a 2nd-level spell slot or two 1st-level spell slots.",
+        "summary": "Once per day: recover slots totalling {ceil($owner.level / 2)} levels",
+        "resource": "arcane_recovery",
+        "resources": [
+          {
+            "id": "arcane_recovery",
+            "label": "Arcane Recovery",
+            "max": 1,
+            "reset": [
+              "long_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "arcane_tradition",
+        "name": "Arcane Tradition",
+        "when": "$owner.level >= 2",
+        "description": "When you reach 2nd level, you choose an arcane tradition, shaping your practice of magic through one of eight schools, such as Evocation.\n\nYour choice grants you features at 2nd level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "arcane_tradition_improvement_1",
+        "name": "Arcane Tradition feature",
+        "when": "$owner.level >= 6",
+        "description": "When you reach 2nd level, you choose an arcane tradition, shaping your practice of magic through one of eight schools, such as Evocation.\n\nYour choice grants you features at 2nd level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "arcane_tradition_improvement_2",
+        "name": "Arcane Tradition feature",
+        "when": "$owner.level >= 10",
+        "description": "When you reach 2nd level, you choose an arcane tradition, shaping your practice of magic through one of eight schools, such as Evocation.\n\nYour choice grants you features at 2nd level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "arcane_tradition_improvement_3",
+        "name": "Arcane Tradition feature",
+        "when": "$owner.level >= 14",
+        "description": "When you reach 2nd level, you choose an arcane tradition, shaping your practice of magic through one of eight schools, such as Evocation.\n\nYour choice grants you features at 2nd level and again at 6th, 10th, and 14th level."
+      },
+      {
+        "id": "spell_mastery",
+        "name": "Spell Mastery",
+        "when": "$owner.level >= 18",
+        "description": "At 18th level, you have achieved such mastery over certain spells that you can cast them at will. Choose a 1st-level wizard spell and a 2nd-level wizard spell that are in your spellbook. You can cast those spells at their lowest level without expending a spell slot when you have them prepared. If you want to cast either spell at a higher level, you must expend a spell slot as normal.\n\nBy spending 8 hours in study, you can exchange one or both of the spells you chose for different spells of the same levels."
+      },
+      {
+        "id": "signature_spell",
+        "name": "Signature Spell",
+        "when": "$owner.level >= 20",
+        "description": "When you reach 20th level, you gain mastery over two powerful spells and can cast them with little effort. Choose two 3rd-level wizard spells in your spellbook as your signature spells. You always have these spells prepared, they don't count against the number of spells you have prepared, and you can cast each of them once at 3rd level without expending a spell slot. When you do so, you can't do so again until you finish a short or long rest.\n\nIf you want to cast either spell at a higher level, you must expend a spell slot as normal."
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "1": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "skill",
+              "filter": "has($self.data.skill_choices, $v.id) && !has(@prof.skills, $v.id)"
+            },
+            "count": 2,
+            "into": "prof.skills",
+            "title": "Choose 2 skills"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 3,
+            "into": "spells",
+            "title": "Learn 3 cantrips"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 6,
+            "into": "spells",
+            "title": "Learn 6 spells"
+          }
+        ],
+        "2": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "subclass",
+              "filter": "$v.data.class == $self.id"
+            },
+            "count": 1,
+            "into": "subclasses",
+            "title": "Choose a arcane tradition",
+            "then": [
+              {
+                "op": "run_hook",
+                "entity": "$choice[0]",
+                "hook": "on_level",
+                "key": 2
+              }
+            ]
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "4": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "5": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "6": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "7": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "8": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "9": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "10": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level == 0 && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a cantrip"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "11": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "12": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "13": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "14": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "15": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "16": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "17": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "18": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "19": [
+          {
+            "op": "open_modal",
+            "modal": "asi"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ],
+        "20": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && has($v.data.classes, $self.id) && !has(@spells, $v.id)"
+            },
+            "count": 2,
+            "into": "spells",
+            "title": "Learn 2 spells"
+          }
+        ]
+      }
+    }
+  }
+]

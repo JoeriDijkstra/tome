@@ -1,0 +1,59 @@
+[
+  {
+    "id": "short_rest",
+    "label": "Short rest",
+    "modal": "short_rest"
+  },
+  {
+    "id": "long_rest",
+    "label": "Long rest",
+    "confirm": {
+      "title": "Take a long rest?",
+      "message": "Restores hit points, spell slots and long-rest features, regains half your hit dice and removes one level of exhaustion."
+    },
+    "effects": [
+      {
+        "op": "reset",
+        "tag": "long_rest"
+      },
+      {
+        "op": "reset",
+        "tag": "short_rest"
+      },
+      {
+        "op": "add",
+        "path": "res.hit_dice.current",
+        "value": "max(1, floor(@level / 2))"
+      },
+      {
+        "op": "add",
+        "path": "exhaustion",
+        "value": -1,
+        "min": 0
+      },
+      {
+        "op": "set",
+        "path": "death_saves",
+        "value": "{success: 0, fail: 0}"
+      },
+      {
+        "op": "if",
+        "when": "@main_class != null",
+        "then": [
+          {
+            "op": "run_hook",
+            "entity": "@main_class",
+            "hook": "long_rest",
+            "key": "'any'"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "level_up",
+    "label": "Level up",
+    "modal": "level_up",
+    "enabled_when": "@level < 20"
+  }
+]

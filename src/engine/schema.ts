@@ -110,12 +110,15 @@ export const Modifier = z.strictObject({
 });
 export type Modifier = z.infer<typeof Modifier>;
 
+export const RESOURCE_STYLES = ['bar', 'pips', 'counter', 'slots'] as const;
 export const ResourceDef = z.strictObject({
   id: Id,
   label: z.string(),
   max: F,
   reset: z.array(Id).optional(),
   temp: z.boolean().optional(),
+  /** how the sheet draws it when a layout doesn't say: pips for a few uses, a counter for a pool */
+  style: z.enum(RESOURCE_STYLES).optional(),
 });
 export type ResourceDef = z.infer<typeof ResourceDef>;
 
@@ -187,6 +190,8 @@ export const Input = z.strictObject({
   step: z.number().optional(),
   default: F.optional(),
   options: z.union([z.array(z.string()), z.string()]).optional(),
+  /** Display names for select options and allocation/assign keys; unlisted ids are humanized. */
+  labels: z.record(z.string(), z.string()).optional(),
   visible_when: F.optional(),
   entity_type: Id.optional(),
   filter: F.optional(),
@@ -232,7 +237,8 @@ export const Modal = z.strictObject({
 export type Modal = z.infer<typeof Modal>;
 
 const Visible = { visible_when: F.optional() };
-const StatItem = z.strictObject({ label: T, value: F, sub: F.optional(), explain: Path.optional(), action: Id.optional(), ...Visible });
+// `open`: a tab (usually one not in `sheet.tabs`) shown as a page over the sheet when the stat is tapped
+const StatItem = z.strictObject({ label: T, value: F, sub: F.optional(), explain: Path.optional(), action: Id.optional(), open: Id.optional(), ...Visible });
 export type StatItem = z.infer<typeof StatItem>;
 export const Section = z.discriminatedUnion('widget', [
   StatItem.extend({ widget: z.literal('stat') }),
@@ -241,7 +247,7 @@ export const Section = z.discriminatedUnion('widget', [
     widget: z.literal('resource'),
     resource: Id,
     label: T.optional(),
-    style: z.enum(['bar', 'pips', 'counter', 'slots']).optional(),
+    style: z.enum(RESOURCE_STYLES).optional(),
     thresholds: z.array(z.strictObject({ label: T, at: F })).optional(),
     actions: z.array(Id).optional(),
     ...Visible,
@@ -251,7 +257,7 @@ export const Section = z.discriminatedUnion('widget', [
     source: F,
     title: T.optional(),
     style: z.enum(['rows', 'cards']).optional(),
-    row: z.strictObject({ title: T, subtitle: T.optional(), body: T.optional(), actions: z.array(Id).optional() }),
+    row: z.strictObject({ title: T, subtitle: T.optional(), body: T.optional(), trailing: T.optional(), actions: z.array(Id).optional() }),
     group_by: F.optional(),
     empty: T.optional(),
     add: Id.optional(),
@@ -274,9 +280,11 @@ export const Section = z.discriminatedUnion('widget', [
   z.strictObject({ widget: z.literal('text'), text: T, ...Visible }),
   z.strictObject({ widget: z.literal('actions'), actions: z.array(Id), ...Visible }),
   z.strictObject({ widget: z.literal('notes'), ...Visible }),
+  // every resource the character's entities provide (class pools, item charges), each with its feature's actions
+  z.strictObject({ widget: z.literal('resources'), title: T.optional(), except: z.array(Id).optional(), ...Visible }),
 ]);
 export type Section = z.infer<typeof Section>;
-export const Tab = z.strictObject({ id: Id, label: T, icon: IconName.optional(), sections: z.array(Section).default([]) });
+export const Tab = z.strictObject({ id: Id, label: T, icon: IconName.optional(), sections: z.array(Section).default([]), ...Visible });
 export type Tab = z.infer<typeof Tab>;
 export const Sheet = z.strictObject({
   header: z.strictObject({ title: T.optional(), subtitle: T.optional(), actions: z.array(Id).optional() }).optional(),

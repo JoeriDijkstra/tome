@@ -1,0 +1,1355 @@
+[
+  {
+    "id": "padded_armor",
+    "name": "Padded Armor",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "cost": "5 gp",
+      "weight": 8,
+      "ac_base": 11,
+      "str_min": 0,
+      "stealth_disadv": true
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "11 + @mods.dex"
+      }
+    ]
+  },
+  {
+    "id": "leather_armor",
+    "name": "Leather Armor",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "cost": "10 gp",
+      "weight": 10,
+      "ac_base": 11,
+      "str_min": 0,
+      "stealth_disadv": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "11 + @mods.dex"
+      }
+    ]
+  },
+  {
+    "id": "studded_leather_armor",
+    "name": "Studded Leather Armor",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "cost": "45 gp",
+      "weight": 13,
+      "ac_base": 12,
+      "str_min": 0,
+      "stealth_disadv": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "12 + @mods.dex"
+      }
+    ]
+  },
+  {
+    "id": "hide_armor",
+    "name": "Hide Armor",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "cost": "10 gp",
+      "weight": 12,
+      "ac_base": 12,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "12 + min(@mods.dex, 2)"
+      }
+    ]
+  },
+  {
+    "id": "chain_shirt",
+    "name": "Chain Shirt",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "cost": "50 gp",
+      "weight": 20,
+      "ac_base": 13,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "13 + min(@mods.dex, 2)"
+      }
+    ]
+  },
+  {
+    "id": "scale_mail",
+    "name": "Scale Mail",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "cost": "50 gp",
+      "weight": 45,
+      "ac_base": 14,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": true
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "14 + min(@mods.dex, 2)"
+      }
+    ]
+  },
+  {
+    "id": "breastplate",
+    "name": "Breastplate",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "cost": "400 gp",
+      "weight": 20,
+      "ac_base": 14,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "14 + min(@mods.dex, 2)"
+      }
+    ]
+  },
+  {
+    "id": "half_plate_armor",
+    "name": "Half Plate Armor",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "cost": "750 gp",
+      "weight": 40,
+      "ac_base": 15,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": true
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "15 + min(@mods.dex, 2)"
+      }
+    ]
+  },
+  {
+    "id": "ring_mail",
+    "name": "Ring Mail",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "cost": "30 gp",
+      "weight": 40,
+      "ac_base": 14,
+      "dex_cap": 0,
+      "str_min": 0,
+      "stealth_disadv": true
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 14
+      }
+    ]
+  },
+  {
+    "id": "chain_mail",
+    "name": "Chain Mail",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "cost": "75 gp",
+      "weight": 55,
+      "ac_base": 16,
+      "dex_cap": 0,
+      "str_min": 13,
+      "stealth_disadv": true
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 16
+      }
+    ]
+  },
+  {
+    "id": "splint_armor",
+    "name": "Splint Armor",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "cost": "200 gp",
+      "weight": 60,
+      "ac_base": 17,
+      "dex_cap": 0,
+      "str_min": 15,
+      "stealth_disadv": true
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 17
+      }
+    ]
+  },
+  {
+    "id": "plate_armor",
+    "name": "Plate Armor",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "cost": "1500 gp",
+      "weight": 65,
+      "ac_base": 18,
+      "dex_cap": 0,
+      "str_min": 15,
+      "stealth_disadv": true
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 18
+      }
+    ]
+  },
+  {
+    "id": "shield_item",
+    "name": "Shield",
+    "data": {
+      "kind": "shield",
+      "category": "Shield",
+      "cost": "10 gp",
+      "weight": 6,
+      "ac_base": 2,
+      "dex_cap": 0,
+      "str_min": 0,
+      "stealth_disadv": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "padded_armor_1",
+    "name": "Padded Armor, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "weight": 8,
+      "ac_base": 11,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "11 + @mods.dex"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "leather_armor_1",
+    "name": "Leather Armor, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "weight": 10,
+      "ac_base": 11,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "11 + @mods.dex"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "studded_leather_armor_1",
+    "name": "Studded Leather Armor, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "weight": 13,
+      "ac_base": 12,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "12 + @mods.dex"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "hide_armor_1",
+    "name": "Hide Armor, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 12,
+      "ac_base": 12,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "12 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "chain_shirt_1",
+    "name": "Chain Shirt, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 20,
+      "ac_base": 13,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "13 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "scale_mail_1",
+    "name": "Scale Mail, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 45,
+      "ac_base": 14,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "14 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "breastplate_1",
+    "name": "Breastplate, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 20,
+      "ac_base": 14,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "14 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "half_plate_armor_1",
+    "name": "Half Plate Armor, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 40,
+      "ac_base": 15,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "15 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "ring_mail_1",
+    "name": "Ring Mail, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 40,
+      "ac_base": 14,
+      "dex_cap": 0,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 14
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "chain_mail_1",
+    "name": "Chain Mail, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 55,
+      "ac_base": 16,
+      "dex_cap": 0,
+      "str_min": 13,
+      "stealth_disadv": true,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 16
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "splint_armor_1",
+    "name": "Splint Armor, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 60,
+      "ac_base": 17,
+      "dex_cap": 0,
+      "str_min": 15,
+      "stealth_disadv": true,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 17
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "plate_armor_1",
+    "name": "Plate Armor, +1",
+    "description": "Armor (light, medium, or heavy), rare\n\nYou have a +1 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 65,
+      "ac_base": 18,
+      "dex_cap": 0,
+      "str_min": 15,
+      "stealth_disadv": true,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 18
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "padded_armor_2",
+    "name": "Padded Armor, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "weight": 8,
+      "ac_base": 11,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "11 + @mods.dex"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "leather_armor_2",
+    "name": "Leather Armor, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "weight": 10,
+      "ac_base": 11,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "11 + @mods.dex"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "studded_leather_armor_2",
+    "name": "Studded Leather Armor, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "weight": 13,
+      "ac_base": 12,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "12 + @mods.dex"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "hide_armor_2",
+    "name": "Hide Armor, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 12,
+      "ac_base": 12,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "12 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "chain_shirt_2",
+    "name": "Chain Shirt, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 20,
+      "ac_base": 13,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "13 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "scale_mail_2",
+    "name": "Scale Mail, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 45,
+      "ac_base": 14,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "14 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "breastplate_2",
+    "name": "Breastplate, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 20,
+      "ac_base": 14,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "14 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "half_plate_armor_2",
+    "name": "Half Plate Armor, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 40,
+      "ac_base": 15,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "15 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "ring_mail_2",
+    "name": "Ring Mail, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 40,
+      "ac_base": 14,
+      "dex_cap": 0,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 14
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "chain_mail_2",
+    "name": "Chain Mail, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 55,
+      "ac_base": 16,
+      "dex_cap": 0,
+      "str_min": 13,
+      "stealth_disadv": true,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 16
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "splint_armor_2",
+    "name": "Splint Armor, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 60,
+      "ac_base": 17,
+      "dex_cap": 0,
+      "str_min": 15,
+      "stealth_disadv": true,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 17
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "plate_armor_2",
+    "name": "Plate Armor, +2",
+    "description": "Armor (light, medium, or heavy), very rare\n\nYou have a +2 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 65,
+      "ac_base": 18,
+      "dex_cap": 0,
+      "str_min": 15,
+      "stealth_disadv": true,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 18
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "padded_armor_3",
+    "name": "Padded Armor, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "weight": 8,
+      "ac_base": 11,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "11 + @mods.dex"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "leather_armor_3",
+    "name": "Leather Armor, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "weight": 10,
+      "ac_base": 11,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "11 + @mods.dex"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "studded_leather_armor_3",
+    "name": "Studded Leather Armor, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Light",
+      "weight": 13,
+      "ac_base": 12,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "12 + @mods.dex"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "hide_armor_3",
+    "name": "Hide Armor, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 12,
+      "ac_base": 12,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "12 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "chain_shirt_3",
+    "name": "Chain Shirt, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 20,
+      "ac_base": 13,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "13 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "scale_mail_3",
+    "name": "Scale Mail, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 45,
+      "ac_base": 14,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "14 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "breastplate_3",
+    "name": "Breastplate, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 20,
+      "ac_base": 14,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "14 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "half_plate_armor_3",
+    "name": "Half Plate Armor, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Medium",
+      "weight": 40,
+      "ac_base": 15,
+      "dex_cap": 2,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": "15 + min(@mods.dex, 2)"
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "ring_mail_3",
+    "name": "Ring Mail, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 40,
+      "ac_base": 14,
+      "dex_cap": 0,
+      "str_min": 0,
+      "stealth_disadv": true,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 14
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "chain_mail_3",
+    "name": "Chain Mail, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 55,
+      "ac_base": 16,
+      "dex_cap": 0,
+      "str_min": 13,
+      "stealth_disadv": true,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 16
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "splint_armor_3",
+    "name": "Splint Armor, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 60,
+      "ac_base": 17,
+      "dex_cap": 0,
+      "str_min": 15,
+      "stealth_disadv": true,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 17
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "plate_armor_3",
+    "name": "Plate Armor, +3",
+    "description": "Armor (light, medium, or heavy), legendary\n\nYou have a +3 bonus to AC while wearing this armor.",
+    "data": {
+      "kind": "armor",
+      "category": "Heavy",
+      "weight": 65,
+      "ac_base": 18,
+      "dex_cap": 0,
+      "str_min": 15,
+      "stealth_disadv": true,
+      "rarity": "Legendary",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "set",
+        "value": 18
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "shield_1",
+    "name": "Shield, +1",
+    "description": "Armor (shield), uncommon\n\nWhile holding this shield, you have a +1 bonus to AC. This bonus is in addition to the shield's normal bonus to AC.",
+    "data": {
+      "kind": "shield",
+      "category": "Shield",
+      "weight": 6,
+      "ac_base": 2,
+      "dex_cap": 0,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Uncommon",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "shield_2",
+    "name": "Shield, +2",
+    "description": "Armor (shield), rare\n\nWhile holding this shield, you have a +2 bonus to AC. This bonus is in addition to the shield's normal bonus to AC.",
+    "data": {
+      "kind": "shield",
+      "category": "Shield",
+      "weight": 6,
+      "ac_base": 2,
+      "dex_cap": 0,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "shield_3",
+    "name": "Shield, +3",
+    "description": "Armor (shield), very rare\n\nWhile holding this shield, you have a +3 bonus to AC. This bonus is in addition to the shield's normal bonus to AC.",
+    "data": {
+      "kind": "shield",
+      "category": "Shield",
+      "weight": 6,
+      "ac_base": 2,
+      "dex_cap": 0,
+      "str_min": 0,
+      "stealth_disadv": false,
+      "rarity": "Very Rare",
+      "attunement": false
+    },
+    "modifiers": [
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 2
+      },
+      {
+        "target": "ac",
+        "op": "add",
+        "value": 3
+      }
+    ]
+  }
+]

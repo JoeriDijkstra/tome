@@ -1,0 +1,116 @@
+[
+  {
+    "id": "short_rest",
+    "title": "Short rest",
+    "description": "Spend hit dice (d{@hit_die} + {@mods.con} each) and enter the hit points you rolled. {@res.hit_dice.current} of {@level} left.",
+    "fields": [
+      {
+        "key": "dice",
+        "type": "stepper",
+        "label": "Hit dice spent",
+        "min": 0,
+        "default": 0
+      },
+      {
+        "key": "hp",
+        "type": "number",
+        "label": "Hit points regained",
+        "min": 0,
+        "default": 0
+      }
+    ],
+    "validate": [
+      {
+        "when": "$input.dice > @res.hit_dice.current",
+        "message": "You don't have that many hit dice left."
+      }
+    ],
+    "submit": {
+      "label": "Rest",
+      "effects": [
+        {
+          "op": "add",
+          "path": "res.hit_dice.current",
+          "value": "-$input.dice",
+          "min": 0
+        },
+        {
+          "op": "add",
+          "path": "res.hp.current",
+          "value": "$input.hp ?? 0"
+        },
+        {
+          "op": "reset",
+          "tag": "short_rest"
+        },
+        {
+          "op": "if",
+          "when": "@main_class != null",
+          "then": [
+            {
+              "op": "run_hook",
+              "entity": "@main_class",
+              "hook": "short_rest",
+              "key": "'any'"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_up",
+    "title": "Level {@class_level + 1} {entity(@main_class).name}",
+    "description": "Roll 1d{@hit_die} for hit points, or take the average of {floor(@hit_die / 2) + 1}. Your Constitution modifier is added automatically.",
+    "fields": [
+      {
+        "key": "hp",
+        "type": "number",
+        "label": "Hit points gained",
+        "min": 1,
+        "default": "floor(@hit_die / 2) + 1",
+        "required": true
+      }
+    ],
+    "submit": {
+      "label": "Level up",
+      "effects": [
+        {
+          "op": "push",
+          "path": "classes[@main_class].hp",
+          "value": "$input.hp"
+        },
+        {
+          "op": "add",
+          "path": "classes[@main_class].level",
+          "value": 1,
+          "max": 20
+        },
+        {
+          "op": "if",
+          "when": "len(@subclasses) > 0",
+          "then": [
+            {
+              "op": "run_hook",
+              "entity": "@subclasses[0]",
+              "hook": "on_level",
+              "key": "@class_level"
+            }
+          ]
+        },
+        {
+          "op": "run_hook",
+          "entity": "@main_class",
+          "hook": "on_level",
+          "key": "@class_level"
+        }
+      ]
+    },
+    "validate": [
+      {
+        "when": "$input.hp > @hit_die",
+        "message": "A d{@hit_die} rolls at most {@hit_die}."
+      }
+    ]
+  }
+]

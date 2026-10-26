@@ -1,0 +1,28 @@
+{
+  "dragonborn": {
+    "features": [
+      {
+        "id": "breath_weapon",
+        "summary": "{@level >= 16 ? '5d6' : @level >= 11 ? '4d6' : @level >= 6 ? '3d6' : '2d6'} damage · DC {8 + @mods.con + @prof_bonus} · 1 per short rest",
+        "resource": "breath_weapon",
+        "actions": ["use_breath_weapon"],
+        "resources": [
+          { "id": "breath_weapon", "label": "Breath Weapon", "max": 1, "reset": ["short_rest"], "style": "pips" }
+        ]
+      }
+    ]
+  },
+  "half_orc": {
+    "features": [
+      {
+        "id": "relentless_endurance",
+        "summary": "Drop to 1 HP instead of 0 · 1 per long rest",
+        "resource": "relentless_endurance",
+        "actions": ["use_relentless_endurance"],
+        "resources": [
+          { "id": "relentless_endurance", "label": "Relentless Endurance", "max": 1, "reset": ["long_rest"], "style": "pips" }
+        ]
+      }
+    ]
+  }
+}

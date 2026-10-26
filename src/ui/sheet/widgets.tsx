@@ -4,7 +4,7 @@ import type { SFSymbol } from 'expo-symbols';
 import { useRef, useState } from 'react';
 import { Alert, Pressable, Switch, TextInput, View } from 'react-native';
 
-import { analyze, parse, truthy } from '@/engine';
+import { analyze, parse, type ResourceState, truthy } from '@/engine';
 import type { Section, StatItem } from '@/engine/schema';
 import { Group, Icon, IconButton, Prose, Row, TextButton, Txt, usePalette } from '@/ui/kit';
 
@@ -103,6 +103,7 @@ export function SectionView({ section }: { section: Section }) {
     case 'stat': return <Group><StatRow item={section} /></Group>;
     case 'stat_grid': return <StatGrid title={section.title} columns={section.columns ?? 3} items={section.items} />;
     case 'resource': return <Resource section={section} />;
+    case 'resources': return <Resources section={section} />;
     case 'list': return <List section={section} />;
     case 'toggles': return <Toggles section={section} />;
     case 'field': return <FieldEditor section={section} />;
@@ -130,10 +131,10 @@ function explainPath(item: StatItem): string | undefined {
 }
 
 function useStatPress(item: StatItem): { label: string; onPress?: () => void } {
-  const { view, action, explain } = useSheet();
+  const { view, action, explain, open } = useSheet();
   const label = view.text(item.label);
   const path = explainPath(item);
-  const onPress = item.action ? () => void action(item.action!) : path && view.explain(path) ? () => explain(path, label) : undefined;
+  const onPress = item.open ? () => open(item.open!) : item.action ? () => void action(item.action!) : path && view.explain(path) ? () => explain(path, label) : undefined;
   return { label, onPress };
 }
 
@@ -142,7 +143,7 @@ function StatRow({ item }: { item: StatItem }) {
   const { label, onPress } = useStatPress(item);
   if (item.visible_when !== undefined && !truthy(view.eval(item.visible_when))) return null;
   return (
-    <Row title={label} onPress={onPress} label={label} trailing={
+    <Row title={label} onPress={onPress} label={label} chevron={item.open !== undefined} trailing={
       <View style={{ alignItems: 'flex-end' }}>
         <Txt weight="600">{show(view.eval(item.value))}</Txt>
         {item.sub !== undefined ? <Txt muted size={13}>{show(view.eval(item.sub))}</Txt> : null}
@@ -157,14 +158,16 @@ function StatCell({ item, divider }: { item: StatItem; divider: boolean }) {
   const p = usePalette();
   const { label, onPress } = useStatPress(item);
   if (item.visible_when !== undefined && !truthy(view.eval(item.visible_when))) return <View style={{ flex: 1 }} />;
+  // an empty sub (a save without proficiency) draws no chip
+  const sub = item.sub === undefined ? null : view.eval(item.sub);
   return (
     <Pressable accessibilityRole={onPress ? 'button' : undefined} accessibilityLabel={label} disabled={!onPress} onPress={onPress}
       style={({ pressed }) => ({ flex: 1, alignItems: 'center', paddingVertical: 12, gap: 2, backgroundColor: pressed ? p.fill : 'transparent', borderLeftWidth: divider ? 0.5 : 0, borderLeftColor: p.separator })}>
       <Txt muted size={11} weight="600" style={{ letterSpacing: 0.6 }}>{label.toUpperCase()}</Txt>
       <Txt size={26} weight="700" style={{ fontVariant: ['tabular-nums'] }}>{show(view.eval(item.value))}</Txt>
-      {item.sub !== undefined ? (
+      {sub !== null && sub !== '' ? (
         <View style={{ backgroundColor: p.fill, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 1 }}>
-          <Txt size={13} weight="600" style={{ fontVariant: ['tabular-nums'] }}>{show(view.eval(item.sub))}</Txt>
+          <Txt size={13} weight="600" style={{ fontVariant: ['tabular-nums'] }}>{show(sub)}</Txt>
         </View>
       ) : null}
     </Pressable>
@@ -188,19 +191,44 @@ function StatGrid({ title, columns, items }: { title?: string; columns: number; 
 }
 
 function Resource({ section }: { section: Extract<Section, { widget: 'resource' }> }) {
-  const { view, effects, readonly } = useSheet();
-  const p = usePalette();
+  const { view } = useSheet();
   const r = view.resources().find((x) => x.id === section.resource);
   if (!r) return null;
-  const label = section.label ? view.text(section.label) : r.label;
+  const thresholds = section.thresholds?.map((t) => `${view.text(t.label)} ${show(view.eval(t.at))}`).join(' · ');
+  return (
+    <ResourceRow r={r} label={section.label ? view.text(section.label) : r.label} style={section.style ?? r.style ?? 'bar'} actions={section.actions} footer={thresholds} />
+  );
+}
+
+/** Every resource the character's entities provide, drawn as each one asks, with its feature's actions and summary. */
+function Resources({ section }: { section: Extract<Section, { widget: 'resources' }> }) {
+  const { view } = useSheet();
+  // a pool with nothing in it (not yet, or unlimited) has nothing to track
+  const provided = view.resources().filter((r) => r.source !== null && (r.max ?? 0) > 0 && !section.except?.includes(r.id));
+  if (provided.length === 0) return null;
+  const features = view.features();
+  return (
+    <View style={{ gap: 12 }}>
+      {section.title ? <Txt muted size={13} style={{ paddingHorizontal: 16 }}>{view.text(section.title).toUpperCase()}</Txt> : null}
+      {provided.map((r) => {
+        const feature = features.find((f) => f.resource === r.id);
+        // without a style, a few uses read best as pips and a large pool as a counter
+        const style = r.style ?? ((r.max ?? 0) <= 6 ? 'pips' : 'counter');
+        return <ResourceRow key={r.id} r={r} label={r.label} style={style} actions={feature?.actions} footer={feature?.summary ?? undefined} />;
+      })}
+    </View>
+  );
+}
+
+function ResourceRow({ r, label, style, actions, footer }: { r: ResourceState; label: string; style: string; actions?: string[]; footer?: string }) {
+  const { effects, readonly } = useSheet();
+  const p = usePalette();
   const max = r.max ?? 0;
   const current = r.current ?? 0;
   const setCurrent = (n: number) => effects([{ op: 'set', path: `res.${r.id}.current`, value: n }]);
   const add = (d: number) => effects([{ op: 'add', path: `res.${r.id}.current`, value: d }]);
-  const style = section.style ?? 'bar';
-  const thresholds = section.thresholds?.map((t) => `${view.text(t.label)} ${show(view.eval(t.at))}`).join(' · ');
   return (
-    <Group footer={thresholds}>
+    <Group footer={footer}>
       <Row
         title={
           <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 8 }}>
@@ -216,7 +244,7 @@ function Resource({ section }: { section: Extract<Section, { widget: 'resource' 
                 <IconButton name="plus.circle" android="add_circle_outline" label={`${label} plus one`} disabled={readonly || current >= max} onPress={() => void add(1)} />
               </>
             ) : null}
-            {section.actions?.length ? <Actions ids={section.actions} /> : null}
+            {actions?.length ? <Actions ids={actions} /> : null}
           </View>
         }>
         {style === 'bar' ? (
@@ -225,7 +253,7 @@ function Resource({ section }: { section: Extract<Section, { widget: 'resource' 
           </View>
         ) : style === 'pips' || style === 'slots' ? (
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
-            {Array.from({ length: max }, (_, i) => {
+            {Array.from({ length: Math.min(max, 40) }, (_, i) => {
               // pips show what's left; slots show what's marked (spent) from the left
               const filled = style === 'pips' ? i < current : i < max - current;
               const tap = style === 'pips' ? () => setCurrent(i < current ? i : i + 1) : () => setCurrent(max - (i < max - current ? i : i + 1));
@@ -306,7 +334,12 @@ function List({ section }: { section: Extract<Section, { widget: 'list' }> }) {
               title={rowTitle}
               subtitle={section.row.subtitle ? view.text(section.row.subtitle, vars) : undefined}
               onPress={body ? () => detail(rowTitle, body) : undefined}
-              trailing={section.row.actions?.length ? <Actions ids={section.row.actions} vars={vars} /> : undefined}>
+              trailing={section.row.trailing || section.row.actions?.length ? (
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                  {section.row.trailing ? <Txt weight="600" style={{ fontVariant: ['tabular-nums'] }}>{view.text(section.row.trailing, vars)}</Txt> : null}
+                  {section.row.actions?.length ? <Actions ids={section.row.actions} vars={vars} /> : null}
+                </View>
+              ) : undefined}>
               {section.row.body ? <Txt size={15}>{view.text(section.row.body, vars)}</Txt> : null}
             </Row>
           ))}

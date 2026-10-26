@@ -44,6 +44,8 @@ export interface EvalCtx {
 
 export const MAX_NODES = 500;
 export const MAX_LENGTH = 4000;
+/** text fields are mostly prose (a long magic item can run past 4 000 characters); each embedded formula keeps MAX_LENGTH */
+export const MAX_TEXT_LENGTH = 50_000;
 /** evaluation steps per top-level evaluation: keeps nested sum/map/count from running for minutes */
 export const MAX_STEPS = 1_000_000;
 const MAX_FORMULA_NEST = 16;
@@ -53,9 +55,9 @@ const MAX_DEPTH = 32;
 const FUNCTIONS: Record<string, [number, number]> = {
   floor: [1, 1], ceil: [1, 1], round: [1, 1], abs: [1, 1],
   min: [1, Infinity], max: [1, Infinity], clamp: [3, 3],
-  sum: [1, 2], count: [1, 2], map: [2, 2], has: [2, 2], len: [1, 1],
+  sum: [1, 2], count: [1, 2], map: [2, 2], filter: [2, 2], has: [2, 2], len: [1, 1],
   lookup: [3, 3], entity: [1, 1], entities: [1, 2],
-  concat: [0, Infinity], fmt_signed: [1, 1],
+  concat: [0, Infinity], join: [1, 2], fmt_signed: [1, 1],
 };
 
 // ---------- tokenizer ----------
@@ -229,7 +231,7 @@ export function parse(src: string): Ast {
  * Compiles to `concat(...)`, so null renders as '' and the node budget still applies.
  */
 export function parseTemplate(src: string): Ast {
-  if (src.length > MAX_LENGTH) throw new FormulaError(`text is longer than ${MAX_LENGTH} characters`);
+  if (src.length > MAX_TEXT_LENGTH) throw new FormulaError(`text is longer than ${MAX_TEXT_LENGTH} characters`);
   const args: Ast[] = [];
   let text = '';
   let i = 0;
@@ -432,6 +434,10 @@ function call(fn: string, args: Ast[], ctx: EvalCtx): unknown {
     const els = elements(evaluate(args[0], ctx));
     return els ? els.map(([k, v]) => evaluate(args[1], withVars(ctx, { v, k }))) : null;
   }
+  if (fn === 'filter') {
+    const els = elements(evaluate(args[0], ctx));
+    return els ? els.filter(([k, v]) => truthy(evaluate(args[1], withVars(ctx, { v, k })))).map(([, v]) => v) : null;
+  }
   if (fn === 'entities') {
     const type = evaluate(args[0], ctx);
     if (typeof type !== 'string') return null;
@@ -475,6 +481,8 @@ function call(fn: string, args: Ast[], ctx: EvalCtx): unknown {
     }
     case 'entity': return typeof v[0] === 'string' ? ctx.entity(v[0]) ?? null : null;
     case 'concat': return v.map((x) => (x === null || x === undefined ? '' : typeof x === 'object' ? JSON.stringify(x) : String(x))).join('');
+    // `join(map(@conditions, entity($v).name), ', ')`: a list as one line of text; nulls are skipped
+    case 'join': return Array.isArray(v[0]) ? v[0].filter((x) => x !== null && x !== undefined).map(String).join(typeof v[1] === 'string' ? v[1] : ', ') : null;
     case 'fmt_signed': {
       const x = num(v[0], ctx, fn);
       return x === null ? null : x >= 0 ? `+${x}` : String(x);

@@ -1,0 +1,409 @@
+{
+  "barbarian": {
+    "features": [
+      {
+        "id": "rage",
+        "summary": "{lookup('barbarian', $owner.level, 'rage_count') >= 9999 ? 'Unlimited' : lookup('barbarian', $owner.level, 'rage_count')} per long rest · +{lookup('barbarian', $owner.level, 'rage_damage_bonus')} damage",
+        "resource": "rage",
+        "actions": [
+          "use_rage"
+        ],
+        "resources": [
+          {
+            "id": "rage",
+            "label": "Rage",
+            "max": "lookup('barbarian', $owner.level, 'rage_count') >= 9999 ? 0 : lookup('barbarian', $owner.level, 'rage_count')",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "barbarian_unarmored_defense",
+        "summary": "AC 10 + Dex + Con without armor",
+        "modifiers": [
+          {
+            "target": "ac",
+            "op": "set",
+            "value": "10 + @mods.dex + @mods.con",
+            "when": "!@armor_worn"
+          }
+        ]
+      },
+      {
+        "id": "fast_movement",
+        "summary": "+10 ft speed without heavy armor",
+        "modifiers": [
+          { "target": "speed", "op": "add", "value": 10, "when": "count(@inventory, $v.equipped && entity($v.item).data.category == 'Heavy') == 0" }
+        ]
+      },
+      { "id": "brutal_critical_1_die", "summary": "+{lookup('barbarian', $owner.level, 'brutal_critical_dice')} weapon damage die on a melee critical hit" },
+      { "id": "brutal_critical_2_dice", "summary": "+{lookup('barbarian', $owner.level, 'brutal_critical_dice')} weapon damage dice on a melee critical hit" },
+      { "id": "brutal_critical_3_dice", "summary": "+{lookup('barbarian', $owner.level, 'brutal_critical_dice')} weapon damage dice on a melee critical hit" },
+      {
+        "id": "primal_champion",
+        "summary": "+4 Strength and Constitution",
+        "modifiers": [
+          { "target": "abilities.str", "op": "add", "value": 4 },
+          { "target": "abilities.con", "op": "add", "value": 4 }
+        ]
+      }
+    ]
+  },
+  "bard": {
+    "features": [
+      {
+        "id": "bardic_inspiration_d6",
+        "summary": "d{lookup('bard', $owner.level, 'bardic_inspiration_die')}, {max(1, @mods.cha)} per rest",
+        "resource": "bardic_inspiration",
+        "resources": [
+          {
+            "id": "bardic_inspiration",
+            "label": "Bardic Inspiration",
+            "max": "max(1, @mods.cha)",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "jack_of_all_trades",
+        "summary": "+{floor(@prof_bonus / 2)} to ability checks you aren't proficient in",
+        "modifiers": [
+          { "target": "initiative", "op": "add", "value": "floor(@prof_bonus / 2)" },
+          { "target": "skills.acrobatics", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'acrobatics')" },
+          { "target": "skills.animal_handling", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'animal_handling')" },
+          { "target": "skills.arcana", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'arcana')" },
+          { "target": "skills.athletics", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'athletics')" },
+          { "target": "skills.deception", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'deception')" },
+          { "target": "skills.history", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'history')" },
+          { "target": "skills.insight", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'insight')" },
+          { "target": "skills.intimidation", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'intimidation')" },
+          { "target": "skills.investigation", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'investigation')" },
+          { "target": "skills.medicine", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'medicine')" },
+          { "target": "skills.nature", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'nature')" },
+          { "target": "skills.perception", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'perception')" },
+          { "target": "skills.performance", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'performance')" },
+          { "target": "skills.persuasion", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'persuasion')" },
+          { "target": "skills.religion", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'religion')" },
+          { "target": "skills.sleight_of_hand", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'sleight_of_hand')" },
+          { "target": "skills.stealth", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'stealth')" },
+          { "target": "skills.survival", "op": "add", "value": "floor(@prof_bonus / 2)", "when": "!has(@prof.skills, 'survival')" }
+        ]
+      },
+      { "id": "song_of_rest_d6", "summary": "Allies who spend Hit Dice on a short rest regain +1d{lookup('bard', $owner.level, 'song_of_rest_die')} HP" },
+      { "id": "song_of_rest_d8", "summary": "Allies who spend Hit Dice on a short rest regain +1d{lookup('bard', $owner.level, 'song_of_rest_die')} HP" },
+      { "id": "song_of_rest_d10", "summary": "Allies who spend Hit Dice on a short rest regain +1d{lookup('bard', $owner.level, 'song_of_rest_die')} HP" },
+      { "id": "song_of_rest_d12", "summary": "Allies who spend Hit Dice on a short rest regain +1d{lookup('bard', $owner.level, 'song_of_rest_die')} HP" }
+    ],
+    "hooks": {
+      "short_rest": {
+        "any": [
+          {
+            "op": "if",
+            "when": "@class_level >= 5",
+            "then": [
+              {
+                "op": "set",
+                "path": "res.bardic_inspiration.current",
+                "value": "@res.bardic_inspiration.max"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "cleric": {
+    "features": [
+      {
+        "id": "channel_divinity_1_rest",
+        "resource": "channel_divinity",
+        "summary": "{lookup('cleric', $owner.level, 'channel_divinity_charges')} per short rest",
+        "resources": [
+          {
+            "id": "channel_divinity",
+            "label": "Channel Divinity",
+            "max": "lookup('cleric', $owner.level, 'channel_divinity_charges')",
+            "reset": [
+              "short_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      }
+    ]
+  },
+  "druid": {
+    "features": [
+      {
+        "id": "wild_shape_cr_1_4_or_below_no_flying_or_swim_speed",
+        "resource": "wild_shape",
+        "summary": "2 per short rest · max CR {lookup('druid', $owner.level, 'wild_shape_max_cr')}",
+        "resources": [
+          {
+            "id": "wild_shape",
+            "label": "Wild Shape",
+            "max": 2,
+            "reset": [
+              "short_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      }
+    ]
+  },
+  "fighter": {
+    "features": [
+      {
+        "id": "second_wind",
+        "summary": "Bonus action: regain 1d10 + {$owner.level} HP",
+        "resource": "second_wind",
+        "actions": [
+          "use_second_wind"
+        ],
+        "resources": [
+          {
+            "id": "second_wind",
+            "label": "Second Wind",
+            "max": 1,
+            "reset": [
+              "short_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "action_surge_1_use",
+        "summary": "{lookup('fighter', $owner.level, 'action_surges')} per short rest",
+        "resource": "action_surge",
+        "actions": [
+          "use_action_surge"
+        ],
+        "resources": [
+          {
+            "id": "action_surge",
+            "label": "Action Surge",
+            "max": "lookup('fighter', $owner.level, 'action_surges')",
+            "reset": [
+              "short_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "indomitable_1_use",
+        "summary": "{lookup('fighter', $owner.level, 'indomitable_uses')} per long rest",
+        "resource": "indomitable",
+        "resources": [
+          {
+            "id": "indomitable",
+            "label": "Indomitable",
+            "max": "lookup('fighter', $owner.level, 'indomitable_uses')",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      }
+    ]
+  },
+  "monk": {
+    "features": [
+      {
+        "id": "martial_arts",
+        "summary": "Martial arts die {lookup('monk', $owner.level, 'martial_arts')}"
+      },
+      {
+        "id": "ki",
+        "summary": "{lookup('monk', $owner.level, 'ki_points')} points per short rest · save DC {8 + @prof_bonus + @mods.wis}",
+        "resource": "ki",
+        "resources": [
+          {
+            "id": "ki",
+            "label": "Ki",
+            "max": "lookup('monk', $owner.level, 'ki_points')",
+            "reset": [
+              "short_rest"
+            ],
+            "style": "counter"
+          }
+        ]
+      },
+      {
+        "id": "monk_unarmored_defense",
+        "summary": "AC 10 + Dex + Wis without armor or shield",
+        "modifiers": [
+          {
+            "target": "ac",
+            "op": "set",
+            "value": "10 + @mods.dex + @mods.wis",
+            "when": "!@armor_worn && !@shield_worn"
+          }
+        ]
+      },
+      {
+        "id": "unarmored_movement_1",
+        "summary": "+{lookup('monk', $owner.level, 'unarmored_movement')} ft speed without armor or shield",
+        "modifiers": [
+          { "target": "speed", "op": "add", "value": "lookup('monk', $owner.level, 'unarmored_movement')", "when": "!@armor_worn && !@shield_worn" }
+        ]
+      },
+      { "id": "unarmored_movement_2", "summary": "Move along vertical surfaces and across liquids on your turn" },
+      {
+        "id": "diamond_soul",
+        "summary": "Proficient in all saving throws",
+        "modifiers": [
+          { "target": "saves.str", "op": "add", "value": "@prof_bonus", "when": "!has(@save_profs, 'str')" },
+          { "target": "saves.dex", "op": "add", "value": "@prof_bonus", "when": "!has(@save_profs, 'dex')" },
+          { "target": "saves.con", "op": "add", "value": "@prof_bonus", "when": "!has(@save_profs, 'con')" },
+          { "target": "saves.int", "op": "add", "value": "@prof_bonus", "when": "!has(@save_profs, 'int')" },
+          { "target": "saves.wis", "op": "add", "value": "@prof_bonus", "when": "!has(@save_profs, 'wis')" },
+          { "target": "saves.cha", "op": "add", "value": "@prof_bonus", "when": "!has(@save_profs, 'cha')" }
+        ]
+      }
+    ]
+  },
+  "paladin": {
+    "features": [
+      {
+        "id": "divine_sense",
+        "summary": "{1 + max(0, @mods.cha)} per long rest",
+        "resource": "divine_sense",
+        "resources": [
+          {
+            "id": "divine_sense",
+            "label": "Divine Sense",
+            "max": "1 + max(0, @mods.cha)",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "lay_on_hands",
+        "summary": "Pool of {5 * $owner.level} HP per long rest",
+        "resource": "lay_on_hands",
+        "resources": [
+          {
+            "id": "lay_on_hands",
+            "label": "Lay on Hands",
+            "max": "5 * $owner.level",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "counter"
+          }
+        ]
+      },
+      {
+        "id": "channel_divinity",
+        "summary": "1 per short rest",
+        "resource": "oath_channel",
+        "resources": [
+          {
+            "id": "oath_channel",
+            "label": "Channel Divinity",
+            "max": 1,
+            "reset": [
+              "short_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      },
+      {
+        "id": "aura_of_protection",
+        "summary": "+{max(1, @mods.cha)} to saves for you and allies within {$owner.level >= 18 ? 30 : 10} ft",
+        "modifiers": [
+          { "target": "saves", "op": "add", "value": "max(1, @mods.cha)" }
+        ]
+      }
+    ]
+  },
+  "rogue": {
+    "features": [
+      {
+        "id": "sneak_attack",
+        "summary": "Extra {lookup('rogue', $owner.level, 'sneak_attack')} damage once per turn"
+      },
+      {
+        "id": "slippery_mind",
+        "summary": "Proficient in Wisdom saving throws",
+        "modifiers": [
+          { "target": "saves.wis", "op": "add", "value": "@prof_bonus", "when": "!has(@save_profs, 'wis')" }
+        ]
+      }
+    ]
+  },
+  "sorcerer": {
+    "features": [
+      {
+        "id": "font_of_magic",
+        "summary": "{$owner.level} sorcery points per long rest",
+        "resource": "sorcery_points",
+        "resources": [
+          {
+            "id": "sorcery_points",
+            "label": "Sorcery Points",
+            "max": "$owner.level",
+            "reset": [
+              "long_rest"
+            ],
+            "style": "counter"
+          }
+        ]
+      }
+    ]
+  },
+  "warlock": {
+    "features": [
+      {
+        "id": "pact_magic",
+        "summary": "{lookup('warlock', $owner.level, 'pact_slots')} slots of level {lookup('warlock', $owner.level, 'pact_level')}, back on a short rest",
+        "resource": "pact_slots",
+        "resources": [
+          {
+            "id": "pact_slots",
+            "label": "Pact slots",
+            "max": "lookup('warlock', $owner.level, 'pact_slots')",
+            "reset": [
+              "short_rest"
+            ],
+            "style": "slots"
+          }
+        ]
+      }
+    ]
+  },
+  "wizard": {
+    "features": [
+      {
+        "id": "arcane_recovery",
+        "summary": "Once per day: recover slots totalling {ceil($owner.level / 2)} levels",
+        "resource": "arcane_recovery",
+        "resources": [
+          {
+            "id": "arcane_recovery",
+            "label": "Arcane Recovery",
+            "max": 1,
+            "reset": [
+              "long_rest"
+            ],
+            "style": "pips"
+          }
+        ]
+      }
+    ]
+  }
+}

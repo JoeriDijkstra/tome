@@ -1,0 +1,38 @@
+[
+  {
+    "id": "abilities",
+    "key": "id",
+    "rows": [
+      {
+        "id": "str",
+        "abbr": "STR",
+        "name": "Strength"
+      },
+      {
+        "id": "dex",
+        "abbr": "DEX",
+        "name": "Dexterity"
+      },
+      {
+        "id": "con",
+        "abbr": "CON",
+        "name": "Constitution"
+      },
+      {
+        "id": "int",
+        "abbr": "INT",
+        "name": "Intelligence"
+      },
+      {
+        "id": "wis",
+        "abbr": "WIS",
+        "name": "Wisdom"
+      },
+      {
+        "id": "cha",
+        "abbr": "CHA",
+        "name": "Charisma"
+      }
+    ]
+  }
+]
