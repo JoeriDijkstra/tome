@@ -170,36 +170,121 @@ export type Constraint = z.infer<typeof Constraint>;
 export const TableDef = z.strictObject({ id: Id, key: z.string(), rows: z.array(z.record(z.string(), z.unknown())) });
 export const Character = z.strictObject({ fields: z.array(FieldDef) });
 
-// ui/ is validated shallowly until M3/M4: ids, references and the formulas we know about.
-const Loose = z.record(z.string(), z.unknown());
-export const Action = z.looseObject({
-  id: Id,
-  label: z.string(),
+// ---------- ui/ ----------
+// Text fields (T) are literal text with {formula} templates; formula fields (F) are formulas. See SPEC → Text and formulas.
+const T = z.string();
+/** a path into the character (write path, or modifier target for `explain`) */
+const Path = z.string();
+
+export const Input = z.strictObject({
+  key: Id,
+  type: z.enum(['number', 'stepper', 'string', 'text', 'boolean', 'select', 'choice', 'allocation', 'assign']),
+  label: T.optional(),
+  description: T.optional(),
+  required: z.boolean().optional(),
+  min: z.number().optional(),
+  max: z.number().optional(),
+  step: z.number().optional(),
+  default: F.optional(),
+  options: z.union([z.array(z.string()), z.string()]).optional(),
   visible_when: F.optional(),
-  enabled_when: F.optional(),
-  modal: Id.optional(),
-  effects: Effects.optional(),
+  entity_type: Id.optional(),
+  filter: F.optional(),
+  // allocation / assign (wizard, M4)
+  keys: z.array(Id).optional(),
+  values: z.array(z.number()).optional(),
+  cost_table: Id.optional(),
+  budget: z.number().optional(),
 });
+export type Input = z.infer<typeof Input>;
+
+export const Action = z
+  .strictObject({
+    id: Id,
+    label: T,
+    icon: z.string().optional(),
+    style: z.enum(['primary', 'secondary', 'danger', 'plain']).optional(),
+    visible_when: F.optional(),
+    enabled_when: F.optional(),
+    confirm: z.strictObject({ title: T, message: T.optional() }).optional(),
+    modal: Id.optional(),
+    effects: Effects.optional(),
+  })
+  .refine((a) => (a.modal === undefined) !== (a.effects === undefined), { message: 'an action needs either "modal" or "effects"' });
 export type Action = z.infer<typeof Action>;
-export const Modal = z.looseObject({
+
+export const Modal = z.strictObject({
   id: Id,
-  title: z.string().optional(),
-  fields: z.array(z.looseObject({ key: Id, type: z.string() })).default([]),
-  validate: z.array(z.strictObject({ when: F, message: z.string() })).default([]),
-  submit: z.looseObject({ label: z.string().optional(), effects: Effects.default([]) }).optional(),
+  title: T.optional(),
+  description: T.optional(),
+  fields: z.array(Input).default([]),
+  validate: z.array(z.strictObject({ when: F, message: T })).default([]),
+  submit: z.strictObject({ label: T.optional(), effects: Effects.default([]) }).optional(),
 });
 export type Modal = z.infer<typeof Modal>;
-export const Tab = z.looseObject({ id: Id, label: z.string(), sections: z.array(Loose).default([]) });
-export const Sheet = z.looseObject({ header: Loose.optional(), tabs: z.array(Id).default([]) });
-export const Step = z.looseObject({
+
+const Visible = { visible_when: F.optional() };
+const StatItem = z.strictObject({ label: T, value: F, sub: F.optional(), explain: Path.optional(), action: Id.optional(), ...Visible });
+export type StatItem = z.infer<typeof StatItem>;
+export const Section = z.discriminatedUnion('widget', [
+  StatItem.extend({ widget: z.literal('stat') }),
+  z.strictObject({ widget: z.literal('stat_grid'), title: T.optional(), columns: z.int().min(1).max(6).optional(), items: z.array(StatItem), ...Visible }),
+  z.strictObject({
+    widget: z.literal('resource'),
+    resource: Id,
+    label: T.optional(),
+    style: z.enum(['bar', 'pips', 'counter', 'slots']).optional(),
+    thresholds: z.array(z.strictObject({ label: T, at: F })).optional(),
+    actions: z.array(Id).optional(),
+    ...Visible,
+  }),
+  z.strictObject({
+    widget: z.literal('list'),
+    source: F,
+    title: T.optional(),
+    style: z.enum(['rows', 'cards']).optional(),
+    row: z.strictObject({ title: T, subtitle: T.optional(), body: T.optional(), actions: z.array(Id).optional() }),
+    group_by: F.optional(),
+    empty: T.optional(),
+    add: Id.optional(),
+    ...Visible,
+  }),
+  z
+    .strictObject({
+      widget: z.literal('toggles'),
+      title: T.optional(),
+      items: z.array(z.strictObject({ label: T, path: Path })).optional(),
+      path: Path.optional(),
+      options: F.optional(),
+      label: T.optional(),
+      ...Visible,
+    })
+    .refine((t) => (t.items !== undefined) !== (t.path !== undefined && t.options !== undefined && t.label !== undefined), {
+      message: 'toggles need either "items", or "path" + "options" + "label"',
+    }),
+  z.strictObject({ widget: z.literal('field'), label: T, path: Path, input: z.enum(['string', 'text', 'number']).optional(), ...Visible }),
+  z.strictObject({ widget: z.literal('text'), text: T, ...Visible }),
+  z.strictObject({ widget: z.literal('actions'), actions: z.array(Id), ...Visible }),
+  z.strictObject({ widget: z.literal('notes'), ...Visible }),
+]);
+export type Section = z.infer<typeof Section>;
+export const Tab = z.strictObject({ id: Id, label: T, sections: z.array(Section).default([]) });
+export type Tab = z.infer<typeof Tab>;
+export const Sheet = z.strictObject({
+  header: z.strictObject({ title: T.optional(), subtitle: T.optional(), actions: z.array(Id).optional() }).optional(),
+  tabs: z.array(Id).default([]),
+});
+export type Sheet = z.infer<typeof Sheet>;
+export const Step = z.strictObject({
   id: Id,
-  title: z.string().optional(),
-  fields: z.array(z.looseObject({ key: Id, type: z.string() })).default([]),
+  title: T.optional(),
+  description: T.optional(),
+  fields: z.array(Input).default([]),
   effects: Effects.default([]),
   review: z.boolean().optional(),
 });
 export type Step = z.infer<typeof Step>;
-export const Creation = z.looseObject({ steps: z.array(Step) });
+export const Creation = z.strictObject({ steps: z.array(Step) });
 
 export const Patch = z.strictObject({ target: z.string(), merge: z.record(z.string(), z.unknown()) });
 export type Patch = z.infer<typeof Patch>;

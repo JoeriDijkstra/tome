@@ -5,7 +5,10 @@
     "fields": [
       {
         "key": "amount",
-        "type": "number"
+        "type": "number",
+        "label": "Amount",
+        "min": 0,
+        "required": true
       }
     ],
     "validate": [
@@ -53,6 +56,29 @@
           "entity": "$input.calling[0]",
           "hook": "on_level",
           "key": "@callings[$input.calling[0]].level"
+        }
+      ]
+    }
+  },
+  {
+    "id": "heal",
+    "title": "Heal",
+    "fields": [
+      {
+        "key": "amount",
+        "type": "number",
+        "label": "Amount",
+        "min": 0,
+        "required": true
+      }
+    ],
+    "submit": {
+      "label": "Heal",
+      "effects": [
+        {
+          "op": "add",
+          "path": "res.hp.current",
+          "value": "$input.amount"
         }
       ]
     }

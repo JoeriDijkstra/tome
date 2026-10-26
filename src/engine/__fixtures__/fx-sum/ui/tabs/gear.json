@@ -1,0 +1,31 @@
+[
+  {
+    "id": "gear",
+    "label": "Gear",
+    "sections": [
+      {
+        "widget": "list",
+        "title": "Carried",
+        "source": "@gear",
+        "row": {
+          "title": "{entity($v.item).name}",
+          "subtitle": "{$v.equipped ? 'Equipped' : 'Carried'}",
+          "actions": [
+            "toggle_equipped"
+          ]
+        },
+        "empty": "Nothing carried.",
+        "add": "add_gear"
+      },
+      {
+        "widget": "list",
+        "title": "Owned",
+        "source": "@owned",
+        "style": "cards",
+        "row": {
+          "title": "{$v.name}"
+        }
+      }
+    ]
+  }
+]

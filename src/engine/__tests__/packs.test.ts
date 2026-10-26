@@ -89,6 +89,27 @@ describe('compile checks', () => {
     expect(errors(files)).toEqual(expect.arrayContaining([expect.stringMatching(/grant cycle: darksight → keen → darksight/)]));
   });
 
+  test('ui/: text fields are templates, formula fields are formulas, references must exist', () => {
+    const files = fixture('fx-sum', {
+      'ui/sheet.json': (s: Json) => ({ ...s, header: { title: 'Level {@nope}', subtitle: 'Plain @name stays text', actions: ['long_rest', 'ghost'] } }),
+      'ui/tabs/main.json': () => [{ id: 'main', label: 'Main', sections: [
+        { widget: 'stat', label: 'Defense', value: '@defense +', explain: 'nowhere' },
+        { widget: 'resource', resource: 'mana' },
+        { widget: 'list', source: '@features', row: { title: '{$v.name' } },
+      ] }],
+    });
+    expect(errors(files).map((e) => e.replace(/^fx-sum:ui\//, ''))).toEqual([
+      expect.stringMatching(/^tabs\/main\.json#\/0\/sections\/0\/value: formula: unexpected end/),
+      expect.stringMatching(/^tabs\/main\.json#\/0\/sections\/0\/explain: modifier target 'nowhere'/),
+      "tabs/main.json#/0/sections/1/resource: unknown resource 'mana'",
+      expect.stringMatching(/^tabs\/main\.json#\/0\/sections\/2\/row\/title: text: unclosed/),
+      'sheet.json#/header/title: unknown reference @nope',
+      "sheet.json#/header/actions/1: unknown action 'ghost'",
+    ]);
+    const toggles = fixture('fx-sum', { 'ui/tabs/main.json': () => [{ id: 'main', label: 'Main', sections: [{ widget: 'toggles', path: 'paths' }] }] });
+    expect(errors(toggles)).toEqual([expect.stringMatching(/toggles need either "items", or "path" \+ "options" \+ "label"/)]);
+  });
+
   test('effects may only write stored fields and res', () => {
     const files = fixture('fx-sum', { 'ui/actions/all.json': (l: JsonList) => [...l, { id: 'cheat', label: 'x', effects: [{ op: 'set', path: 'defense', value: 30 }] }] });
     expect(errors(files)).toEqual([expect.stringMatching(/cannot write to 'defense'/)]);

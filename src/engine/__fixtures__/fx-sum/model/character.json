@@ -81,6 +81,16 @@
           "default": false
         }
       ]
+    },
+    {
+      "key": "inspired",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "key": "epithet",
+      "type": "string",
+      "default": ""
     }
   ]
 }

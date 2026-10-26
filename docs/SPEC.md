@@ -753,9 +753,13 @@ runBatch(state, effects, { prompt }): Promise<{ state, answers } | { cancelled }
   An unanswered prompt during replay is an error.
 
 **Undo**: the sheet keeps the 20 most recent pre-batch states in memory. Undo
-restores the previous state and saves it as a new `rev`. Typing into a `field`
-widget is coalesced into a single undo entry per field focus. The undo stack is
-cleared when you leave the sheet.
+restores the previous state and saves it as a new `rev`. A `field` widget
+writes once per edit (on submit or blur), so it's one undo entry. The undo
+stack is cleared when you leave the sheet.
+
+**Writes are serialized.** An open sheet runs one batch at a time, each against
+the newest saved document, so quick taps never race on a stale `rev`. A real
+conflict (the document changed elsewhere) reloads the character.
 
 ### Constraints — `model/constraints.json`
 
@@ -809,8 +813,11 @@ allocation assign`.
 - `allocation`: point-buy style, `{keys, cost_table, budget, min, max}`.
 - `assign`: hand out a fixed list of values to keys (standard array).
 
-`options`, `default`, `visible_when` and `label` may all be formulas.
-Rendered only by `<PackModal>`.
+Input fields: `key`, `type`, `label` (text), `required`, `min`, `max`,
+`step`, `default` (formula), `options` (a list of strings, or a formula that
+gives one), `visible_when` (formula), and for `choice` `entity_type` and
+`filter` (formula). Rendered only by `<PackModal>`. `allocation` and `assign`
+arrive with the wizard (M4).
 
 ### Creation wizard — `ui/creation.json`
 
@@ -849,7 +856,7 @@ subclass, spell and feat choosers through `choose`.
 
 ```json
 {
-  "header": { "title": "@name", "subtitle": "concat(entity(@species).name, ' · Level ', @level)",
+  "header": { "title": "{@name}", "subtitle": "{entity(@species).name} · Level {@level}",
               "actions": ["short_rest", "long_rest", "level_up"] },
   "tabs": ["main", "combat", "spells", "inventory", "notes"]
 }
@@ -862,25 +869,51 @@ subclass, spell and feat choosers through `choose`.
     { "widget": "stat_grid", "items": [
       { "label": "STR", "value": "@abilities.str", "sub": "fmt_signed(@mods.str)" } ] },
     { "widget": "resource", "resource": "hp", "style": "bar", "actions": ["take_damage", "heal"] },
-    { "widget": "list", "title": "Features", "source": "features", "row": { "title": "$v.name" } }
+    { "widget": "list", "title": "Features", "source": "@features", "row": { "title": "{$v.name}" } }
   ] } ]
 ```
 
 A tab that exists but isn't listed in `sheet.tabs` is an import warning. An id
 listed in `sheet.tabs` with no matching tab is an error.
 
-Widget catalog (v1):
+#### Text and formulas
 
-| widget | purpose |
-|---|---|
-| `stat` / `stat_grid` | label, value formula, optional sub-value. Tap shows a modifier breakdown or an action. |
-| `resource` | current/max with `bar`, `pips`, `counter` or `slots` style, ± buttons, optional actions. `slots` is a row of checkbox slots you mark and clear, as with Daggerheart HP, Stress and Armor; optional `thresholds` labels come from formulas. |
-| `list` | rows from a state list, a derived list, or `features`; style `rows` (default) or `cards` (Daggerheart domain cards: title, art, body, tap for detail); `group_by`, row title/subtitle formulas, row actions, add action, empty text |
-| `toggles` | grid of boolean fields or a ref list (conditions, death saves, proficiency checkboxes) |
-| `field` | inline editor for one character field |
-| `text` | static markdown from the pack |
-| `actions` | row of action buttons |
-| `notes` | the character's journal (app-owned data, placed by the pack) |
+Every `ui/` field is one of two kinds, fixed by the schema:
+
+- **Formula fields** hold a value or a condition and are plain formulas, as
+  everywhere else: `value`, `sub`, `source`, `group_by`, `when`,
+  `visible_when`, `enabled_when`, `filter`, `default`, `options` (when a
+  string), `at`.
+- **Text fields** hold words shown to the player: `label`, `title`,
+  `subtitle`, `body`, `empty`, `text`, `message`, `description`. They are
+  literal text, with `{…}` embedding a formula: `"Level {@level}"`,
+  `"{$v.name}"`. `{{` and `}}` are literal braces. A `{…}` that evaluates to
+  `null` renders as nothing, like `concat`. Entity `summary` and `description`
+  are text too, evaluated with `$self` set to the entity, so a feature can say
+  `"Regain 1d10 + {@classes.fighter.level} hit points."`.
+
+The import check parses both kinds and reports errors with file and pointer.
+
+#### Widget catalog (v1)
+
+Every widget takes an optional `visible_when`. Text fields are marked *(text)*.
+
+| widget | fields | behaviour |
+|---|---|---|
+| `stat` | `label` *(text)*, `value`, `sub?`, `explain?` (a target path), `action?` | Tapping it runs `action`, or shows the modifier breakdown of `explain`. `explain` defaults to the value when the value is a single reference such as `@ac`. |
+| `stat_grid` | `title?` *(text)*, `columns?`, `items` (stats without `widget`) | |
+| `resource` | `resource`, `label?` *(text)*, `style?` (`bar` `pips` `counter` `slots`), `thresholds?` (`[{label (text), at}]`), `actions?` | ± buttons change `current`. With `slots`, tapping a slot marks or clears it. |
+| `list` | `source`, `title?` *(text)*, `style?` (`rows` `cards`), `row` (`title`, `subtitle?`, `body?`, all text; `actions?`), `group_by?`, `empty?` *(text)*, `add?` (action) | Rows come from `source` (a list or object) with `$v`/`$k` set. Row actions run with the row's `$v`/`$k`. Tapping a row that is an entity shows its description. |
+| `toggles` | `title?` *(text)*, and either `items` (`[{label (text), path}]`: boolean fields) or `path` + `options` + `label` *(text)* (an id list toggled per option, `$v` = option) | Tapping toggles through the `toggle` effect. |
+| `field` | `label` *(text)*, `path`, `input?` (`string` `text` `number`) | Inline editor. One undo entry per focus. |
+| `text` | `text` *(text)* | Static pack prose. |
+| `actions` | `actions` | A row of buttons. |
+| `notes` | — | The character's journal (M5). |
+
+Actions: `label` *(text)*, `icon?`, `style?` (`primary` `secondary` `danger`
+`plain`), `visible_when?`, `enabled_when?`, `confirm?` (`{title, message?}`,
+text), and `modal` or `effects`. Constraint and `validate` `message`s are
+text.
 
 ## Pack import dialog
 
@@ -1086,7 +1119,11 @@ SRD documents before release.
    schemas come with M3/M4.
 3. **M2, data + packs UI** (done): SqliteAdapter, empty state, import dialog,
    pack manager, uninstall guard, compiled pack sets cached by resolution key.
-4. **M3, sheet**: widget catalog, PackButton, PackModal, modifier breakdown.
+4. **M3, sheet** (done): text templates, full `ui/` schemas, widget catalog,
+   PackButton, PackModal, chooser, modifier breakdown, undo, serialized
+   writes. Deferred to the milestone that needs them: `allocation`/`assign`
+   inputs (M4), the `notes` widget and markdown in `text` (M5), action
+   `icon`s.
 5. **M4, wizard + level up.**
 6. **M5**: inventory, resources/rests, conditions, notes, character
    export/import.
@@ -1114,14 +1151,6 @@ These can be solved within the pack format and don't need engine changes.
 
 ## Open items (engine, decide before the milestone named)
 
-- **M3: text vs formula in `ui/`.** Labels, titles and widget values share
-  plain strings (`"title": "Features"` vs `"title": "@name"`), so widget
-  formulas can't be validated until one rule decides which strings are
-  formulas. Until then M1 only validates action, modal, step and effect
-  formulas.
-- **M3: view caching.** Compiled pack sets are already cached by resolution
-  key (`src/data/packs.ts`). Sheet views get memoized on
-  `(rev, resolution key)` with the sheet.
 - Known ceiling: a modifier on one key of a root that reads a sibling key of
   the same root (on `stats.might`, reading `@stats.grace`) is reported as a
   cycle, because values are memoized per root. Use a derived value as the

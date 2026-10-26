@@ -1,4 +1,4 @@
-import { Link, Stack, useFocusEffect, useTheme } from 'expo-router';
+import { Link, router, Stack, useFocusEffect, useTheme } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { SymbolView } from 'expo-symbols';
 import { Pressable } from 'react-native';
@@ -44,7 +44,7 @@ export default function CharactersScreen() {
         </Empty>
       ) : (
         characters.map((c) => (
-          <Card key={c.id}>
+          <Card key={c.id} onPress={() => router.push({ pathname: '/c/[id]', params: { id: c.id } })}>
             <Txt weight="600">{c.name}</Txt>
             <Txt muted size={13}>{c.packs.major.id}</Txt>
           </Card>

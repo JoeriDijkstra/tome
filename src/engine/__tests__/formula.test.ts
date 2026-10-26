@@ -1,4 +1,4 @@
-import { analyze, evaluate, type EvalCtx, FormulaError, parse } from '../formula';
+import { analyze, evaluate, type EvalCtx, FormulaError, parse, parseTemplate } from '../formula';
 
 const roots: Record<string, unknown> = {
   n: 5,
@@ -88,6 +88,18 @@ describe('formula language', () => {
     expect(() => parse('clamp(1, 2)')).toThrow(/clamp/);
     expect(() => parse(Array(300).fill('1').join(' + '))).toThrow(/500 nodes/);
     expect(() => parse('1 +')).toThrow(FormulaError);
+  });
+
+  test('text templates: literal text, {formula} parts, escaped braces, null renders empty', () => {
+    const tx = (s: string) => evaluate(parseTemplate(s), ctx);
+    expect(tx('Features')).toBe('Features');
+    expect(tx('')).toBe('');
+    expect(tx('Level {@n} ({@missing})')).toBe('Level 5 ()');
+    expect(tx('{{literal}} {fmt_signed(@n)}')).toBe('{literal} +5');
+    expect(tx("{concat('}', {x: 1}.x)}")).toBe('}1');
+    expect(() => parseTemplate('oops }')).toThrow(/unmatched '}'/);
+    expect(() => parseTemplate('Level {@n')).toThrow(/unclosed '{'/);
+    expect(() => parseTemplate('{level}')).toThrow(/did you mean @level/);
   });
 
   test('analyze reports static reference paths up to the first computed key', () => {

@@ -57,7 +57,7 @@ describe('fx-sum (summed modifiers, resources, hooks)', () => {
     const v = createView(c, hit);
     expect(v.eval('@res.hp.current')).toBe(10);
     expect(v.eval('@res.hp.temp')).toBe(0);
-    expect(await runAction(c, hero, 'take_damage', { answers: [{ amount: -1 }] })).toEqual({ ok: false, rejected: "Damage can't be negative." });
+    expect(await runAction(c, hero, 'take_damage', { answers: [{ amount: -1 }] })).toEqual({ ok: false, rejected: "modal damage: 'amount' must be at least 0" });
   });
 
   test('writes clamp to field and resource bounds; wrong types reject', async () => {

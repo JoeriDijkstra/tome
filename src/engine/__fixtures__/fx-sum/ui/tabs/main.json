@@ -4,11 +4,105 @@
     "label": "Main",
     "sections": [
       {
+        "widget": "stat_grid",
+        "columns": 3,
+        "items": [
+          {
+            "label": "Might",
+            "value": "@stats.might",
+            "sub": "fmt_signed(@mods.might)"
+          },
+          {
+            "label": "Grace",
+            "value": "@stats.grace",
+            "sub": "fmt_signed(@mods.grace)"
+          },
+          {
+            "label": "Vigor",
+            "value": "@stats.vigor",
+            "sub": "fmt_signed(@mods.vigor)"
+          }
+        ]
+      },
+      {
+        "widget": "stat_grid",
+        "columns": 2,
+        "items": [
+          {
+            "label": "Defense",
+            "value": "@defense"
+          },
+          {
+            "label": "Bonus",
+            "value": "fmt_signed(@bonus)"
+          }
+        ]
+      },
+      {
         "widget": "resource",
         "resource": "hp",
+        "style": "bar",
         "actions": [
-          "take_damage"
+          "take_damage",
+          "heal"
         ]
+      },
+      {
+        "widget": "resource",
+        "resource": "second_breath",
+        "label": "Second Breath",
+        "style": "pips",
+        "actions": [
+          "use_second_breath"
+        ],
+        "visible_when": "@res.second_breath != null"
+      },
+      {
+        "widget": "toggles",
+        "title": "Status",
+        "items": [
+          {
+            "label": "Inspired",
+            "path": "inspired"
+          }
+        ]
+      },
+      {
+        "widget": "field",
+        "label": "Epithet",
+        "path": "epithet",
+        "input": "string"
+      },
+      {
+        "widget": "stat_grid",
+        "title": "Skills",
+        "columns": 2,
+        "items": [
+          {
+            "label": "Athletics",
+            "value": "fmt_signed(@skills.athletics)",
+            "explain": "skills.athletics"
+          },
+          {
+            "label": "Stealth",
+            "value": "fmt_signed(@skills.stealth)",
+            "explain": "skills.stealth"
+          }
+        ]
+      },
+      {
+        "widget": "list",
+        "title": "Features",
+        "source": "@features",
+        "row": {
+          "title": "{$v.name}",
+          "subtitle": "{$v.summary}"
+        },
+        "empty": "No features yet."
+      },
+      {
+        "widget": "text",
+        "text": "Tap a stat to see where it comes from."
       }
     ]
   }

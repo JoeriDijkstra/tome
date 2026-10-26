@@ -1,12 +1,14 @@
 {
   "header": {
-    "title": "@name",
+    "title": "{@name}",
+    "subtitle": "{entity(@lineage).name} · Level {@level}",
     "actions": [
       "long_rest",
       "level_up"
     ]
   },
   "tabs": [
-    "main"
+    "main",
+    "gear"
   ]
 }

@@ -30,7 +30,8 @@
               "short_rest"
             ]
           }
-        ]
+        ],
+        "summary": "Catch your breath: {(@callings.warrior.level ?? 0) >= 4 ? 3 : 2} uses per short rest."
       },
       {
         "id": "guard_style",
@@ -43,7 +44,8 @@
             "value": 1,
             "when": "count(@gear, $v.equipped && entity($v.item).data.kind == 'armor') > 0"
           }
-        ]
+        ],
+        "summary": "+1 defense while wearing armor."
       }
     ],
     "hooks": {
@@ -60,6 +62,7 @@
           }
         ]
       }
-    }
+    },
+    "summary": "Front-line fighter, d{$self.data.die} vigor."
   }
 ]

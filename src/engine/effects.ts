@@ -29,9 +29,6 @@ export type RunResult =
   | { ok: false; cancelled: true }
   | { ok: false; rejected: string };
 
-/** A modal or wizard input as the engine sees it (the UI renders the rest). */
-type Input = { key: string; type: string; [k: string]: unknown };
-
 class Reject extends Error {}
 class Cancel extends Error {}
 /** returned by a write's `next` to leave the stored value untouched */
@@ -182,7 +179,7 @@ class Run {
   }
 
   /** Answers are data from the UI or a recording: hold them to what the inputs declare. */
-  checkInputs(inputs: Input[], values: Record<string, unknown>, where: string, vars: Record<string, unknown>) {
+  checkInputs(inputs: S.Input[], values: Record<string, unknown>, where: string, vars: Record<string, unknown>) {
     for (const input of inputs) {
       const v = values[input.key];
       const fail = (what: string): never => { throw new Reject(`${where}: '${input.key}' ${what}`); };
@@ -196,13 +193,13 @@ class Run {
         if (typeof input.max === 'number' && (v as number) > input.max) fail(`must be at most ${input.max}`);
       } else if (input.type === 'boolean') {
         if (typeof v !== 'boolean') fail('must be true or false');
-      } else if (input.type === 'select' && Array.isArray(input.options)) {
-        if (!input.options.includes(v)) fail(`must be one of ${input.options.join(', ')}`);
+      } else if (input.type === 'select' && input.options !== undefined) {
+        const options = typeof input.options === 'string' ? this.val(input.options, { ...vars, input: values }) : input.options;
+        if (Array.isArray(options) && !options.includes(v)) fail(`must be one of ${options.join(', ')}`);
       } else if (input.type === 'choice') {
         if (!Array.isArray(v) || v.some((id) => typeof id !== 'string')) fail('must be a list of ids');
         const ids = v as string[];
-        const filter = typeof input.filter === 'string' || typeof input.filter === 'boolean' ? input.filter : undefined;
-        const allowed = this.options(String(input.entity_type), filter, { ...vars, input: values });
+        const allowed = this.options(input.entity_type ?? '', input.filter, { ...vars, input: values });
         if (ids.some((id) => !allowed.includes(id)) || new Set(ids).size !== ids.length) fail('contains an option that was not offered');
         if (typeof input.min === 'number' && ids.length < input.min) fail(`needs at least ${input.min}`);
         if (typeof input.max === 'number' && ids.length > input.max) fail(`allows at most ${input.max}`);

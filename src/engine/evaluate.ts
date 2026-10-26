@@ -47,6 +47,8 @@ export interface View {
   state: State;
   /** evaluate a formula against this character */
   eval(src: S.FormulaSrc, vars?: Record<string, unknown>): unknown;
+  /** render a text field (`"Level {@level}"`) */
+  text(src: string, vars?: Record<string, unknown>): string;
   ctx(vars?: Record<string, unknown>): EvalCtx;
   root(name: string): unknown;
   owned(): OwnedEntity[];
@@ -254,7 +256,11 @@ export function createView(compiled: Compiled, stored: State, name = ''): View {
     featureCache = owned().flatMap((o) =>
       o.entity.features
         .filter((ft) => !ft.when || truthy(run(ft.when, entityVars(o))))
-        .map((ft) => ({ id: ft.id, name: ft.name, summary: ft.summary ?? null, description: ft.description ?? null, source: ft.source, resource: ft.resource ?? null, actions: ft.actions })),
+        .map((ft) => {
+          // feature prose is text: rendered with $self/$owner of the entity that has it
+          const prose = (src?: string) => (src ? String(run(compiled.template(src), entityVars(o)) ?? '') : null);
+          return { id: ft.id, name: ft.name, summary: prose(ft.summary), description: prose(ft.description), source: ft.source, resource: ft.resource ?? null, actions: ft.actions };
+        }),
     );
     return featureCache;
   }
@@ -407,6 +413,7 @@ export function createView(compiled: Compiled, stored: State, name = ''): View {
     compiled,
     state,
     eval: (src, vars) => run(compiled.formula(src), vars),
+    text: (src, vars) => String(run(compiled.template(src), vars) ?? ''),
     ctx,
     root: (n) => guard(() => root(n), null),
     owned: () => guard(owned, []),

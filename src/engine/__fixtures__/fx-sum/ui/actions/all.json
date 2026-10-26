@@ -2,7 +2,8 @@
   {
     "id": "take_damage",
     "label": "Damage",
-    "modal": "damage"
+    "modal": "damage",
+    "style": "danger"
   },
   {
     "id": "level_up",
@@ -21,7 +22,11 @@
         "op": "reset",
         "tag": "short_rest"
       }
-    ]
+    ],
+    "confirm": {
+      "title": "Take a long rest?",
+      "message": "Restores vigor and Second Breath."
+    }
   },
   {
     "id": "use_second_breath",
@@ -33,6 +38,41 @@
         "path": "res.second_breath.current",
         "value": -1,
         "min": 0
+      }
+    ]
+  },
+  {
+    "id": "heal",
+    "label": "Heal",
+    "modal": "heal"
+  },
+  {
+    "id": "toggle_equipped",
+    "label": "{$v.equipped ? 'Unequip' : 'Equip'}",
+    "effects": [
+      {
+        "op": "toggle",
+        "path": "gear[$k].equipped"
+      }
+    ]
+  },
+  {
+    "id": "add_gear",
+    "label": "Add gear",
+    "effects": [
+      {
+        "op": "choose",
+        "from": {
+          "entity_type": "gear"
+        },
+        "count": 1,
+        "then": [
+          {
+            "op": "push",
+            "path": "gear",
+            "value": "{item: $choice[0], equipped: false}"
+          }
+        ]
       }
     ]
   }

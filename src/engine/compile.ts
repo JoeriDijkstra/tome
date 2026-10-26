@@ -1,6 +1,6 @@
 // Merged pack set → Compiled: every formula parsed once, references and dependency graph checked.
 // See docs/SPEC.md → How the model runs, Grants, Modifiers, Paths.
-import { analyze, type Ast, FormulaError, FormulaValue, parse, parseValue, type Table } from './formula';
+import { analyze, type Ast, FormulaError, FormulaValue, parse, parseTemplate, parseValue, type Table } from './formula';
 import type { Issue, Located } from './load';
 import type { MergedPack } from './merge';
 import type * as S from './schema';
@@ -81,11 +81,16 @@ export interface Compiled {
   actions: Map<string, S.Action>;
   modals: Map<string, S.Modal>;
   creation?: { steps: S.Step[] };
+  sheet: S.Sheet;
+  /** in `sheet.tabs` order */
+  tabs: S.Tab[];
   /** roots that at least one modifier targets */
   modTargets: Set<string>;
   /** parsed formula for a source string that compile() has seen */
   formula(src: S.FormulaSrc): Ast;
   path(src: string): PathSeg[];
+  /** parsed text template (`"Level {@level}"`) */
+  template(src: string): Ast;
   /** `<pack>:<file>#<pointer>` of the first place a formula appears, for runtime warnings */
   locate(ast: Ast): string | undefined;
 }
@@ -152,6 +157,23 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
         return undefined;
       }
       formulas.set(cacheKey, ast);
+      locations.set(ast, at);
+    }
+    checkAst(ast, at);
+    return ast;
+  }
+  const templates = new Map<string, Ast>();
+  /** check a text field: literal text with {formula} parts */
+  function t(src: string, at: string): Ast | undefined {
+    let ast = templates.get(src);
+    if (!ast) {
+      try {
+        ast = parseTemplate(src);
+      } catch (e) {
+        err(at, `text: ${e instanceof Error ? e.message : String(e)}`);
+        return undefined;
+      }
+      templates.set(src, ast);
       locations.set(ast, at);
     }
     checkAst(ast, at);
@@ -413,54 +435,56 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
     }
     return def;
   }
-  /** Modal and wizard inputs: the parts the engine relies on when it validates answers. */
-  function checkInputs(inputs: { key: string; type: string; [k: string]: unknown }[], at: string) {
-    inputs.forEach((input, i) => {
-      const iat = `${at}/${i}`;
-      if (input.type === 'choice' && (typeof input.entity_type !== 'string' || !entityTypes.has(input.entity_type))) err(`${iat}/entity_type`, `unknown entity type '${String(input.entity_type)}'`);
-      for (const key of ['filter', 'visible_when'] as const) {
-        const src = input[key];
-        if (typeof src === 'string' || typeof src === 'boolean') f(src, `${iat}/${key}`);
-      }
-    });
+  // ----- ui/: every field is text (a template) or a formula, by key; see SPEC → Text and formulas -----
+  const TEXT_KEYS = new Set(['label', 'title', 'subtitle', 'body', 'empty', 'text', 'message', 'description']);
+  const FORMULA_KEYS = new Set(['value', 'sub', 'source', 'group_by', 'when', 'visible_when', 'enabled_when', 'filter', 'default', 'at']);
+  function checkUi(node: unknown, at: string) {
+    if (Array.isArray(node)) { node.forEach((x, i) => checkUi(x, `${at}/${i}`)); return; }
+    if (!node || typeof node !== 'object') return;
+    const ref = (set: Set<string>, kind: string, v: unknown, vat: string) => { if (!set.has(String(v))) err(vat, `unknown ${kind} '${String(v)}'`); };
+    for (const [k, v] of Object.entries(node)) {
+      const kat = `${at}/${k}`;
+      if (k === 'effects' && Array.isArray(v)) checkEffects(v as S.Effect[], kat);
+      else if (TEXT_KEYS.has(k) && typeof v === 'string') t(v, kat);
+      else if (FORMULA_KEYS.has(k) || (k === 'options' && typeof v === 'string')) f(v as S.FormulaSrc, kat);
+      else if (k === 'actions' && Array.isArray(v)) v.forEach((a, i) => ref(actionIds, 'action', a, `${kat}/${i}`));
+      else if ((k === 'action' || k === 'add') && typeof v === 'string') ref(actionIds, 'action', v, kat);
+      else if (k === 'modal' && typeof v === 'string') ref(modalIds, 'modal', v, kat);
+      else if (k === 'resource' && typeof v === 'string') ref(resourceIds, 'resource', v, kat);
+      else if (k === 'entity_type' && typeof v === 'string') ref(new Set(entityTypes.keys()), 'entity type', v, kat);
+      else if (k === 'explain' && typeof v === 'string') p(v, kat, 'target');
+      else if (k === 'path' && typeof v === 'string') p(v, kat, 'write');
+      else checkUi(v, kat);
+    }
+    if ('type' in node && node.type === 'choice' && !('entity_type' in node)) err(at, 'a choice input needs entity_type');
   }
 
   // ----- constraints, ui -----
   const constraints = merged.constraints.flatMap(({ v: c, at }) => {
     const violated = f(c.violated_when, `${at}/violated_when`);
+    t(c.message, `${at}/message`);
     return violated ? [{ id: c.id, violated, message: c.message }] : [];
   });
-  for (const { v: a, at } of merged.actions) {
-    f(a.visible_when, `${at}/visible_when`);
-    f(a.enabled_when, `${at}/enabled_when`);
-    if (a.modal && !modalIds.has(a.modal)) err(`${at}/modal`, `unknown modal '${a.modal}'`);
-    if (a.effects) checkEffects(a.effects, `${at}/effects`);
+  for (const { v, at } of [...merged.actions, ...merged.modals, ...merged.tabs]) checkUi(v, at);
+  if (merged.sheet) checkUi(merged.sheet.v, `${merged.sheet.at}#`);
+  if (merged.creation) checkUi(merged.creation.v, `${merged.creation.at}#`);
+  for (const { v: e, at } of merged.entities) {
+    if (e.summary) t(e.summary, `${at}/summary`);
+    if (e.description) t(e.description, `${at}/description`);
+    e.features?.forEach((ft, i) => {
+      if (ft.summary) t(ft.summary, `${at}/features/${i}/summary`);
+      if (ft.description) t(ft.description, `${at}/features/${i}/description`);
+    });
   }
-  for (const { v: m, at } of merged.modals) {
-    checkInputs(m.fields, `${at}/fields`);
-    m.validate.forEach((r, i) => f(r.when, `${at}/validate/${i}/when`));
-    if (m.submit) checkEffects(m.submit.effects, `${at}/submit/effects`);
-  }
-  merged.creation?.v.steps.forEach((s, i) => {
-    checkInputs(s.fields, `${merged.creation!.at}#/steps/${i}/fields`);
-    checkEffects(s.effects, `${merged.creation!.at}#/steps/${i}/effects`);
-  });
 
   // assets: references must name a file the packs ship
   const assets = new Set(merged.packs.flatMap((pk) => pk.assets));
   if (merged.manifest.icon && !assets.has(merged.manifest.icon)) err(`${merged.manifest.id}:manifest.json#/icon`, `no such asset '${merged.manifest.icon}'`);
   for (const { v: e, at } of merged.entities) if (e.image && !assets.has(e.image)) err(`${at}/image`, `no such asset '${e.image}'`);
-  const tabIds = new Set(merged.tabs.map((t) => t.v.id));
+  const tabIds = new Set(merged.tabs.map((x) => x.v.id));
   const listed = new Set(merged.sheet?.v.tabs ?? []);
-  merged.sheet?.v.tabs.forEach((t, i) => { if (!tabIds.has(t)) err(`${merged.sheet!.at}#/tabs/${i}`, `unknown tab '${t}'`); });
-  for (const t of merged.tabs) if (!listed.has(t.v.id)) warn(t.at, `tab '${t.v.id}' is not listed in ui/sheet.json`);
-  const headerActions = merged.sheet?.v.header?.actions;
-  if (Array.isArray(headerActions)) for (const a of headerActions) if (!actionIds.has(String(a))) err(`${merged.sheet!.at}#/header/actions`, `unknown action '${String(a)}'`);
-  for (const t of merged.tabs) {
-    t.v.sections.forEach((s, i) => {
-      if (Array.isArray(s.actions)) for (const a of s.actions) if (!actionIds.has(String(a))) err(`${t.at}/sections/${i}/actions`, `unknown action '${String(a)}'`);
-    });
-  }
+  merged.sheet?.v.tabs.forEach((x, i) => { if (!tabIds.has(x)) err(`${merged.sheet!.at}#/tabs/${i}`, `unknown tab '${x}'`); });
+  for (const x of merged.tabs) if (!listed.has(x.v.id)) warn(x.at, `tab '${x.v.id}' is not listed in ui/sheet.json`);
 
   // ownership is settled from the ownership formulas
   edge('owned', ownershipFormulas.flatMap(({ ast }) => nodesOf(ast)));
@@ -527,12 +551,19 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
     actions: new Map(merged.actions.map((a) => [a.v.id, a.v])),
     modals: new Map(merged.modals.map((m) => [m.v.id, m.v])),
     creation: merged.creation?.v,
+    sheet: merged.sheet?.v ?? { tabs: [] },
+    tabs: (merged.sheet?.v.tabs ?? []).map((id) => merged.tabs.find((x) => x.v.id === id)!.v),
     modTargets,
     locate: (ast) => locations.get(ast),
     formula(src) {
       const key = JSON.stringify(src);
       let ast = formulas.get(key);
       if (!ast) { ast = parseValue(src); formulas.set(key, ast); }
+      return ast;
+    },
+    template(src) {
+      let ast = templates.get(src);
+      if (!ast) { ast = parseTemplate(src); templates.set(src, ast); }
       return ast;
     },
     path(src) {

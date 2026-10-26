@@ -224,6 +224,41 @@ export function parse(src: string): Ast {
   return ast;
 }
 
+/**
+ * Text with embedded formulas: `"Level {@level}"`. `{{`/`}}` are literal braces.
+ * Compiles to `concat(...)`, so null renders as '' and the node budget still applies.
+ */
+export function parseTemplate(src: string): Ast {
+  if (src.length > MAX_LENGTH) throw new FormulaError(`text is longer than ${MAX_LENGTH} characters`);
+  const args: Ast[] = [];
+  let text = '';
+  let i = 0;
+  while (i < src.length) {
+    const c = src[i];
+    if ((c === '{' || c === '}') && src[i + 1] === c) { text += c; i += 2; continue; }
+    if (c === '}') throw new FormulaError(`unmatched '}' at ${i} (write '}}' for a literal brace)`);
+    if (c !== '{') { text += c; i++; continue; }
+    // find the matching '}', skipping braces inside quotes and nested object literals
+    let depth = 1;
+    let j = i + 1;
+    let quote: string | null = null;
+    for (; j < src.length && depth > 0; j++) {
+      const d = src[j];
+      if (quote) { if (d === '\\') j++; else if (d === quote) quote = null; }
+      else if (d === "'" || d === '"') quote = d;
+      else if (d === '{') depth++;
+      else if (d === '}') depth--;
+    }
+    if (depth > 0) throw new FormulaError(`unclosed '{' at ${i} (write '{{' for a literal brace)`);
+    if (text) args.push({ t: 'lit', v: text });
+    text = '';
+    args.push(parse(src.slice(i + 1, j - 1)));
+    i = j;
+  }
+  if (text || args.length === 0) args.push({ t: 'lit', v: text });
+  return { t: 'call', fn: 'concat', args };
+}
+
 /** JSON values in formula positions: numbers/booleans/null are literals, strings are formulas. */
 export function parseValue(v: unknown): Ast {
   return typeof v === 'string' ? parse(v) : { t: 'lit', v: v ?? null };
