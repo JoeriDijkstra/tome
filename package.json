@@ -56,5 +56,7 @@
   "jest": {
     "preset": "jest-expo"
   },
-  "private": true
+  "private": true,
+  "license": "MIT",
+  "description": "A system-agnostic tabletop RPG character manager driven by content packs"
 }

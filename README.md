@@ -1,56 +1,88 @@
-# Welcome to your Expo app 👋
+# Tome
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**A character manager for tabletop RPGs that knows no rules until you give it some.**
 
-## Get started
+Tome is an iOS and Android app for running your tabletop characters. It ships with no game content and no game rules. Everything a sheet shows and does (stats, modifiers, resources, level-ups, the creation wizard, even the tabs) comes from a **content pack**: a zip of JSON files you import. One app, any game system: D&D 5e (2014 and 2024 SRD), Daggerheart, and Pathfinder 2e are on the roadmap, all as packs.
 
-1. Install dependencies
+![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android-lightgrey)
+![Expo SDK](https://img.shields.io/badge/Expo%20SDK-58-000020?logo=expo)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Status](https://img.shields.io/badge/status-in%20development-orange)
 
-   ```bash
-   npm install
-   ```
+<p align="center">
+  <img src="docs/screenshots/main.png" width="200" alt="Character sheet: character card, stats, resources and conditions" />
+  <img src="docs/screenshots/gear.png" width="200" alt="Gear tab with carried and owned items" />
+  <img src="docs/screenshots/notes.png" width="200" alt="Searchable markdown notes" />
+  <img src="docs/screenshots/settings.png" width="200" alt="Character settings: rename, export, delete" />
+</p>
 
-2. Start the app
+## Highlights
 
-   ```bash
-   npx expo start
-   ```
+- **System-agnostic by design.** The app contains no game-system code. A pack declares the character's data, rules, sheet layout, buttons and forms; the app renders and runs them.
+- **Packs are data, never code.** JSON plus a small, safe formula language with an evaluation budget, so importing a pack can't run anything or freeze the app.
+- **Rules you can inspect.** Every modified value can explain itself: tap a stat to see its base value and each bonus, in the order they apply.
+- **Native look and feel.** Inset grouped lists, native menus and a native tab bar per character, with compact sheet-style stat blocks.
+- **Creation wizard and level-up** driven by the pack: point buy, standard array, choices that depend on earlier steps, and a live preview before you create.
+- **Undo** for every change, serialized writes, and optimistic concurrency so a character is never silently overwritten.
+- **Searchable notes** per character, written in markdown with a native rich-text editor.
+- **Offline and yours.** Characters live on the device in SQLite and export to a portable `.tome.json` file.
 
-In the output, you'll find options to open the app in a
+## How it works
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```mermaid
+flowchart LR
+  Pack["Content pack (.zip)<br/>model · content · ui"] -->|import, validate| Engine
+  Engine["Rules engine<br/>formulas · modifiers · effects"] --> Sheet["Sheet UI<br/>fixed widget catalog"]
+  Sheet -->|actions| Engine
+  Engine <--> Store[("Characters<br/>SQLite")]
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+A pack has a fixed layout: `model/` (character fields, derived values, resources, constraints, tables), `content/` (entities such as classes, items and spells), and `ui/` (sheet tabs, actions, modals, the creation wizard). Expansions extend a game system by adding entities and patching existing ones. Characters pin pack versions with semver ranges, so a pack update never breaks a character unexpectedly.
 
-### Other setup steps
+The full design, including the pack format, the formula language and the widget catalog, is in [`docs/SPEC.md`](docs/SPEC.md).
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Getting started
 
-## Learn more
+Tome uses native modules, so it runs in an Expo **development build**, not Expo Go.
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npm install
+npx expo run:ios        # or: npx expo run:android
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+The app starts empty. Import a content pack from the **Packs** tab to create your first character.
 
-## Join the community
+| Script | What it does |
+| --- | --- |
+| `npm start` | Start the Metro bundler |
+| `npm test` | Run the engine and data tests (Jest) |
+| `npm run typecheck` | Type-check with `tsc` |
+| `npm run lint` | Lint with ESLint |
 
-Join our community of developers creating universal apps.
+## Project structure
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```
+src/
+  engine/   rules engine: pure TypeScript, no React or Expo (formulas, pack loading, effects)
+  data/     storage adapter (SQLite), pack install and resolution, character import/export
+  ui/       app-owned components and the sheet's widget catalog
+  app/      screens (expo-router)
+docs/
+  SPEC.md   design and pack format
+```
+
+## Roadmap
+
+- [x] Rules engine, pack format and validation
+- [x] Pack import, versions and uninstall
+- [x] Character sheet, undo and modifier breakdown
+- [x] Creation wizard and level-up
+- [x] Notes, conditions, character settings, export and import
+- [ ] D&D 5e packs (2014 and 2024 SRD)
+- [ ] Daggerheart pack
+- [ ] Pathfinder 2e
+
+## License
+
+[MIT](LICENSE) © Joeri Dijkstra. Game content in packs is licensed separately by each pack.
