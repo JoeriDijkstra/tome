@@ -7,9 +7,9 @@ export { compile, parsePath, RESERVED, type Compiled } from './compile';
 export { runAction, runBatch, runCreation, type Answer, type PromptRequest, type RunOptions, type RunResult } from './effects';
 export { createView, reconcile, type State, type View } from './evaluate';
 export { analyze, evaluate, FormulaError, parse } from './formula';
-export { LIMITS, loadPack, unzip, type Issue, type PackFiles, type RawPack } from './load';
+export { LIMITS, loadPack, stripTopFolder, unzip, type Issue, type PackFiles, type RawPack } from './load';
 export { mergePacks, mergePatch, resolutionKey, resolvePins, type CharacterPins, type Installed, type Pin } from './merge';
-export { SUPPORTED_SCHEMA_VERSIONS } from './schema';
+export { SUPPORTED_SCHEMA_VERSIONS, type Manifest } from './schema';
 
 /** Load, merge and compile a major pack plus expansions (in order). Stops at the first stage with errors. */
 export function buildPackSet(major: PackFiles, expansions: PackFiles[] = []): { compiled?: Compiled; issues: Issue[] } {

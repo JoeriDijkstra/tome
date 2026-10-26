@@ -1078,14 +1078,14 @@ SRD documents before release.
 
 ## Milestones
 
-1. **M0**: scaffold (done), deps, strip template screens, jest setup.
-2. **M1, engine**: formula parser/evaluator, schema v1 zod, unzip + validate,
-   merge/patch, resolve, evaluate, effects runner (prompt + replay),
+1. **M0** (done): scaffold, deps, strip template screens, jest setup.
+2. **M1, engine** (done): formula parser/evaluator, schema v1 zod, unzip +
+   validate, merge/patch, resolve, evaluate, effects runner (prompt + replay),
    constraints, all against the three fixture systems. `ui/` is validated
    shallowly in M1 (ids, references, formulas). Full widget, modal and wizard
    schemas come with M3/M4.
-3. **M2, data + packs UI**: SqliteAdapter, empty state, import dialog, pack
-   manager, uninstall guard.
+3. **M2, data + packs UI** (done): SqliteAdapter, empty state, import dialog,
+   pack manager, uninstall guard, compiled pack sets cached by resolution key.
 4. **M3, sheet**: widget catalog, PackButton, PackModal, modifier breakdown.
 5. **M4, wizard + level up.**
 6. **M5**: inventory, resources/rests, conditions, notes, character
@@ -1119,9 +1119,9 @@ These can be solved within the pack format and don't need engine changes.
   formulas can't be validated until one rule decides which strings are
   formulas. Until then M1 only validates action, modal, step and effect
   formulas.
-- **M2/M3: caching.** Compiled pack sets are cached by resolution key, and
-  sheet views are memoized on `(rev, resolution key)`. The engine gives
-  `resolutionKey()`; the cache lives in the app.
+- **M3: view caching.** Compiled pack sets are already cached by resolution
+  key (`src/data/packs.ts`). Sheet views get memoized on
+  `(rev, resolution key)` with the sheet.
 - Known ceiling: a modifier on one key of a root that reads a sibling key of
   the same root (on `stats.might`, reading `@stats.grace`) is reported as a
   cycle, because values are memoized per root. Use a derived value as the

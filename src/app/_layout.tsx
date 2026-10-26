@@ -5,7 +5,11 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack />
+      <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
+        <Stack.Screen name="index" options={{ title: 'Characters' }} />
+        <Stack.Screen name="packs/index" options={{ title: 'Content packs' }} />
+        <Stack.Screen name="packs/[id]" options={{ title: 'Pack' }} />
+      </Stack>
     </ThemeProvider>
   );
 }

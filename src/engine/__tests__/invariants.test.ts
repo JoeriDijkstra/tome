@@ -18,9 +18,9 @@ test('nothing under src/ names a game system or imports from packs/', () => {
   expect(offenders).toEqual([]);
 });
 
-test('src/engine imports no React, Expo or React Native', () => {
+test('src/engine imports no React, Expo or React Native, and avoids APIs Hermes lacks', () => {
   const offenders = sources(join(SRC, 'engine'))
     .filter((f) => !f.includes('__tests__') && !f.includes('__fixtures__'))
-    .filter((f) => /from\s+['"](react|react-native|expo[^'"]*)['"]/.test(readFileSync(f, 'utf8')));
+    .filter((f) => /from\s+['"](react|react-native|expo[^'"]*)['"]|\b(structuredClone|TextDecoder)\b/.test(readFileSync(f, 'utf8')));
   expect(offenders).toEqual([]);
 });

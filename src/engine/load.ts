@@ -1,5 +1,5 @@
 // Zip/folder → RawPack: safety limits, fixed layout, JSON + zod per file. See docs/SPEC.md → Layout.
-import { unzipSync } from 'fflate';
+import { strFromU8, unzipSync } from 'fflate';
 import type { z } from 'zod';
 
 import * as S from './schema';
@@ -146,7 +146,7 @@ export function loadPack(input: PackFiles): { pack?: RawPack; issues: Issue[] } 
     if (path === 'manifest.json') continue;
     if (path.startsWith('/') || path.split('/').includes('..') || path.includes('\\')) { err(path, 'unsafe path'); continue; }
     if (!ALLOWED_EXT.test(path)) { err(at(path), 'file type not allowed in a pack'); continue; }
-    if (path === 'LICENSE.md') { pack.license = new TextDecoder().decode(bytes); continue; }
+    if (path === 'LICENSE.md') { pack.license = strFromU8(bytes); continue; }
     if (/^assets\//.test(path)) {
       if (/^assets\/[A-Za-z0-9_\-./]+\.(png|jpe?g|webp)$/i.test(path)) pack.assets.push(path);
       else err(at(path), 'asset names may only use letters, digits, - _ . and /');
@@ -182,7 +182,8 @@ export function loadPack(input: PackFiles): { pack?: RawPack; issues: Issue[] } 
   return { pack: issues.some((i) => i.level === 'error') ? undefined : pack, issues };
 }
 
-function stripTopFolder(files: PackFiles): PackFiles {
+/** Pack files zipped inside one top-level folder, re-rooted so `manifest.json` is at the top. */
+export function stripTopFolder(files: PackFiles): PackFiles {
   if (files.has('manifest.json')) return files;
   const tops = new Set([...files.keys()].map((p) => p.split('/')[0]));
   if (tops.size !== 1) return files;
@@ -191,7 +192,7 @@ function stripTopFolder(files: PackFiles): PackFiles {
 }
 
 function json(bytes: Uint8Array, at: string, err: (at: string, m: string) => void): unknown {
-  const text = new TextDecoder().decode(bytes);
+  const text = strFromU8(bytes);
   if (nesting(text) > LIMITS.jsonDepth) {
     err(at, `JSON is nested deeper than ${LIMITS.jsonDepth} levels`);
     return undefined;

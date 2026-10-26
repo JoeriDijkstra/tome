@@ -2,6 +2,7 @@
 // See docs/SPEC.md → Owned entities, Grants, Modifiers, Character model.
 import type { CEntity, CModifier, Compiled, PathSeg } from './compile';
 import { type Ast, type EvalCtx, evaluate, FormulaError, MAX_STEPS, truthy, withVars } from './formula';
+import { clone } from './json';
 import type * as S from './schema';
 
 export type State = Record<string, unknown>;
@@ -62,7 +63,7 @@ const isPlain = (v: unknown): v is Record<string, unknown> => !!v && typeof v ==
 // ---------- reconcile ----------
 
 function defaultFor(def: S.FieldDef): unknown {
-  if (def.default !== undefined) return structuredClone(def.default);
+  if (def.default !== undefined) return clone(def.default);
   switch (def.type) {
     case 'number': return 0;
     case 'string': case 'text': return '';
@@ -284,7 +285,7 @@ export function createView(compiled: Compiled, stored: State, name = ''): View {
       }
     }
     if (byLeaf.size === 0) return value;
-    let out = structuredClone(value);
+    let out = clone(value);
     for (const [id, { keys, mods }] of byLeaf) {
       const base = keys.length ? getIn(out, keys) : out;
       if (keys.length && base === undefined) { warn(`modifier target ${rootName}.${id} does not exist`); continue; }

@@ -3,6 +3,7 @@
 import type { Compiled } from './compile';
 import { createView, getIn, type State, type View } from './evaluate';
 import { evaluate, truthy } from './formula';
+import { clone } from './json';
 import type * as S from './schema';
 
 export const MAX_HOOK_DEPTH = 8;
@@ -38,7 +39,7 @@ const SKIP = Symbol('skip');
 
 export async function runBatch(compiled: Compiled, stored: State, effects: S.Effect[], opts: RunOptions = {}): Promise<RunResult> {
   const before = createView(compiled, stored, opts.name);
-  const run = new Run(compiled, structuredClone(before.state), opts);
+  const run = new Run(compiled, clone(before.state), opts);
   return run.finish(new Set(before.violations().map((v) => v.id)), () => run.effects(effects, opts.vars ?? {}, 0));
 }
 
@@ -56,7 +57,7 @@ export function runAction(compiled: Compiled, stored: State, actionId: string, o
  */
 export async function runCreation(compiled: Compiled, inputs: Record<string, Record<string, unknown>>, opts: RunOptions = {}): Promise<RunResult> {
   const steps = compiled.creation?.steps ?? [];
-  const run = new Run(compiled, structuredClone(createView(compiled, {}, opts.name).state), opts);
+  const run = new Run(compiled, clone(createView(compiled, {}, opts.name).state), opts);
   return run.finish(new Set(), async () => {
     for (const step of steps) {
       const input = inputs[step.id] ?? {};

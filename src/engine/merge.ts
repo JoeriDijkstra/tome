@@ -2,6 +2,7 @@
 // See docs/SPEC.md → Expansions, Resolution.
 import semver from 'semver';
 
+import { clone } from './json';
 import { type Issue, type Located, PART_SCHEMAS, type RawPack } from './load';
 
 export interface Pin {
@@ -47,7 +48,7 @@ export function mergePacks(major: RawPack, expansions: RawPack[]): { merged?: Me
   const err = (at: string, message: string) => issues.push({ level: 'error', at, message });
   if (major.manifest.kind !== 'major') err(`${major.manifest.id}:manifest.json`, 'the first pack must be a major pack');
   const { patches: majorPatches, ...majorRest } = major;
-  const merged: MergedPack = { ...structuredClone(majorRest), packs: [major, ...expansions] };
+  const merged: MergedPack = { ...clone(majorRest), packs: [major, ...expansions] };
   for (const p of majorPatches) err(p.at, 'only expansions can contain patches');
 
   // which pack last patched each leaf, to report overlapping patches
@@ -73,7 +74,7 @@ export function mergePacks(major: RawPack, expansions: RawPack[]): { merged?: Me
       for (const item of exp[key] as Located<{ id: string }>[]) {
         const prev = index.get(`${PREFIX[key]}:${item.v.id}`);
         if (prev) { err(item.at, `id '${item.v.id}' already exists (${prev.item.at}); change existing items through patches/`); continue; }
-        const copy = structuredClone(item);
+        const copy = clone(item);
         list.push(copy);
         index.set(`${PREFIX[key]}:${item.v.id}`, { item: copy, key });
       }
@@ -108,7 +109,7 @@ export function mergePacks(major: RawPack, expansions: RawPack[]): { merged?: Me
     if ((SINGLETONS as readonly string[]).includes(target)) {
       const s = target as (typeof SINGLETONS)[number];
       // a missing singleton starts from its empty default
-      merged[s] ??= { v: structuredClone(EMPTY[s]), at } as never;
+      merged[s] ??= { v: clone(EMPTY[s]), at } as never;
       return { item: merged[s] as unknown as { v: Record<string, unknown> }, key: s };
     }
     const hit = index.get(target);
@@ -142,13 +143,13 @@ const isPlain = (v: unknown): v is Record<string, unknown> => !!v && typeof v ==
 
 /** RFC 7396, except arrays whose items all have `id` (or all have `key`) merge item-by-item on that identifier. */
 export function mergePatch<T>(target: T, patch: unknown): T {
-  if (!isPlain(patch)) return structuredClone(patch) as T;
+  if (!isPlain(patch)) return clone(patch) as T;
   const out: Record<string, unknown> = isPlain(target) ? { ...target } : {};
   for (const [k, pv] of Object.entries(patch)) {
     const tv = out[k];
     if (Array.isArray(tv) && Array.isArray(pv)) {
       const ident = identKey(tv, pv);
-      out[k] = ident ? mergeById(tv, pv, ident) : structuredClone(pv);
+      out[k] = ident ? mergeById(tv, pv, ident) : clone(pv);
     } else {
       out[k] = mergePatch(tv, pv);
     }
@@ -170,7 +171,7 @@ function mergeById(target: unknown[], patch: unknown[], ident: 'id' | 'key'): un
   for (const item of patch as Record<string, unknown>[]) {
     const i = at.get(item[ident]);
     if (i !== undefined) out[i] = mergePatch(out[i], item);
-    else at.set(item[ident], out.push(structuredClone(item)) - 1);
+    else at.set(item[ident], out.push(clone(item)) - 1);
   }
   return out;
 }
