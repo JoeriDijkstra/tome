@@ -1,6 +1,7 @@
 // App-owned building blocks in the platform's own idiom: inset grouped lists, tinted text buttons, SF Symbols.
 // Packs never style these; they only compose them (see SPEC → Sheet UI).
 import { type Theme, useTheme } from 'expo-router';
+import type { IconName } from '@/engine/schema';
 import { type SFSymbol, SymbolView } from 'expo-symbols';
 import { Children, isValidElement, type ReactNode } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, type TextStyle, View, type ViewStyle } from 'react-native';
@@ -18,6 +19,32 @@ export function navigationTheme(base: Theme, dark: boolean): Theme {
 
 /** every stack: chevron-only back buttons, no hairline under the header */
 export const stackOptions = { headerBackButtonDisplayMode: 'minimal', headerShadowVisible: false } as const;
+
+/** The pack icon set (engine `ICON_NAMES`) as SF Symbols and Material Symbols. */
+export const PACK_ICONS: Record<IconName, { ios: SFSymbol; android: string }> = {
+  person: { ios: 'person', android: 'person' },
+  people: { ios: 'person.2', android: 'group' },
+  backpack: { ios: 'backpack', android: 'backpack' },
+  sparkles: { ios: 'sparkles', android: 'auto_awesome' },
+  book: { ios: 'book', android: 'menu_book' },
+  scroll: { ios: 'scroll', android: 'history_edu' },
+  note: { ios: 'note.text', android: 'description' },
+  shield: { ios: 'shield', android: 'shield' },
+  heart: { ios: 'heart', android: 'favorite' },
+  star: { ios: 'star', android: 'star' },
+  flame: { ios: 'flame', android: 'local_fire_department' },
+  bolt: { ios: 'bolt', android: 'bolt' },
+  list: { ios: 'list.bullet', android: 'list' },
+  dice: { ios: 'dice', android: 'casino' },
+  map: { ios: 'map', android: 'map' },
+  eye: { ios: 'eye', android: 'visibility' },
+  moon: { ios: 'moon', android: 'dark_mode' },
+  sun: { ios: 'sun.max', android: 'light_mode' },
+  leaf: { ios: 'leaf', android: 'eco' },
+  pawprint: { ios: 'pawprint', android: 'pets' },
+  flag: { ios: 'flag', android: 'flag' },
+  gear: { ios: 'gearshape', android: 'settings' },
+};
 
 export function usePalette(): Palette {
   return useTheme().dark ? DARK : LIGHT;

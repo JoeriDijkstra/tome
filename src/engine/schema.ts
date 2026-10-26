@@ -198,11 +198,19 @@ export const Input = z.strictObject({
 });
 export type Input = z.infer<typeof Input>;
 
+/** Packs name icons from this fixed set; the app draws each with the platform's own symbol. */
+export const ICON_NAMES = [
+  'person', 'people', 'backpack', 'sparkles', 'book', 'scroll', 'note', 'shield', 'heart', 'star',
+  'flame', 'bolt', 'list', 'dice', 'map', 'eye', 'moon', 'sun', 'leaf', 'pawprint', 'flag', 'gear',
+] as const;
+export const IconName = z.enum(ICON_NAMES);
+export type IconName = z.infer<typeof IconName>;
+
 export const Action = z
   .strictObject({
     id: Id,
     label: T,
-    icon: z.string().optional(),
+    icon: IconName.optional(),
     style: z.enum(['primary', 'secondary', 'danger', 'plain']).optional(),
     visible_when: F.optional(),
     enabled_when: F.optional(),
@@ -268,7 +276,7 @@ export const Section = z.discriminatedUnion('widget', [
   z.strictObject({ widget: z.literal('notes'), ...Visible }),
 ]);
 export type Section = z.infer<typeof Section>;
-export const Tab = z.strictObject({ id: Id, label: T, sections: z.array(Section).default([]) });
+export const Tab = z.strictObject({ id: Id, label: T, icon: IconName.optional(), sections: z.array(Section).default([]) });
 export type Tab = z.infer<typeof Tab>;
 export const Sheet = z.strictObject({
   header: z.strictObject({ title: T.optional(), subtitle: T.optional(), actions: z.array(Id).optional() }).optional(),

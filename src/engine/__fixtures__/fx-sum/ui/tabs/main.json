@@ -2,6 +2,7 @@
   {
     "id": "main",
     "label": "Main",
+    "icon": "person",
     "sections": [
       {
         "widget": "stat_grid",

@@ -2,6 +2,7 @@
   {
     "id": "gear",
     "label": "Gear",
+    "icon": "backpack",
     "sections": [
       {
         "widget": "list",

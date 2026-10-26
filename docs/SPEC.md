@@ -17,7 +17,7 @@ Status: draft.
 | Target systems | D&D 5e (2014 and 2024) first, then Daggerheart, then Pathfinder 2e. The format has to cover all three from `schema_version` 1, which is why it has typed modifier stacking, formula fields on entities, grants and constraints. |
 | Stack | Expo SDK 58, expo-router, TypeScript. iOS + Android only. |
 | Rules logic | Declarative JSON plus a safe formula language. Packs contain no code. |
-| Sheet UI | Packs build tabs and sections from a fixed widget catalog. The app owns how widgets look and work: native structure (inset grouped lists, a segmented control for tabs, native menus) with compact character-sheet stat blocks. Sheet-wide actions (`sheet.header.actions`) live in the header's ••• menu; other actions sit on the widget they belong to. |
+| Sheet UI | Packs build tabs and sections from a fixed widget catalog. The app owns how widgets look and work: native structure (inset grouped lists, the pack's tabs in a native bottom tab bar, native menus) with compact character-sheet stat blocks. Sheet-wide actions (`sheet.header.actions`) live in the header's ••• menu; other actions sit on the widget they belong to. |
 | Buttons / modals | Generic. Every in-sheet button is a pack `action`, and every in-sheet modal is a pack `modal`. |
 | Theming | App theme only. Packs cannot theme the app. |
 | Major / expansion | One major per character. Expansions add new entities and patch existing ones by id. They cannot delete anything. |
@@ -790,9 +790,15 @@ available for weapons, or D&D attunement:
     "modal": "damage" } ]
 ```
 
-`label`, `icon` (from a fixed app icon set), `style` (`primary | secondary |
+`label`, `icon` (from the app icon set below), `style` (`primary | secondary |
 danger | plain`), `visible_when`, `enabled_when`, `confirm?: {title, message}`,
 and either `modal` or `effects`. Rendered only by `<PackButton>`.
+
+**Icon set.** Actions and tabs name their `icon` from a fixed set, and the app
+draws each with the platform's own symbol (SF Symbols on iOS, Material Symbols
+on Android): `person people backpack sparkles book scroll note shield heart
+star flame bolt list dice map eye moon sun leaf pawprint flag gear`. Any other
+name is an import error. A new icon is an app change, like a new widget.
 
 ### Modals — `ui/modals/*.json`
 
@@ -881,7 +887,7 @@ subclass, spell and feat choosers through `choose`.
 `ui/tabs/*.json` holds the tabs. Each tab lists its sections:
 
 ```json
-[ { "id": "main", "label": "Main", "sections": [
+[ { "id": "main", "label": "Main", "icon": "person", "sections": [
     { "widget": "stat_grid", "items": [
       { "label": "STR", "value": "@abilities.str", "sub": "fmt_signed(@mods.str)" } ] },
     { "widget": "resource", "resource": "hp", "style": "bar", "actions": ["take_damage", "heal"] },
@@ -889,8 +895,10 @@ subclass, spell and feat choosers through `choose`.
   ] } ]
 ```
 
-A tab that exists but isn't listed in `sheet.tabs` is an import warning. An id
-listed in `sheet.tabs` with no matching tab is an error.
+With two or more tabs, the sheet shows them in a native bottom tab bar, each
+with its `label` and `icon` (`list` when it has none). A single tab shows no
+tab bar. A tab that exists but isn't listed in `sheet.tabs` is an import
+warning. An id listed in `sheet.tabs` with no matching tab is an error.
 
 #### Text and formulas
 

@@ -1,12 +1,12 @@
-import { SegmentedControl } from '@expo/ui/community/segmented-control';
 import { router, Stack, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { Modal, ScrollView, View } from 'react-native';
+import { Tabs } from 'react-native-screens';
 
 import { type Character, data, loadPackSet, type PackSetResult } from '@/data';
 import { type Answer, type Breakdown, createView, type PromptRequest, runAction, runBatch } from '@/engine';
-import type { Effect } from '@/engine/schema';
-import { Button, Group, IconButton, ModalBar, Row, Screen, styles, Txt, usePalette } from '@/ui/kit';
+import type { Effect, Tab } from '@/engine/schema';
+import { Button, Group, IconButton, ModalBar, PACK_ICONS, Row, Screen, styles, Txt, usePalette } from '@/ui/kit';
 import { SheetContext, type SheetCtx } from '@/ui/sheet/context';
 import { PromptView } from '@/ui/sheet/prompts';
 import { SheetSession } from '@/ui/sheet/session';
@@ -20,7 +20,8 @@ export default function SheetScreen() {
   const p = usePalette();
   const [doc, setDoc] = useState<Character | null>(null);
   const [packs, setPacks] = useState<PackSetResult | null>(null);
-  const [tab, setTab] = useState(0);
+  // the native tab bar echoes a provenance with each selection; we hand it back with the next request
+  const [nav, setNav] = useState<{ key: string | null; provenance: number }>({ key: null, provenance: 0 });
   const [pending, setPending] = useState<{ request: PromptRequest; resolve: (a: Answer | null) => void } | null>(null);
   const [overlay, setOverlay] = useState<{ title: string; body?: string; breakdown?: Breakdown } | null>(null);
   const [undoCount, setUndoCount] = useState(0);
@@ -67,7 +68,18 @@ export default function SheetScreen() {
   if (!ctx || !compiled || !view) return null;
 
   const header = compiled.sheet.header;
-  const current = compiled.tabs[Math.min(tab, compiled.tabs.length - 1)];
+  const current = compiled.tabs.find((t) => t.id === nav.key) ?? compiled.tabs[0];
+  const page = (tab: Tab | undefined) => (
+    <Screen>
+      {header?.subtitle ? <Txt muted style={{ textAlign: 'center' }}>{view.text(header.subtitle)}</Txt> : null}
+      {tab?.sections.map((s, i) => <SectionView key={`${tab.id}-${i}`} section={s} />)}
+      {view.warnings.size ? (
+        <Group header={`${view.warnings.size} pack warning${view.warnings.size === 1 ? '' : 's'}`}>
+          {[...view.warnings].map((w) => <Row key={w} title={<Txt size={13} color={p.warning}>{w}</Txt>} />)}
+        </Group>
+      ) : null}
+    </Screen>
+  );
   return (
     <SheetContext.Provider value={ctx}>
       <Stack.Screen
@@ -83,22 +95,21 @@ export default function SheetScreen() {
           ),
         }}
       />
-      <Screen>
-        {header?.subtitle || compiled.tabs.length > 1 ? (
-          <View style={{ gap: 12 }}>
-            {header?.subtitle ? <Txt muted style={{ textAlign: 'center' }}>{view.text(header.subtitle)}</Txt> : null}
-            {compiled.tabs.length > 1 ? (
-              <SegmentedControl values={compiled.tabs.map((t) => view.text(t.label))} selectedIndex={compiled.tabs.indexOf(current)} onChange={(e) => setTab(e.nativeEvent.selectedSegmentIndex)} style={{ height: 32 }} />
-            ) : null}
-          </View>
-        ) : null}
-        {current?.sections.map((s, i) => <SectionView key={`${current.id}-${i}`} section={s} />)}
-        {view.warnings.size ? (
-          <Group header={`${view.warnings.size} pack warning${view.warnings.size === 1 ? '' : 's'}`}>
-            {[...view.warnings].map((w) => <Row key={w} title={<Txt size={13} color={p.warning}>{w}</Txt>} />)}
-          </Group>
-        ) : null}
-      </Screen>
+      {compiled.tabs.length > 1 ? (
+        <View style={{ flex: 1 }}>
+          <Tabs.Host
+            navStateRequest={{ selectedScreenKey: current.id, baseProvenance: nav.provenance }}
+            ios={{ tabBarTintColor: p.tint }}
+            onTabSelected={(e) => setNav({ key: e.nativeEvent.selectedScreenKey, provenance: e.nativeEvent.provenance })}>
+            {/* ponytail: SF Symbols only; Android tabs show titles until icons ship as drawables */}
+            {compiled.tabs.map((t) => (
+              <Tabs.Screen key={t.id} screenKey={t.id} title={view.text(t.label)} ios={{ icon: { type: 'sfSymbol', name: PACK_ICONS[t.icon ?? 'list'].ios } }}>
+                {page(t)}
+              </Tabs.Screen>
+            ))}
+          </Tabs.Host>
+        </View>
+      ) : page(current)}
       <Modal visible={pending !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => { pending?.resolve(null); setPending(null); }}>
         {pending ? <PromptView request={pending.request} compiled={compiled} view={view} onAnswer={(a) => { pending.resolve(a); setPending(null); }} /> : null}
       </Modal>
