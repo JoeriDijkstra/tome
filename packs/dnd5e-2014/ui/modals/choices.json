@@ -13,6 +13,7 @@
           "two_plus_one",
           "feat"
         ],
+        "labels": { "plus_two": "+2 to one ability", "two_plus_one": "+1 to two abilities", "feat": "A feat" },
         "default": "'plus_two'",
         "required": true
       },
@@ -28,6 +29,7 @@
           "wis",
           "cha"
         ],
+        "labels": { "str": "Strength", "dex": "Dexterity", "con": "Constitution", "int": "Intelligence", "wis": "Wisdom", "cha": "Charisma" },
         "required": true,
         "visible_when": "$input.mode != 'feat'"
       },
@@ -43,6 +45,7 @@
           "wis",
           "cha"
         ],
+        "labels": { "str": "Strength", "dex": "Dexterity", "con": "Constitution", "int": "Intelligence", "wis": "Wisdom", "cha": "Charisma" },
         "required": true,
         "visible_when": "$input.mode == 'two_plus_one'"
       },

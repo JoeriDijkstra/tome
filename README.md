@@ -59,6 +59,11 @@ The app starts empty. Import a content pack from the **Packs** tab to create you
 | `npm test` | Run the engine and data tests (Jest) |
 | `npm run typecheck` | Type-check with `tsc` |
 | `npm run lint` | Lint with ESLint |
+| `npm run tome-pack -- build packs/dnd5e-2014` | Validate a pack and zip it into `dist/` |
+
+## Packs
+
+[`packs/dnd5e-2014`](packs/dnd5e-2014) is the full D&D 5e SRD 5.1 (CC-BY-4.0): all 12 classes to level 20, races, 319 spells, 722 items. Its content is generated from the 5e-bits SRD data by `npm run pack:srd2014`; rules the SRD only states in prose come from hand-written overrides. Build the zip with `npm run tome-pack -- build packs/dnd5e-2014`, put it on the device, and import it from the Packs tab. [`docs/gaps.md`](docs/gaps.md) tracks what the app can't express yet.
 
 ## Project structure
 
@@ -68,8 +73,11 @@ src/
   data/     storage adapter (SQLite), pack install and resolution, character import/export
   ui/       app-owned components and the sheet's widget catalog
   app/      screens (expo-router)
+packs/      content packs, one folder each
+tools/      tome-pack CLI and the SRD pack generator
 docs/
   SPEC.md   design and pack format
+  gaps.md   app gaps found while writing packs
 ```
 
 ## Roadmap
@@ -79,7 +87,8 @@ docs/
 - [x] Character sheet, undo and modifier breakdown
 - [x] Creation wizard and level-up
 - [x] Notes, conditions, character settings, export and import
-- [ ] D&D 5e packs (2014 and 2024 SRD)
+- [x] D&D 5e 2014 SRD pack
+- [ ] D&D 5e 2024 SRD pack
 - [ ] Daggerheart pack
 - [ ] Pathfinder 2e
 

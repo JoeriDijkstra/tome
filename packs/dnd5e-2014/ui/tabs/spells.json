@@ -97,7 +97,7 @@
       {
         "widget": "text",
         "visible_when": "@prepare_max != null",
-        "text": "Prepared **{len(@prepared)}** of {@prepare_max}. Tap a spell to read it; use its menu to prepare it."
+        "text": "Prepared **{len(@prepared)}** of {@prepare_max}. Tap a spell to read it."
       },
       {
         "widget": "list",

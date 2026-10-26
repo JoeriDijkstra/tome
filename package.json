@@ -53,7 +53,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "pack:srd2014": "tsx tools/srd5e-2014/generate.ts"
+    "pack:srd2014": "tsx tools/srd5e-2014/generate.ts",
+    "tome-pack": "tsx tools/tome-pack.ts"
   },
   "jest": {
     "preset": "jest-expo"

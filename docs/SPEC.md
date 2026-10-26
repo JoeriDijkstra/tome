@@ -147,8 +147,8 @@ src/engine/character/    evaluate (derived, modifiers), effects runner
 src/data/                DataAdapter interface, sqlite/ adapter, index.ts picks the adapter
 packs/                   one folder per pack; the app never bundles them
   dnd5e-2014/              same layout as the zip (see Content packs → Layout)
-  dnd5e-2024/
-../tome-pack/            sibling folder (own repo later): CLI validate | build, runs src/engine in Node
+tools/tome-pack.ts       CLI validate | build (`npm run tome-pack`), runs src/engine in Node
+tools/srd5e-2014/        generator for packs/dnd5e-2014 (`npm run pack:srd2014`)
 docs/SPEC.md             this file
 docs/pack-format.md      author reference + generated JSON Schema (later)
 ```
@@ -1129,15 +1129,15 @@ inside a character sheet or the wizard comes from the pack.
 Each pack folder is self-contained. Nothing in the app depends on it, so any
 pack can move to its own repo later without changes.
 
-`tome-pack` is a Node CLI in its own folder next to the app, `../tome-pack`,
-and later its own repo. It runs the same `src/engine` code the app uses,
-through `tsx`. Until the engine is published as a package, it imports
-`../tome/src/engine` directly.
+`tools/tome-pack.ts` is a Node CLI that runs the same `src/engine` code the
+app uses, through `tsx`. Paths are relative to the directory you run it from,
+so it also works for packs in other repos (`npm --prefix ../tome run
+tome-pack -- …`).
 
 ```
-npm run tome-pack -- validate ../tome/packs/dnd5e-2024   # same checks as the import dialog
-npm run tome-pack -- build    ../tome/packs/dnd5e-2024   # validate, then → dist/dnd5e-2024-1.0.0.zip
-npm run tome-pack -- build    ../my-exp --major ../tome/packs/dnd5e-2024   # expansions are checked on their major
+npm run tome-pack -- validate packs/dnd5e-2014   # same checks as the import dialog
+npm run tome-pack -- build    packs/dnd5e-2014   # validate, then → dist/dnd5e-2014-0.1.1.zip
+npm run tome-pack -- build    ../my-exp --major packs/dnd5e-2014   # expansions are checked on their major
 ```
 
 To try a pack, build its zip, put it on the device and import it through the
@@ -1146,27 +1146,38 @@ Android, run `adb push dist/x.zip /sdcard/Download/`. Each pack is built and
 imported on its own, so you can install, replace or uninstall one without
 touching the others.
 
-## D&D packs (vertical slice)
+## D&D packs
 
-Both packs are written by hand from the SRD PDFs. Each lives in its own
-folder, `packs/dnd5e-2014/` and `packs/dnd5e-2024/`, and is built and
-imported separately.
+`packs/dnd5e-2014/` is the full SRD 5.1. Content (`content/*`) and class
+tables (`model/tables/*`) are **generated** by `tools/srd5e-2014/generate.ts`
+from the 5e-bits SRD JSON (MIT code, SRD content), pinned to one commit and
+cached in `node_modules/.cache/srd5e-2014/`. Everything else (`model/`
+fields, derived values, resources; `ui/`) is hand-written. Rules the source
+only states in prose (class resources, Fighting Styles, magic item bonuses,
+Aura of Protection, …) are added from `tools/srd5e-2014/overrides/*.json`,
+merged into the generated entities by id. Regenerate with
+`npm run pack:srd2014`; never edit `content/` by hand.
 
-| | `dnd5e-2014` (SRD 5.1) | `dnd5e-2024` (SRD 5.2.1) |
-|---|---|---|
-| Classes | Fighter (Champion), Wizard (Evocation) | Fighter (Champion), Wizard (Evoker) |
-| Levels | 1–5 | 1–5 |
-| Species/race | Human, Hill Dwarf, High Elf, Lightfoot Halfling | Human, Dwarf, Elf, Halfling |
-| Backgrounds | Acolyte (only one in SRD 5.1) | Acolyte, Criminal, Sage, Soldier + their origin feats |
-| Ability scores | race bonuses | background bonuses |
-| Spells | ~20 wizard, cantrips to 3rd | ~20 wizard, cantrips to 3rd |
-| Items | all armour, ~12 weapons, explorer's pack contents, currency | same + weapon mastery |
-| Conditions | all 15 incl. exhaustion (5.1 levels) | all 15 (2024 exhaustion) |
-| Rules | short/long rest, hit dice, death saves, spell slots, prepared spells | same, 2024 rules |
+| | `dnd5e-2014` (SRD 5.1) |
+|---|---|
+| Classes | all 12, levels 1–20, every SRD subclass |
+| Races | 9 races, 4 subraces, with traits and choices |
+| Backgrounds | Acolyte |
+| Spells | all 319 |
+| Items | 722: equipment, armour, weapons, magic items with +N variants |
+| Options | fighting styles, invocations, metamagic, draconic ancestries… |
+| Rules | rests, hit dice, death saves, slots, pact magic, prepared/known spells, attunement, carrying capacity |
 
-Each pack carries its CC-BY-4.0 attribution in `manifest.license` and
-`LICENSE.md`. The attribution text must be checked word for word against the
-SRD documents before release.
+Limits of v1 (single class, no starting equipment, weapon proficiency
+assumed, no temporary states such as Rage) are tracked with their clean
+fixes in [`gaps.md`](gaps.md), the running log of app gaps found while
+writing packs.
+
+The pack carries its CC-BY-4.0 attribution in `manifest.license` and
+`LICENSE.md`. Book content outside the SRD (Xanathar's, Tasha's) lives in
+private expansion packs, never in this repo.
+
+`dnd5e-2024` (SRD 5.2.1) is deferred.
 
 ## Milestones
 
@@ -1191,8 +1202,8 @@ SRD documents before release.
    and rests need no new app code: lists with row actions, `field` inputs,
    resources with `reset` tags and temp HP already cover them; the M6 packs
    use those.
-7. **M6, packs**: the `dnd5e-2014` and `dnd5e-2024` folders, written
-   alongside M3–M5. (`tome-pack` shipped with M1.)
+7. **M6, packs** (2014 done): the generated `dnd5e-2014` SRD pack, and the
+   app changes it needed (see `gaps.md`). `dnd5e-2024` is deferred.
 8. **M7, Daggerheart**: a `daggerheart` major pack in its own folder. This is
    the proof that the app contains no system code: it should ship without any
    change to `src/`. Every app change it needs is an engine gap, and gets fixed
