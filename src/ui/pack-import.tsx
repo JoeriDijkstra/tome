@@ -2,20 +2,19 @@
 // See docs/SPEC.md → Pack import dialog.
 import * as DocumentPicker from 'expo-document-picker';
 import { File } from 'expo-file-system';
-import { useTheme } from 'expo-router';
 import { useState } from 'react';
 import { Modal, ScrollView, View } from 'react-native';
 
 import { data, type ImportResult, installPack, type InstallStatus, previewPackZip } from '@/data';
 import type { Issue } from '@/engine';
 
-import { AMBER, Badge, Button, Card, styles, Txt } from './kit';
+import { Group, ModalBar, Row, styles, Txt, usePalette } from './kit';
 
 function statusText(s: InstallStatus): string {
   switch (s.kind) {
     case 'new': return 'New pack';
     case 'upgrade': return `Upgrade from ${s.from}`;
-    case 'replace': return 'Replaces the installed copy of this version';
+    case 'replace': return 'Replaces the installed copy';
     case 'downgrade': return `Older than the installed ${s.from}`;
   }
 }
@@ -62,63 +61,54 @@ export function usePackImport(onInstalled: () => void) {
 }
 
 function Preview({ result, installing, onInstall, onCancel }: { result: ImportResult; installing: boolean; onInstall: () => void; onCancel: () => void }) {
-  const { colors } = useTheme();
+  const p = usePalette();
   if (!result.ok) {
     return (
-      <ScrollView style={{ backgroundColor: colors.background }} contentContainerStyle={styles.screen}>
-        <Txt size={22} weight="700">This isn’t a pack Tome can read</Txt>
-        <Issues issues={result.issues} />
-        <Button title="Close" kind="secondary" onPress={onCancel} />
-      </ScrollView>
+      <View style={{ flex: 1, backgroundColor: p.background }}>
+        <ModalBar title="Can’t import" onCancel={onCancel} />
+        <ScrollView contentContainerStyle={styles.screen}>
+          <Txt muted>This isn’t a pack Tome can read.</Txt>
+          <Issues issues={result.issues} />
+        </ScrollView>
+      </View>
     );
   }
-  const p = result.preview;
-  const m = p.manifest;
-  const counts = Object.entries(p.counts).map(([label, n]) => `${n} ${label}`).join(' · ');
+  const pv = result.preview;
+  const m = pv.manifest;
   return (
-    <ScrollView style={{ backgroundColor: colors.background }} contentContainerStyle={styles.screen}>
-      <Txt size={22} weight="700">{m.name}</Txt>
-      <View style={styles.row}>
-        <Badge label={m.kind} />
-        <Txt muted size={14}>{`${m.id} ${m.version} · schema ${m.schema_version}`}</Txt>
-      </View>
-      {m.description ? <Txt>{m.description}</Txt> : null}
-      <Card>
-        <Txt weight="600">{statusText(p.status)}</Txt>
-        {m.extends ? (
-          <Txt muted size={14}>
-            {p.checkedAgainst ? `Adds to ${m.extends.id} ${m.extends.range} (checked against ${p.checkedAgainst})` : `Needs ${m.extends.id} ${m.extends.range}, which isn’t installed`}
-          </Txt>
+    <View style={{ flex: 1, backgroundColor: p.background }}>
+      <ModalBar title={m.name} onCancel={onCancel} confirm={{ label: pv.status.kind === 'replace' ? 'Replace' : 'Install', onPress: onInstall, disabled: !pv.canInstall, busy: installing }} />
+      <ScrollView contentContainerStyle={styles.screen}>
+        <Group footer={m.description}>
+          <Row title={statusText(pv.status)} trailing={<Txt muted>{m.version}</Txt>} />
+          <Row title="Kind" trailing={<Txt muted>{m.kind === 'major' ? 'Game system' : 'Expansion'}</Txt>} />
+          {m.extends ? (
+            <Row title={`Adds to ${m.extends.id} ${m.extends.range}`} subtitle={pv.checkedAgainst ? `Checked against ${pv.checkedAgainst}` : 'Not installed yet'} />
+          ) : null}
+          <Row title="Format" trailing={<Txt muted>{`schema ${m.schema_version}`}</Txt>} />
+        </Group>
+        {Object.keys(pv.counts).length ? (
+          <Group header="Contents">
+            {Object.entries(pv.counts).map(([label, n]) => <Row key={label} title={label} trailing={<Txt muted>{String(n)}</Txt>} />)}
+          </Group>
         ) : null}
-        {counts ? <Txt muted size={14}>{counts}</Txt> : null}
-        {p.affected.length ? <Txt size={14}>{`Changes the rules for: ${p.affected.join(', ')}`}</Txt> : null}
-      </Card>
-      {m.license ? (
-        <Card>
-          <Txt weight="600">{`License: ${m.license.name}`}</Txt>
-          {m.license.attribution ? <Txt muted size={13}>{m.license.attribution}</Txt> : null}
-        </Card>
-      ) : null}
-      <Issues issues={p.issues} />
-      <View style={{ gap: 8 }}>
-        <Button title={p.status.kind === 'replace' ? 'Replace' : 'Install'} onPress={onInstall} disabled={!p.canInstall} busy={installing} />
-        <Button title="Cancel" kind="secondary" onPress={onCancel} />
-      </View>
-    </ScrollView>
+        {pv.affected.length ? <Group header="Changes the rules for">{pv.affected.map((n) => <Row key={n} title={n} />)}</Group> : null}
+        {m.license ? <Group header="License" footer={m.license.attribution}><Row title={m.license.name} /></Group> : null}
+        <Issues issues={pv.issues} />
+      </ScrollView>
+    </View>
   );
 }
 
 function Issues({ issues }: { issues: Issue[] }) {
-  const { colors } = useTheme();
+  const p = usePalette();
   if (!issues.length) return null;
+  const errors = issues.filter((i) => i.level === 'error').length;
   return (
-    <Card>
+    <Group header={errors ? `${errors} error${errors === 1 ? '' : 's'}` : 'Warnings'}>
       {issues.map((i, n) => (
-        <View key={n} style={{ gap: 2 }}>
-          <Txt size={14} weight="600" color={i.level === 'error' ? colors.notification : AMBER}>{`${i.level === 'error' ? 'Error' : 'Warning'}: ${i.message}`}</Txt>
-          <Txt muted size={12}>{i.at}</Txt>
-        </View>
+        <Row key={n} title={<Txt size={15} color={i.level === 'error' ? p.danger : p.warning}>{i.message}</Txt>} subtitle={<Txt muted size={12}>{i.at}</Txt>} />
       ))}
-    </Card>
+    </Group>
   );
 }

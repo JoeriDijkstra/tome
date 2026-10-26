@@ -1,11 +1,11 @@
 import { strFromU8 } from 'fflate';
 import { router, Stack, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert } from 'react-native';
 import semver from 'semver';
 
 import { data, type InstalledPack, uninstallBlockers, uninstallPack } from '@/data';
-import { Badge, Button, Card, Screen, styles, Txt } from '@/ui/kit';
+import { Group, Row, Screen, TextButton, Txt } from '@/ui/kit';
 
 export default function PackScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -49,31 +49,26 @@ export default function PackScreen() {
   return (
     <Screen>
       <Stack.Screen options={{ title: m.name }} />
-      <View style={styles.row}>
-        <Badge label={m.kind} />
-        <Txt muted size={14}>{`${m.id} · schema ${m.schema_version}${m.author ? ` · ${m.author}` : ''}`}</Txt>
-      </View>
-      {m.description ? <Txt>{m.description}</Txt> : null}
-      {m.extends ? <Txt muted>{`Adds to ${m.extends.id} ${m.extends.range}`}</Txt> : null}
-      <Txt weight="600">Installed versions</Txt>
-      {versions.map((p) => (
-        <Card key={p.version}>
-          <View style={[styles.row, { justifyContent: 'space-between' }]}>
-            <Txt>{p.version}</Txt>
-            <Button title="Remove" kind="danger" onPress={() => remove(p)} />
-          </View>
-        </Card>
-      ))}
+      <Group footer={m.description}>
+        <Row title="Identifier" trailing={<Txt muted>{m.id}</Txt>} />
+        <Row title="Kind" trailing={<Txt muted>{m.kind === 'major' ? 'Game system' : `Adds to ${m.extends?.id} ${m.extends?.range}`}</Txt>} />
+        {m.author ? <Row title="Author" trailing={<Txt muted>{m.author}</Txt>} /> : null}
+        <Row title="Format" trailing={<Txt muted>{`schema ${m.schema_version}`}</Txt>} />
+      </Group>
+      <Group header="Installed versions">
+        {versions.map((p) => (
+          <Row key={p.version} title={p.version} trailing={<TextButton title="Remove" danger onPress={() => remove(p)} />} />
+        ))}
+      </Group>
       {m.license ? (
-        <Card>
-          <Txt weight="600">{`License: ${m.license.name}`}</Txt>
-          {m.license.attribution ? <Txt muted size={13}>{m.license.attribution}</Txt> : null}
-        </Card>
+        <Group header="License" footer={m.license.attribution}>
+          <Row title={m.license.name} />
+        </Group>
       ) : null}
       {license ? (
-        <Card>
-          <Txt size={13}>{license}</Txt>
-        </Card>
+        <Group>
+          <Row><Txt size={15}>{license}</Txt></Row>
+        </Group>
       ) : null}
     </Screen>
   );

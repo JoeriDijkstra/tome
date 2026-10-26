@@ -1,14 +1,12 @@
-import { Link, router, Stack, useFocusEffect, useTheme } from 'expo-router';
+import { Link, router, Stack, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { SymbolView } from 'expo-symbols';
 import { Pressable } from 'react-native';
 
 import { type CharacterSummary, data, type InstalledPack } from '@/data';
-import { Button, Card, Empty, Screen, Txt } from '@/ui/kit';
+import { Button, Empty, Group, Icon, Row, Screen, Txt } from '@/ui/kit';
 import { usePackImport } from '@/ui/pack-import';
 
 export default function CharactersScreen() {
-  const { colors } = useTheme();
   const [packs, setPacks] = useState<InstalledPack[] | null>(null);
   const [characters, setCharacters] = useState<CharacterSummary[]>([]);
   const load = useCallback(() => {
@@ -19,6 +17,7 @@ export default function CharactersScreen() {
   }, []);
   useFocusEffect(load);
   const importer = usePackImport(load);
+  const packName = (id: string) => packs?.find((p) => p.id === id)?.manifest.name ?? id;
 
   return (
     <Screen>
@@ -27,7 +26,7 @@ export default function CharactersScreen() {
           headerRight: () => (
             <Link href="/packs" asChild>
               <Pressable accessibilityRole="link" accessibilityLabel="Content packs" hitSlop={8}>
-                <SymbolView name={{ ios: 'shippingbox', android: 'inventory_2' }} size={22} tintColor={colors.primary} />
+                <Icon name="shippingbox" android="inventory_2" size={22} />
               </Pressable>
             </Link>
           ),
@@ -43,12 +42,11 @@ export default function CharactersScreen() {
           <Txt muted>{`${packs.length} content pack${packs.length === 1 ? '' : 's'} installed.`}</Txt>
         </Empty>
       ) : (
-        characters.map((c) => (
-          <Card key={c.id} onPress={() => router.push({ pathname: '/c/[id]', params: { id: c.id } })}>
-            <Txt weight="600">{c.name}</Txt>
-            <Txt muted size={13}>{c.packs.major.id}</Txt>
-          </Card>
-        ))
+        <Group>
+          {characters.map((c) => (
+            <Row key={c.id} title={c.name} subtitle={packName(c.packs.major.id)} chevron label={c.name} onPress={() => router.push({ pathname: '/c/[id]', params: { id: c.id } })} />
+          ))}
+        </Group>
       )}
       {importer.dialog}
     </Screen>

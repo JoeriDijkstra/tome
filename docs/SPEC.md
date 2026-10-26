@@ -17,7 +17,7 @@ Status: draft.
 | Target systems | D&D 5e (2014 and 2024) first, then Daggerheart, then Pathfinder 2e. The format has to cover all three from `schema_version` 1, which is why it has typed modifier stacking, formula fields on entities, grants and constraints. |
 | Stack | Expo SDK 58, expo-router, TypeScript. iOS + Android only. |
 | Rules logic | Declarative JSON plus a safe formula language. Packs contain no code. |
-| Sheet UI | Packs build tabs and sections from a fixed widget catalog. The app owns how widgets look and work. |
+| Sheet UI | Packs build tabs and sections from a fixed widget catalog. The app owns how widgets look and work: native structure (inset grouped lists, a segmented control for tabs, native menus) with compact character-sheet stat blocks. Sheet-wide actions (`sheet.header.actions`) live in the header's ••• menu; other actions sit on the widget they belong to. |
 | Buttons / modals | Generic. Every in-sheet button is a pack `action`, and every in-sheet modal is a pack `modal`. |
 | Theming | App theme only. Packs cannot theme the app. |
 | Major / expansion | One major per character. Expansions add new entities and patch existing ones by id. They cannot delete anything. |
@@ -902,8 +902,8 @@ Every widget takes an optional `visible_when`. Text fields are marked *(text)*.
 |---|---|---|
 | `stat` | `label` *(text)*, `value`, `sub?`, `explain?` (a target path), `action?` | Tapping it runs `action`, or shows the modifier breakdown of `explain`. `explain` defaults to the value when the value is a single reference such as `@ac`. |
 | `stat_grid` | `title?` *(text)*, `columns?`, `items` (stats without `widget`) | |
-| `resource` | `resource`, `label?` *(text)*, `style?` (`bar` `pips` `counter` `slots`), `thresholds?` (`[{label (text), at}]`), `actions?` | ± buttons change `current`. With `slots`, tapping a slot marks or clears it. |
-| `list` | `source`, `title?` *(text)*, `style?` (`rows` `cards`), `row` (`title`, `subtitle?`, `body?`, all text; `actions?`), `group_by?`, `empty?` *(text)*, `add?` (action) | Rows come from `source` (a list or object) with `$v`/`$k` set. Row actions run with the row's `$v`/`$k`. Tapping a row that is an entity shows its description. |
+| `resource` | `resource`, `label?` *(text)*, `style?` (`bar` `pips` `counter` `slots`), `thresholds?` (`[{label (text), at}]`), `actions?` | `bar` and `counter` get −/+ buttons; tapping a pip or slot sets it directly. Actions: one shows inline, several go in the resource's ••• menu. |
+| `list` | `source`, `title?` *(text)*, `style?` (`rows` `cards`), `row` (`title`, `subtitle?`, `body?`, all text; `actions?`), `group_by?`, `empty?` *(text)*, `add?` (action) | Rows come from `source` (a list or object) with `$v`/`$k` set. Row actions run with the row's `$v`/`$k`: one shows inline as tinted text, several go in a ••• menu. `add` is the list's last row. Tapping a row that is an entity shows its description. |
 | `toggles` | `title?` *(text)*, and either `items` (`[{label (text), path}]`: boolean fields) or `path` + `options` + `label` *(text)* (an id list toggled per option, `$v` = option) | Tapping toggles through the `toggle` effect. |
 | `field` | `label` *(text)*, `path`, `input?` (`string` `text` `number`) | Inline editor. One undo entry per focus. |
 | `text` | `text` *(text)* | Static pack prose. |
