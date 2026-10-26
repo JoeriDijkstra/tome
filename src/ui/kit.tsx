@@ -195,7 +195,8 @@ export function Empty({ title, children }: { title: string; children?: ReactNode
 }
 
 export const styles = StyleSheet.create({
-  screen: { paddingHorizontal: 16, paddingBottom: 32, gap: 24 },
+  // inset grouped lists leave a gap under the bar before the first section
+  screen: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 32, gap: 24 },
   button: { minHeight: 50, paddingHorizontal: 20, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   buttonText: { color: '#fff', fontSize: 17, fontWeight: '600' },
   group: { gap: 6 },
