@@ -32,12 +32,6 @@
           "value": "$input.race[0]"
         },
         {
-          "op": "run_hook",
-          "entity": "$input.race[0]",
-          "hook": "create",
-          "key": "'any'"
-        },
-        {
           "op": "if",
           "when": "$input.subrace != null",
           "then": [
@@ -45,12 +39,6 @@
               "op": "set",
               "path": "subrace",
               "value": "$input.subrace[0]"
-            },
-            {
-              "op": "run_hook",
-              "entity": "$input.subrace[0]",
-              "hook": "create",
-              "key": "'any'"
             }
           ]
         }
@@ -205,6 +193,24 @@
           "op": "set",
           "path": "abilities",
           "value": "$input.method == 'standard_array' ? $input.array : $input.method == 'point_buy' ? $input.points : {str: $input.roll_str, dex: $input.roll_dex, con: $input.roll_con, int: $input.roll_int, wis: $input.roll_wis, cha: $input.roll_cha}"
+        },
+        {
+          "op": "run_hook",
+          "entity": "@race",
+          "hook": "create",
+          "key": "'any'"
+        },
+        {
+          "op": "if",
+          "when": "@subrace != null",
+          "then": [
+            {
+              "op": "run_hook",
+              "entity": "@subrace",
+              "hook": "create",
+              "key": "'any'"
+            }
+          ]
         }
       ]
     },

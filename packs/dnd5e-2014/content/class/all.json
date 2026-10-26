@@ -3384,30 +3384,6 @@
           {
             "op": "open_modal",
             "modal": "asi"
-          },
-          {
-            "op": "choose",
-            "from": {
-              "entity_type": "option",
-              "filter": "has($v.data.groups, 'metamagic') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
-            },
-            "count": 1,
-            "into": "options",
-            "title": "Choose an metamagic option",
-            "then": [
-              {
-                "op": "if",
-                "when": "len($choice) > 0",
-                "then": [
-                  {
-                    "op": "run_hook",
-                    "entity": "$choice[0]",
-                    "hook": "gain",
-                    "key": "'any'"
-                  }
-                ]
-              }
-            ]
           }
         ],
         "17": [
@@ -3444,6 +3420,30 @@
             "count": 1,
             "into": "spells",
             "title": "Learn a spell"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'metamagic') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Choose an metamagic option",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "18": [],
@@ -3735,30 +3735,6 @@
             "count": 1,
             "into": "spells",
             "title": "Learn a spell"
-          },
-          {
-            "op": "choose",
-            "from": {
-              "entity_type": "option",
-              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
-            },
-            "count": 1,
-            "into": "options",
-            "title": "Choose an eldritch invocation",
-            "then": [
-              {
-                "op": "if",
-                "when": "len($choice) > 0",
-                "then": [
-                  {
-                    "op": "run_hook",
-                    "entity": "$choice[0]",
-                    "hook": "gain",
-                    "key": "'any'"
-                  }
-                ]
-              }
-            ]
           }
         ],
         "5": [
@@ -3771,9 +3747,45 @@
             "count": 1,
             "into": "spells",
             "title": "Learn a spell"
+          },
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "option",
+              "filter": "has($v.data.groups, 'eldritch_invocations') && ($v.data.min_level ?? 0) <= @class_level && !has(@options, $v.id) && ($v.data.prereq ?? true)"
+            },
+            "count": 1,
+            "into": "options",
+            "title": "Choose an eldritch invocation",
+            "then": [
+              {
+                "op": "if",
+                "when": "len($choice) > 0",
+                "then": [
+                  {
+                    "op": "run_hook",
+                    "entity": "$choice[0]",
+                    "hook": "gain",
+                    "key": "'any'"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "6": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "spell",
+              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && (has($v.data.classes, $self.id) || has(@expanded_spells, $v.id)) && !has(@spells, $v.id)"
+            },
+            "count": 1,
+            "into": "spells",
+            "title": "Learn a spell"
+          }
+        ],
+        "7": [
           {
             "op": "choose",
             "from": {
@@ -3807,18 +3819,6 @@
                 ]
               }
             ]
-          }
-        ],
-        "7": [
-          {
-            "op": "choose",
-            "from": {
-              "entity_type": "spell",
-              "filter": "$v.data.level >= 1 && $v.data.level <= @max_spell_level && (has($v.data.classes, $self.id) || has(@expanded_spells, $v.id)) && !has(@spells, $v.id)"
-            },
-            "count": 1,
-            "into": "spells",
-            "title": "Learn a spell"
           }
         ],
         "8": [

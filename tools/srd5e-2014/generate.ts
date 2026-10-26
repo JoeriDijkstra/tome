@@ -120,10 +120,16 @@ async function main() {
     if (picked && (f.class as Ref).index === picked.class) optionParents.set(f.index, [picked.group]);
   }
   const minLevel = (f: Src) => ((f.prerequisites as { type: string; level?: number }[] | undefined) ?? []).find((x) => x.type === 'level')?.level ?? (f.level as number);
+  // pact boon and known-spell prerequisites (Thirsting Blade, Agonizing Blast) as a formula the choosers filter on
+  const prereq = (f: Src) => {
+    const ps = ((f.prerequisites as { type: string; feature?: string; spell?: string }[] | undefined) ?? []).flatMap((p) =>
+      p.type === 'feature' ? [`has(@options, '${id(p.feature!.split('/').pop()!)}')`] : p.type === 'spell' ? [`has(@spells, '${id(p.spell!.split('/').pop()!)}')`] : []);
+    return ps.length ? { prereq: ps.join(' && ') } : {};
+  };
   const options = [
     ...features.filter((f) => optionParents.has(f.index)).map((f) => ({
       id: id(f.index), name: f.name, description: prose(f.desc),
-      data: { groups: optionParents.get(f.index), ...(PICKED.some((x) => f.name.startsWith(x.prefix)) ? { min_level: minLevel(f) } : {}) },
+      data: { groups: optionParents.get(f.index), ...(PICKED.some((x) => f.name.startsWith(x.prefix)) ? { min_level: minLevel(f) } : {}), ...prereq(f) },
     })),
     ...traits.filter((t) => traitOptionParents.has(t.index)).map((t) => ({ id: id(t.index), name: t.name, description: prose(t.desc), data: { groups: traitOptionParents.get(t.index) } })),
   ];
@@ -313,6 +319,10 @@ async function main() {
       return row;
     });
     if (c.index === 'wizard') table.forEach((r) => { r.spells_known = 6 + 2 * ((r.level as number) - 1); });
+    // the 5e-bits columns are a level early here; SRD 5.1 class tables: invocations 2/3/4/5/6/7/8 at 2/5/7/9/12/15/18, metamagic 2/3/4 at 3/10/17
+    const steps = (at: [number, number][]) => (lvl: number) => at.filter(([l]) => lvl >= l).at(-1)?.[1] ?? 0;
+    if (c.index === 'warlock') table.forEach((r) => { r.invocations_known = steps([[2, 2], [5, 3], [7, 4], [9, 5], [12, 6], [15, 7], [18, 8]])(r.level as number); });
+    if (c.index === 'sorcerer') table.forEach((r) => { r.metamagic_known = steps([[3, 2], [10, 3], [17, 4]])(r.level as number); });
     classTables.push({ id: cid, key: 'level', rows: table });
 
     const [subclassLevel, subclassLabel] = SUBCLASS[c.index];

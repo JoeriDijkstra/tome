@@ -588,7 +588,8 @@
       "groups": [
         "eldritch_invocations"
       ],
-      "min_level": 2
+      "min_level": 2,
+      "prereq": "has(@spells, 'eldritch_blast')"
     },
     "summary": "+{@mods.cha} damage per eldritch blast beam"
   },
@@ -657,7 +658,8 @@
       "groups": [
         "eldritch_invocations"
       ],
-      "min_level": 2
+      "min_level": 2,
+      "prereq": "has(@options, 'pact_of_the_tome')"
     }
   },
   {
@@ -690,7 +692,8 @@
       "groups": [
         "eldritch_invocations"
       ],
-      "min_level": 2
+      "min_level": 2,
+      "prereq": "has(@spells, 'eldritch_blast')"
     }
   },
   {
@@ -756,7 +759,8 @@
       "groups": [
         "eldritch_invocations"
       ],
-      "min_level": 2
+      "min_level": 2,
+      "prereq": "has(@spells, 'eldritch_blast')"
     }
   },
   {
@@ -778,7 +782,8 @@
       "groups": [
         "eldritch_invocations"
       ],
-      "min_level": 2
+      "min_level": 2,
+      "prereq": "has(@options, 'pact_of_the_chain')"
     }
   },
   {
@@ -822,7 +827,8 @@
       "groups": [
         "eldritch_invocations"
       ],
-      "min_level": 5
+      "min_level": 5,
+      "prereq": "has(@options, 'pact_of_the_blade')"
     }
   },
   {
@@ -910,7 +916,8 @@
       "groups": [
         "eldritch_invocations"
       ],
-      "min_level": 12
+      "min_level": 12,
+      "prereq": "has(@options, 'pact_of_the_blade')"
     },
     "summary": "+{max(1, @mods.cha)} necrotic damage with your pact weapon"
   },
@@ -922,7 +929,8 @@
       "groups": [
         "eldritch_invocations"
       ],
-      "min_level": 15
+      "min_level": 15,
+      "prereq": "has(@options, 'pact_of_the_chain')"
     }
   },
   {
