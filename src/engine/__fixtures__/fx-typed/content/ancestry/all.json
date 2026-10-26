@@ -1,0 +1,15 @@
+[
+  {
+    "id": "hillfolk",
+    "name": "Hillfolk",
+    "grants": [
+      {
+        "entity": "sure_footed"
+      }
+    ]
+  },
+  {
+    "id": "marshfolk",
+    "name": "Marshfolk"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "header": {
+    "title": "@name",
+    "actions": [
+      "long_rest",
+      "level_up"
+    ]
+  },
+  "tabs": [
+    "main"
+  ]
+}

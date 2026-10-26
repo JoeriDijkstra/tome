@@ -1,0 +1,23 @@
+[
+  {
+    "id": "champion",
+    "name": "Champion",
+    "data": {
+      "calling": "warrior"
+    }
+  },
+  {
+    "id": "sentinel",
+    "name": "Sentinel",
+    "data": {
+      "calling": "warrior"
+    }
+  },
+  {
+    "id": "seer",
+    "name": "Seer",
+    "data": {
+      "calling": "mystic"
+    }
+  }
+]

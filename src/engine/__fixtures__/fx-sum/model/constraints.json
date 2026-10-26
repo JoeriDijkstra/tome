@@ -1,0 +1,7 @@
+[
+  {
+    "id": "level_cap",
+    "violated_when": "@level > 5",
+    "message": "The highest level is 5."
+  }
+]

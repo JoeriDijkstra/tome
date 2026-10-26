@@ -1,0 +1,31 @@
+[
+  {
+    "id": "card",
+    "label": "Card",
+    "fields": [
+      {
+        "key": "domain",
+        "type": "select",
+        "options": [
+          "blade",
+          "bone",
+          "sage"
+        ]
+      },
+      {
+        "key": "level",
+        "type": "number"
+      }
+    ]
+  },
+  {
+    "id": "kit",
+    "label": "Kit",
+    "fields": [
+      {
+        "key": "base",
+        "type": "number"
+      }
+    ]
+  }
+]

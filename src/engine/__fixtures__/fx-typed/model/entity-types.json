@@ -1,0 +1,30 @@
+[
+  {
+    "id": "ancestry",
+    "label": "Ancestry"
+  },
+  {
+    "id": "feat",
+    "label": "Feat",
+    "fields": [
+      {
+        "key": "level",
+        "type": "number"
+      },
+      {
+        "key": "prereq",
+        "type": "formula"
+      }
+    ]
+  },
+  {
+    "id": "condition",
+    "label": "Condition",
+    "fields": [
+      {
+        "key": "valued",
+        "type": "boolean"
+      }
+    ]
+  }
+]

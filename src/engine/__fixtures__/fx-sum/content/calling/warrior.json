@@ -1,0 +1,65 @@
+[
+  {
+    "id": "warrior",
+    "name": "Warrior",
+    "data": {
+      "die": 10
+    },
+    "modifiers": [
+      {
+        "target": "vigor_max",
+        "op": "add",
+        "value": "@callings.warrior.level * 6 + 4"
+      }
+    ],
+    "features": [
+      {
+        "id": "second_breath",
+        "name": "Second Breath",
+        "when": "(@callings.warrior.level ?? 0) >= 1",
+        "resource": "second_breath",
+        "actions": [
+          "use_second_breath"
+        ],
+        "resources": [
+          {
+            "id": "second_breath",
+            "label": "Second Breath",
+            "max": "(@callings.warrior.level ?? 0) >= 4 ? 3 : 2",
+            "reset": [
+              "short_rest"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "guard_style",
+        "name": "Guard Style",
+        "when": "(@callings.warrior.level ?? 0) >= 2",
+        "modifiers": [
+          {
+            "target": "defense",
+            "op": "add",
+            "value": 1,
+            "when": "count(@gear, $v.equipped && entity($v.item).data.kind == 'armor') > 0"
+          }
+        ]
+      }
+    ],
+    "hooks": {
+      "on_level": {
+        "3": [
+          {
+            "op": "choose",
+            "from": {
+              "entity_type": "path",
+              "filter": "$v.data.calling == 'warrior'"
+            },
+            "count": 1,
+            "into": "paths"
+          }
+        ]
+      }
+    }
+  }
+]

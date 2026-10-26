@@ -1,0 +1,53 @@
+{
+  "fields": [
+    {
+      "key": "level",
+      "type": "number",
+      "default": 1
+    },
+    {
+      "key": "traits",
+      "type": "object",
+      "fields": [
+        {
+          "key": "agility",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "key": "strength",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "key": "finesse",
+          "type": "number",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "key": "kit",
+      "type": "ref",
+      "entity_type": "kit"
+    },
+    {
+      "key": "cards",
+      "type": "list",
+      "of": "object",
+      "owns_when": "$v.in_loadout",
+      "fields": [
+        {
+          "key": "card",
+          "type": "ref",
+          "entity_type": "card"
+        },
+        {
+          "key": "in_loadout",
+          "type": "boolean",
+          "default": true
+        }
+      ]
+    }
+  ]
+}

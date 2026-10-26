@@ -1,0 +1,20 @@
+{
+  "steps": [
+    {
+      "id": "basics",
+      "fields": [],
+      "effects": [
+        {
+          "op": "set",
+          "path": "ancestry",
+          "value": "$input.ancestry"
+        },
+        {
+          "op": "set",
+          "path": "level",
+          "value": "$input.level ?? 1"
+        }
+      ]
+    }
+  ]
+}

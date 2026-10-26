@@ -1,0 +1,28 @@
+[
+  {
+    "id": "take_hit",
+    "label": "Take a hit",
+    "modal": "hit"
+  },
+  {
+    "id": "add_card",
+    "label": "Add card",
+    "effects": [
+      {
+        "op": "choose",
+        "from": {
+          "entity_type": "card",
+          "filter": "!has(map(@cards, $v.card), $v.id)"
+        },
+        "count": 1,
+        "then": [
+          {
+            "op": "push",
+            "path": "cards",
+            "value": "{card: $choice[0], in_loadout: true}"
+          }
+        ]
+      }
+    ]
+  }
+]

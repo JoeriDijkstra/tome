@@ -1,0 +1,71 @@
+[
+  {
+    "id": "pinned",
+    "name": "Pinned",
+    "grants": [
+      {
+        "entity": "exposed"
+      }
+    ]
+  },
+  {
+    "id": "exposed",
+    "name": "Exposed",
+    "modifiers": [
+      {
+        "target": "guard",
+        "op": "add",
+        "value": -2,
+        "type": "circumstance"
+      }
+    ]
+  },
+  {
+    "id": "shaken",
+    "name": "Shaken",
+    "data": {
+      "valued": true
+    },
+    "modifiers": [
+      {
+        "target": "guard",
+        "op": "add",
+        "value": "-$owner.value",
+        "type": "status"
+      },
+      {
+        "target": "leap",
+        "op": "add",
+        "value": "-$owner.value",
+        "type": "status"
+      }
+    ]
+  },
+  {
+    "id": "dazed",
+    "name": "Dazed",
+    "data": {
+      "valued": true
+    },
+    "modifiers": [
+      {
+        "target": "guard",
+        "op": "add",
+        "value": "-$owner.value",
+        "type": "status"
+      }
+    ]
+  },
+  {
+    "id": "blessed",
+    "name": "Blessed",
+    "modifiers": [
+      {
+        "target": "guard",
+        "op": "add",
+        "value": 1,
+        "type": "status"
+      }
+    ]
+  }
+]

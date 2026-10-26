@@ -1,0 +1,15 @@
+[
+  {
+    "id": "hp",
+    "label": "Hit slots",
+    "max": 6,
+    "reset": [
+      "long_rest"
+    ]
+  },
+  {
+    "id": "stress",
+    "label": "Stress",
+    "max": 6
+  }
+]

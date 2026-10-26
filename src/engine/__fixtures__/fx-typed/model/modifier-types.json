@@ -1,0 +1,14 @@
+[
+  {
+    "id": "circumstance",
+    "stacking": "highest"
+  },
+  {
+    "id": "status",
+    "stacking": "highest"
+  },
+  {
+    "id": "item",
+    "stacking": "highest"
+  }
+]

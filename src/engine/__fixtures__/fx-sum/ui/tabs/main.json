@@ -1,0 +1,15 @@
+[
+  {
+    "id": "main",
+    "label": "Main",
+    "sections": [
+      {
+        "widget": "resource",
+        "resource": "hp",
+        "actions": [
+          "take_damage"
+        ]
+      }
+    ]
+  }
+]

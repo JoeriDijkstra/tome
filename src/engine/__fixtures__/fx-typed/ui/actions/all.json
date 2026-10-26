@@ -1,0 +1,17 @@
+[
+  {
+    "id": "learn_feat",
+    "label": "Learn feat",
+    "effects": [
+      {
+        "op": "choose",
+        "from": {
+          "entity_type": "feat",
+          "filter": "$v.data.level <= @level && ($v.data.prereq ?? true) && !has(@feats, $v.id)"
+        },
+        "count": 1,
+        "into": "feats"
+      }
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "hp",
+    "label": "Vigor",
+    "max": "@vigor_max",
+    "reset": [
+      "long_rest"
+    ],
+    "temp": true
+  }
+]

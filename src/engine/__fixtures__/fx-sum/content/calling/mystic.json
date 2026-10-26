@@ -1,0 +1,16 @@
+[
+  {
+    "id": "mystic",
+    "name": "Mystic",
+    "data": {
+      "die": 6
+    },
+    "modifiers": [
+      {
+        "target": "vigor_max",
+        "op": "add",
+        "value": "@callings.mystic.level * 4 + 2"
+      }
+    ]
+  }
+]

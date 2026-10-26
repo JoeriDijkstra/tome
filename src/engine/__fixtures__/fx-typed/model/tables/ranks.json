@@ -1,0 +1,28 @@
+[
+  {
+    "id": "ranks",
+    "key": "rank",
+    "rows": [
+      {
+        "rank": 0,
+        "bonus": 0
+      },
+      {
+        "rank": 1,
+        "bonus": 2
+      },
+      {
+        "rank": 2,
+        "bonus": 4
+      },
+      {
+        "rank": 3,
+        "bonus": 6
+      },
+      {
+        "rank": 4,
+        "bonus": 8
+      }
+    ]
+  }
+]

@@ -1,0 +1,61 @@
+[
+  {
+    "id": "lineage",
+    "label": "Lineage"
+  },
+  {
+    "id": "calling",
+    "label": "Calling",
+    "fields": [
+      {
+        "key": "die",
+        "type": "number"
+      }
+    ]
+  },
+  {
+    "id": "path",
+    "label": "Path",
+    "fields": [
+      {
+        "key": "calling",
+        "type": "ref",
+        "entity_type": "calling"
+      }
+    ]
+  },
+  {
+    "id": "skill",
+    "label": "Skill",
+    "fields": [
+      {
+        "key": "stat",
+        "type": "select",
+        "options": [
+          "might",
+          "grace",
+          "vigor"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gear",
+    "label": "Gear",
+    "fields": [
+      {
+        "key": "kind",
+        "type": "select",
+        "options": [
+          "armor",
+          "shield",
+          "trinket"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "perk",
+    "label": "Perk"
+  }
+]

@@ -1,0 +1,53 @@
+[
+  {
+    "id": "sure_footed",
+    "name": "Sure-footed",
+    "data": {
+      "level": 1
+    },
+    "modifiers": [
+      {
+        "target": "leap",
+        "op": "add",
+        "value": 1,
+        "type": "circumstance"
+      }
+    ],
+    "grants": [
+      {
+        "entity": "steady",
+        "when": "@base.level >= 2"
+      }
+    ]
+  },
+  {
+    "id": "steady",
+    "name": "Steady",
+    "data": {
+      "level": 1
+    },
+    "modifiers": [
+      {
+        "target": "leap",
+        "op": "add",
+        "value": 2,
+        "type": "circumstance"
+      }
+    ]
+  },
+  {
+    "id": "long_jump",
+    "name": "Long Jump",
+    "data": {
+      "level": 2,
+      "prereq": "@rank.leap >= 2"
+    }
+  },
+  {
+    "id": "quick_step",
+    "name": "Quick Step",
+    "data": {
+      "level": 1
+    }
+  }
+]

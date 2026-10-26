@@ -1,0 +1,60 @@
+[
+  {
+    "id": "damage",
+    "title": "Take damage",
+    "fields": [
+      {
+        "key": "amount",
+        "type": "number"
+      }
+    ],
+    "validate": [
+      {
+        "when": "$input.amount < 0",
+        "message": "Damage can't be negative."
+      }
+    ],
+    "submit": {
+      "effects": [
+        {
+          "op": "add",
+          "path": "res.hp.current",
+          "value": "-max(0, $input.amount - @res.hp.temp)",
+          "min": 0
+        },
+        {
+          "op": "add",
+          "path": "res.hp.temp",
+          "value": "-min($input.amount, @res.hp.temp)",
+          "min": 0
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_up",
+    "title": "Level up",
+    "fields": [
+      {
+        "key": "calling",
+        "type": "choice",
+        "entity_type": "calling"
+      }
+    ],
+    "submit": {
+      "effects": [
+        {
+          "op": "add",
+          "path": "callings[$input.calling[0]].level",
+          "value": 1
+        },
+        {
+          "op": "run_hook",
+          "entity": "$input.calling[0]",
+          "hook": "on_level",
+          "key": "@callings[$input.calling[0]].level"
+        }
+      ]
+    }
+  }
+]

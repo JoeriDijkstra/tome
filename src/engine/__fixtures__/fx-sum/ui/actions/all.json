@@ -1,0 +1,39 @@
+[
+  {
+    "id": "take_damage",
+    "label": "Damage",
+    "modal": "damage"
+  },
+  {
+    "id": "level_up",
+    "label": "Level up",
+    "modal": "level_up"
+  },
+  {
+    "id": "long_rest",
+    "label": "Long rest",
+    "effects": [
+      {
+        "op": "reset",
+        "tag": "long_rest"
+      },
+      {
+        "op": "reset",
+        "tag": "short_rest"
+      }
+    ]
+  },
+  {
+    "id": "use_second_breath",
+    "label": "Second Breath",
+    "enabled_when": "@res.second_breath.current > 0",
+    "effects": [
+      {
+        "op": "add",
+        "path": "res.second_breath.current",
+        "value": -1,
+        "min": 0
+      }
+    ]
+  }
+]

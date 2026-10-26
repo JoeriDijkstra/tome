@@ -1,0 +1,86 @@
+{
+  "fields": [
+    {
+      "key": "stats",
+      "type": "object",
+      "fields": [
+        {
+          "key": "might",
+          "type": "number",
+          "default": 10,
+          "min": 1,
+          "max": 30
+        },
+        {
+          "key": "grace",
+          "type": "number",
+          "default": 10,
+          "min": 1,
+          "max": 30
+        },
+        {
+          "key": "vigor",
+          "type": "number",
+          "default": 10,
+          "min": 1,
+          "max": 30
+        }
+      ]
+    },
+    {
+      "key": "lineage",
+      "type": "ref",
+      "entity_type": "lineage"
+    },
+    {
+      "key": "callings",
+      "type": "map",
+      "of": "object",
+      "key_entity_type": "calling",
+      "fields": [
+        {
+          "key": "level",
+          "type": "number",
+          "default": 1
+        }
+      ]
+    },
+    {
+      "key": "paths",
+      "type": "list",
+      "of": "ref",
+      "entity_type": "path"
+    },
+    {
+      "key": "trained",
+      "type": "object",
+      "owns": false,
+      "fields": [
+        {
+          "key": "skills",
+          "type": "list",
+          "of": "ref",
+          "entity_type": "skill"
+        }
+      ]
+    },
+    {
+      "key": "gear",
+      "type": "list",
+      "of": "object",
+      "owns_when": "$v.equipped",
+      "fields": [
+        {
+          "key": "item",
+          "type": "ref",
+          "entity_type": "gear"
+        },
+        {
+          "key": "equipped",
+          "type": "boolean",
+          "default": false
+        }
+      ]
+    }
+  ]
+}

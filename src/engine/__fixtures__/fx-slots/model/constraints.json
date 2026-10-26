@@ -1,0 +1,7 @@
+[
+  {
+    "id": "loadout_limit",
+    "violated_when": "count(@cards, $v.in_loadout) > 2",
+    "message": "Your loadout holds at most 2 cards."
+  }
+]

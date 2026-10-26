@@ -1,0 +1,16 @@
+[
+  {
+    "id": "athletics",
+    "name": "Athletics",
+    "data": {
+      "stat": "might"
+    }
+  },
+  {
+    "id": "stealth",
+    "name": "Stealth",
+    "data": {
+      "stat": "grace"
+    }
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id": "parry",
+    "name": "Parry",
+    "data": {
+      "domain": "blade",
+      "level": 1
+    },
+    "modifiers": [
+      {
+        "target": "evasion",
+        "op": "add",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "whirl",
+    "name": "Whirl",
+    "data": {
+      "domain": "blade",
+      "level": 1
+    }
+  },
+  {
+    "id": "mend",
+    "name": "Mend",
+    "data": {
+      "domain": "sage",
+      "level": 1
+    }
+  }
+]

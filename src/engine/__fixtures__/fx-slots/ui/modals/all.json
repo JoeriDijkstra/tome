@@ -1,0 +1,22 @@
+[
+  {
+    "id": "hit",
+    "title": "Take a hit",
+    "fields": [
+      {
+        "key": "damage",
+        "type": "number"
+      }
+    ],
+    "submit": {
+      "effects": [
+        {
+          "op": "add",
+          "path": "res.hp.current",
+          "value": "-($input.damage >= @major ? 3 : $input.damage >= @minor ? 2 : $input.damage > 0 ? 1 : 0)",
+          "min": 0
+        }
+      ]
+    }
+  }
+]

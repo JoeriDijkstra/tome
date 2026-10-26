@@ -1,0 +1,30 @@
+[
+  {
+    "id": "chain",
+    "name": "Chain",
+    "data": {
+      "kind": "armor"
+    },
+    "modifiers": [
+      {
+        "target": "defense",
+        "op": "max",
+        "value": 16
+      }
+    ]
+  },
+  {
+    "id": "buckler",
+    "name": "Buckler",
+    "data": {
+      "kind": "shield"
+    },
+    "modifiers": [
+      {
+        "target": "defense",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  }
+]

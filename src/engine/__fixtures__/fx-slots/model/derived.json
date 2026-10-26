@@ -1,0 +1,14 @@
+[
+  {
+    "id": "minor",
+    "formula": "(entity(@kit).data.base ?? 0) + @level"
+  },
+  {
+    "id": "major",
+    "formula": "(entity(@kit).data.base ?? 0) * 2 + @level"
+  },
+  {
+    "id": "evasion",
+    "formula": "10 + @traits.agility"
+  }
+]

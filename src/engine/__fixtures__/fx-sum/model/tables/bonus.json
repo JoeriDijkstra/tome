@@ -1,0 +1,28 @@
+[
+  {
+    "id": "bonus",
+    "key": "level",
+    "rows": [
+      {
+        "level": 1,
+        "value": 2
+      },
+      {
+        "level": 2,
+        "value": 2
+      },
+      {
+        "level": 3,
+        "value": 2
+      },
+      {
+        "level": 4,
+        "value": 2
+      },
+      {
+        "level": 5,
+        "value": 3
+      }
+    ]
+  }
+]

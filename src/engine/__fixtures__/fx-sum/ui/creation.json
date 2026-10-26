@@ -1,0 +1,69 @@
+{
+  "steps": [
+    {
+      "id": "lineage",
+      "fields": [
+        {
+          "key": "lineage",
+          "type": "choice",
+          "entity_type": "lineage",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "effects": [
+        {
+          "op": "set",
+          "path": "lineage",
+          "value": "$input.lineage[0]"
+        }
+      ]
+    },
+    {
+      "id": "calling",
+      "fields": [
+        {
+          "key": "calling",
+          "type": "choice",
+          "entity_type": "calling",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "effects": [
+        {
+          "op": "set",
+          "path": "callings[$input.calling[0]]",
+          "value": "{level: 1}"
+        },
+        {
+          "op": "run_hook",
+          "entity": "$input.calling[0]",
+          "hook": "on_level",
+          "key": 1
+        },
+        {
+          "op": "set",
+          "path": "trained.skills",
+          "value": "$input.skills ?? []"
+        }
+      ]
+    },
+    {
+      "id": "stats",
+      "fields": [
+        {
+          "key": "stats",
+          "type": "assign"
+        }
+      ],
+      "effects": [
+        {
+          "op": "set",
+          "path": "stats",
+          "value": "$input.stats"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "stout",
+    "name": "Stout",
+    "modifiers": [
+      {
+        "target": "stats.vigor",
+        "op": "add",
+        "value": 2
+      }
+    ],
+    "grants": [
+      {
+        "entity": "darksight"
+      }
+    ]
+  },
+  {
+    "id": "nimble",
+    "name": "Nimble",
+    "modifiers": [
+      {
+        "target": "stats.grace",
+        "op": "add",
+        "value": 2
+      }
+    ]
+  }
+]

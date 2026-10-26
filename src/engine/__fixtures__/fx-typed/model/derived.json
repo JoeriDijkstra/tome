@@ -1,0 +1,10 @@
+[
+  {
+    "id": "guard",
+    "formula": "10 + @level"
+  },
+  {
+    "id": "leap",
+    "formula": "@rank.leap > 0 ? @level + lookup('ranks', @rank.leap, 'bonus') : 0"
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "steps": [
+    {
+      "id": "traits",
+      "fields": [
+        {
+          "key": "traits",
+          "type": "assign"
+        }
+      ],
+      "effects": [
+        {
+          "op": "set",
+          "path": "traits",
+          "value": "$input.traits"
+        },
+        {
+          "op": "set",
+          "path": "kit",
+          "value": "'leathers'"
+        }
+      ]
+    }
+  ]
+}

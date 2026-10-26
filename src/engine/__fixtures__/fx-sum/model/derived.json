@@ -1,0 +1,28 @@
+[
+  {
+    "id": "level",
+    "formula": "sum(@callings, $v.level)"
+  },
+  {
+    "id": "bonus",
+    "formula": "lookup('bonus', @level, 'value')"
+  },
+  {
+    "id": "mods",
+    "each": "stats",
+    "formula": "floor(($v - 10) / 2)"
+  },
+  {
+    "id": "defense",
+    "formula": "10 + @mods.grace"
+  },
+  {
+    "id": "vigor_max",
+    "formula": "@level * @mods.vigor"
+  },
+  {
+    "id": "skills",
+    "each_type": "skill",
+    "formula": "@mods[$v.data.stat] + (has(@trained.skills, $v.id) ? @bonus : 0)"
+  }
+]
