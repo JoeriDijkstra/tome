@@ -72,6 +72,8 @@ class Run {
   private ops = 0;
   private answerIndex = 0;
   readonly answers: Answer[] = [];
+  /** open `run_hook … record` frames; every list addition goes to all of them, so nested grants count for the outer hook too */
+  private recording: Grant[][] = [];
 
   constructor(private compiled: Compiled, private draft: State, private opts: RunOptions) {}
 
@@ -163,7 +165,38 @@ class Run {
         if (!entity) throw new Reject(`run_hook: unknown entity '${String(id)}'`);
         const key = String(this.val(e.key, vars));
         const hooks = Object.hasOwn(entity.hooks, e.hook) ? entity.hooks[e.hook] : {};
-        await this.effects(Object.hasOwn(hooks, key) ? hooks[key] : [], { ...vars, self: entity.envelope }, depth + 1);
+        const frame: Grant[] = [];
+        if (e.record) this.recording.push(frame);
+        try {
+          await this.effects(Object.hasOwn(hooks, key) ? hooks[key] : [], { ...vars, self: entity.envelope }, depth + 1);
+        } finally {
+          if (e.record) this.recording.splice(this.recording.indexOf(frame), 1);
+        }
+        if (e.record && frame.length) {
+          // the record itself is bookkeeping, not something the hook granted
+          const outer = this.recording;
+          this.recording = [];
+          try {
+            await this.write(e.record, vars, (cur) => [...(Array.isArray(cur) ? cur : []), ...frame.map((g) => ({ source: entity.id, ...g }))]);
+          } finally {
+            this.recording = outer;
+          }
+        }
+        return;
+      }
+      case 'revoke': {
+        const source = this.val(e.source, vars);
+        const rows = getIn(this.draft, this.keys(e.path, vars));
+        const mine = (Array.isArray(rows) ? rows : []).filter((r): r is Grant & { source: string } => isPlainRow(r) && r.source === source);
+        // newest first, each taking out one matching element, so a value granted twice is removed twice
+        for (const g of [...mine].reverse()) {
+          await this.writeKeys(JSON.parse(g.path) as (string | number)[], g.path, (cur) => {
+            if (!Array.isArray(cur)) return SKIP;
+            const i = cur.findLastIndex((x) => JSON.stringify(x) === g.value);
+            return i < 0 ? SKIP : cur.filter((_, k) => k !== i);
+          });
+        }
+        await this.write(e.path, vars, (cur) => (Array.isArray(cur) ? cur.filter((r) => !mine.includes(r as Grant & { source: string })) : SKIP));
         return;
       }
       case 'reset': {
@@ -247,14 +280,23 @@ class Run {
     return answer;
   }
 
-  /** Resolve the path, compute the new value from the current one, validate it against the field, write it. */
-  private async write(path: string, vars: Record<string, unknown>, next: (cur: unknown) => unknown): Promise<void> {
+  /** Resolve a path's computed keys against the current draft. */
+  private keys(path: string, vars: Record<string, unknown>): (string | number)[] {
     const keys: (string | number)[] = [];
     for (const seg of this.compiled.path(path)) {
       const k = typeof seg === 'string' ? seg : evaluate(seg, this.current().ctx(vars));
       if (typeof k !== 'string' && typeof k !== 'number') throw new Reject(`path ${path}: a computed key is not a string or number`);
       keys.push(k);
     }
+    return keys;
+  }
+
+  private async write(path: string, vars: Record<string, unknown>, next: (cur: unknown) => unknown): Promise<void> {
+    return this.writeKeys(this.keys(path, vars), path, next);
+  }
+
+  /** Compute the new value from the current one, validate it against the field, write it. */
+  private async writeKeys(keys: (string | number)[], path: string, next: (cur: unknown) => unknown): Promise<void> {
     let value: unknown;
     if (keys[0] === 'res') {
       const [, id, part] = keys;
@@ -268,13 +310,38 @@ class Run {
       if (typeof value !== 'number' || !Number.isFinite(value)) throw new Reject(`${path}: resources hold numbers`);
       value = part === 'current' && r.max !== null ? Math.min(r.max, Math.max(0, value)) : Math.max(0, value);
     } else {
-      value = next(getIn(this.draft, keys));
+      const before = getIn(this.draft, keys);
+      value = next(before);
       if (value === SKIP) return;
       value = validateWrite(this.compiled, keys, value, path);
+      if (this.recording.length && Array.isArray(value)) {
+        for (const added of listAdditions(Array.isArray(before) ? before : [], value)) {
+          for (const frame of this.recording) frame.push({ path: JSON.stringify(keys), value: added });
+        }
+      }
     }
     this.draft = setPath(this.draft, keys, value, path) as State;
     this.view = undefined;
   }
+}
+
+/** One list element a recorded hook added: where (JSON key path) and what (JSON). */
+type Grant = { path: string; value: string };
+
+const isPlainRow = (r: unknown): r is Record<string, unknown> => !!r && typeof r === 'object' && !Array.isArray(r);
+
+/** Elements of `after` beyond those already in `before` (as a multiset), as JSON. */
+function listAdditions(before: unknown[], after: unknown[]): string[] {
+  const left = new Map<string, number>();
+  for (const x of before) { const j = JSON.stringify(x); left.set(j, (left.get(j) ?? 0) + 1); }
+  const added: string[] = [];
+  for (const x of after) {
+    const j = JSON.stringify(x);
+    const n = left.get(j) ?? 0;
+    if (n > 0) left.set(j, n - 1);
+    else added.push(j);
+  }
+  return added;
 }
 
 /** The field definition a write lands on: list indexes and map keys step into `of`/`fields`. */

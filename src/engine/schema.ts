@@ -73,7 +73,8 @@ export type Effect =
   | { op: 'toggle'; path: string; value?: FormulaSrc }
   | { op: 'choose'; from: { entity_type: string; filter?: FormulaSrc }; count: FormulaSrc; into?: string; title?: string; then?: Effect[] }
   | { op: 'open_modal'; modal: string; with?: Record<string, FormulaSrc> }
-  | { op: 'run_hook'; entity: FormulaSrc; hook: string; key: FormulaSrc }
+  | { op: 'run_hook'; entity: FormulaSrc; hook: string; key: FormulaSrc; record?: string }
+  | { op: 'revoke'; path: string; source: FormulaSrc }
   | { op: 'reset'; tag: string }
   | { op: 'if'; when: FormulaSrc; then: Effect[]; else?: Effect[] };
 
@@ -94,7 +95,9 @@ export const Effect: z.ZodType<Effect> = z.lazy(() =>
       then: Effects.optional(),
     }),
     z.strictObject({ op: z.literal('open_modal'), modal: Id, with: z.record(z.string(), F).optional() }),
-    z.strictObject({ op: z.literal('run_hook'), entity: F, hook: Id, key: F }),
+    // `record`: a list of {source, path, value} rows receiving every list addition the hook makes, so `revoke` can undo them
+    z.strictObject({ op: z.literal('run_hook'), entity: F, hook: Id, key: F, record: z.string().optional() }),
+    z.strictObject({ op: z.literal('revoke'), path: z.string(), source: F }),
     z.strictObject({ op: z.literal('reset'), tag: Id }),
     z.strictObject({ op: z.literal('if'), when: F, then: Effects, else: Effects.optional() }),
   ]),

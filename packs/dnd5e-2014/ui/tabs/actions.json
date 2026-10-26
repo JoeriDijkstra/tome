@@ -24,6 +24,17 @@
       },
       {
         "widget": "list",
+        "title": "Feats",
+        "visible_when": "len(@feats) > 0",
+        "source": "map(@feats, entity($v))",
+        "row": {
+          "title": "{$v.name}",
+          "subtitle": "{$v.summary ?? ''}",
+          "actions": ["change_feat"]
+        }
+      },
+      {
+        "widget": "list",
         "title": "Features & traits",
         "source": "@features",
         "group_by": "entity($v.source).name",

@@ -141,6 +141,42 @@ describe('fx-sum (summed modifiers, resources, hooks)', () => {
   });
 });
 
+describe('recorded grants', () => {
+  type Json = Record<string, unknown>;
+  const files = fixture('fx-sum', {
+    'model/character.json': (m: { fields: Json[] }) => ({ ...m, fields: [...m.fields, { key: 'granted', type: 'list', of: 'object', fields: ['source', 'path', 'value'].map((key) => ({ key, type: 'string' })) }] }),
+    'content/perk/all.json': (l: Json[]) => [
+      ...l.map((p) => (p.id === 'keen_eye' ? { ...p, hooks: { gain: { any: [{ op: 'push', path: 'perks', value: "'iron_will'" }] } } } : p)),
+      { id: 'scholar', name: 'Scholar', hooks: { gain: { any: [
+        { op: 'push', path: 'trained.skills', value: "'athletics'" },
+        { op: 'toggle', path: 'trained.skills', value: "'stealth'" },
+        { op: 'run_hook', entity: "'keen_eye'", hook: 'gain', key: "'any'" },
+      ] } } },
+    ],
+  });
+  const { compiled: c } = buildPackSet(files);
+  const gain = (perk: string) => ({ op: 'run_hook' as const, entity: `'${perk}'`, hook: 'gain', key: "'any'", record: 'granted' });
+
+  test('revoke takes back exactly what a recorded hook added, nested hooks included, and nothing else', async () => {
+    const start: State = { trained: { skills: ['athletics'] }, perks: [] };
+    const gained = ok(await runBatch(c!, start, [gain('keen_eye'), gain('scholar')]));
+    expect(gained.trained).toEqual({ skills: ['athletics', 'athletics', 'stealth'] });
+    expect(gained.perks).toEqual(['iron_will', 'iron_will']);
+    expect((gained.granted as Json[]).map((g) => g.source)).toEqual(['keen_eye', 'scholar', 'scholar', 'scholar']);
+
+    const revoked = ok(await runBatch(c!, gained, [{ op: 'revoke', path: 'granted', source: "'scholar'" }]));
+    // the skill known before stays; keen_eye's own grant stays
+    expect(revoked.trained).toEqual({ skills: ['athletics'] });
+    expect(revoked.perks).toEqual(['iron_will']);
+    expect((revoked.granted as Json[]).map((g) => g.source)).toEqual(['keen_eye']);
+  });
+
+  test('a record must be a list of {source, path, value} strings', () => {
+    const bad = fixture('fx-sum', { 'ui/actions/all.json': (l: Json[]) => [...l, { id: 'x', label: 'x', effects: [{ op: 'revoke', path: 'perks', source: "'a'" }] }] });
+    expect(buildPackSet(bad).issues.filter((i) => i.level === 'error').map((i) => i.message)).toEqual(["'perks' must be a list of objects with string fields source, path and value"]);
+  });
+});
+
 describe('fx-typed (typed stacking, grants, valued conditions, formula prerequisites)', () => {
   const c = build('fx-typed');
 

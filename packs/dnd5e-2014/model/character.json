@@ -115,6 +115,16 @@
       "entity_type": "feat"
     },
     {
+      "key": "granted",
+      "type": "list",
+      "of": "object",
+      "fields": [
+        { "key": "source", "type": "string" },
+        { "key": "path", "type": "string" },
+        { "key": "value", "type": "string" }
+      ]
+    },
+    {
       "key": "prof",
       "type": "object",
       "owns": false,

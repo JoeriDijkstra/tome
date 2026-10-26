@@ -1,0 +1,9 @@
+[
+  {
+    "id": "change_feat",
+    "label": "Change",
+    "effects": [
+      { "op": "open_modal", "modal": "change_feat", "with": { "old": "$v.id" } }
+    ]
+  }
+]

@@ -715,7 +715,8 @@ same effect ops:
 | `toggle` | `{path, value?}` | without `value`: flip a boolean; with `value`: add it to or remove it from the list |
 | `choose` | `{from:{entity_type, filter}, count, into?, then?}` | opens a generic chooser modal; `into` (a list or ref) receives the ids; `then` effects see `$choice`. More than 10 options get a search field; the list shows 50 rows at a time with "Show more", and search covers all of them |
 | `open_modal` | `{modal, with?}` | |
-| `run_hook` | `{entity, hook, key}` | e.g. the `on_level` hook of the chosen class at the new level |
+| `run_hook` | `{entity, hook, key, record?}` | e.g. the `on_level` hook of the chosen class at the new level. With `record` (a list of objects with string fields `source`, `path`, `value`), every list element the hook adds (`push`, a `toggle` that adds, `choose` into a list, nested hooks included) is logged there with `source` = the entity |
+| `revoke` | `{path, source}` | takes back what a recorded hook added for `source` (one element per logged addition, elements that were there before stay) and drops those log rows; e.g. changing a feat |
 | `reset` | `{tag}` | resets resources whose `reset` contains tag (`short_rest`, `long_rest`, …) |
 | `if` | `{when, then, else?}` | |
 

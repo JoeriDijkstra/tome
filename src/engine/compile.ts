@@ -377,6 +377,14 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
   }
 
   // ----- effects -----
+  // a grants record: a list of objects with string fields source, path and value
+  function checkRecord(path: string, at: string) {
+    const resolved = p(path, at, 'write');
+    const def = resolved && staticField(resolved);
+    const keys = new Set(def?.type === 'list' && def.of === 'object' ? (def.fields ?? []).filter((x) => x.type === 'string').map((x) => x.key) : []);
+    if (def && !['source', 'path', 'value'].every((k) => keys.has(k))) err(at, `'${path}' must be a list of objects with string fields source, path and value`);
+  }
+
   function checkEffects(effects: S.Effect[], at: string) {
     effects.forEach((e, i) => {
       const eat = `${at}/${i}`;
@@ -405,8 +413,10 @@ export function compile(merged: MergedPack): { compiled?: Compiled; issues: Issu
           const entity = f(e.entity, `${eat}/entity`);
           if (entity?.t === 'lit' && !entityIds.has(String(entity.v))) err(`${eat}/entity`, `unknown entity '${String(entity.v)}'`);
           f(e.key, `${eat}/key`);
+          if (e.record) checkRecord(e.record, `${eat}/record`);
           break;
         }
+        case 'revoke': checkRecord(e.path, `${eat}/path`); f(e.source, `${eat}/source`); break;
         case 'reset': break;
         case 'if': f(e.when, `${eat}/when`); checkEffects(e.then, `${eat}/then`); if (e.else) checkEffects(e.else, `${eat}/else`); break;
       }
